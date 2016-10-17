@@ -32,13 +32,11 @@ public class ExerciseAdapter extends CursorAdapter {
         textViewMuscle.setText(getMuscleFromCursor(cursor));
     }
 
-    // TO DO
-    // Dont use hardcoded values.
     private String getNameFromCursor(Cursor cursor) {
-       return cursor.getString(1);
+       return cursor.getString(MainActivity.COL_EXERCISE_NAME);
     }
 
     private String getMuscleFromCursor(Cursor cursor) {
-        return cursor.getString(2);
+        return cursor.getString(MainActivity.COL_EXERCISE_MUSCLE);
     }
 }

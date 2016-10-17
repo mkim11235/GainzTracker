@@ -8,7 +8,8 @@ import android.os.AsyncTask;
  */
 
 // Given exercise id, reads exercise table and gets the name
-public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
+    // Try to set exerciseActivity title to name + "History"
+public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
     private final Context mContext;
 
     public FetchExerciseTitleTask(Context context) {
@@ -16,7 +17,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Long... longs) {
+    protected String doInBackground(Long... longs) {
         return null;
     }
 }
