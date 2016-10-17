@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edittext_exercise_history_entry_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:inputType="number"
+        android:hint="Weight"/>
+
+    <EditText
+        android:id="@+id/edittext_exercise_history_entry_reps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:inputType="number"
+        android:hint="Reps"/>
+
+    <EditText
+        android:id="@+id/edittext_exercise_history_entry_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:inputType="date"
+        android:hint="Date"/>
+
+    <Button
+        android:id="@+id/button_add_exercise_history_entry_final"
+        android:text="@string/button_add_exercise_history_entry_text_final"
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
+</LinearLayout>
