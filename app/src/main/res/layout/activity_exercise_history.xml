@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_workout"
-    tools:context="com.example.mkim11235.gainztracker.ExerciseActivity">
+    tools:context="com.example.mkim11235.gainztracker.ExerciseHistoryActivity">
 
     <ListView
         android:id="@+id/listview_exercise_history"
         android:layout_weight="1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <!-- TO DO: Somehow refactor imagebuttons in main and exercise activity xml -->

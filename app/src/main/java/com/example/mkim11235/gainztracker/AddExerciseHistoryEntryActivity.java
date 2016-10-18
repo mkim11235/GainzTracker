@@ -2,7 +2,9 @@ package com.example.mkim11235.gainztracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exercise_history_entry);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get extras from bundle
         Bundle extras = getIntent().getExtras();
@@ -55,10 +59,20 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
                 dbTask.execute(mExerciseId, weight, reps, date);
 
                 // Return to exercise activity
-                Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
+                Intent intent = new Intent(v.getContext(), ExerciseHistoryActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, mExerciseId);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

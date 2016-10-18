@@ -16,10 +16,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ExerciseActivity" />
+        <activity
+            android:name=".AddExerciseActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
-        <activity android:name=".AddExerciseActivity" />
-        <activity android:name=".AddExerciseHistoryEntryActivity" />
+        <activity
+            android:name=".ExerciseHistoryActivity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop">
+        </activity>
+
+        <activity
+            android:name=".AddExerciseHistoryEntryActivity"
+            android:parentActivityName=".ExerciseHistoryActivity">
+        </activity>
 
         <provider
             android:authorities="com.example.mkim11235.gainztracker"

@@ -36,14 +36,14 @@ public class ExerciseHistoryAdapter extends CursorAdapter {
 
 
     private String getWeightFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseActivity.COL_EXERCISE_HISTORY_WEIGHT);
+        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_WEIGHT);
     }
 
     private String getRepsFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseActivity.COL_EXERCISE_HISTORY_REPS);
+        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_REPS);
     }
 
     private String getDateFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseActivity.COL_EXERCISE_HISTORY_DATE);
+        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_DATE);
     }
 }

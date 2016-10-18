@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 long id = mExerciseAdapter.getItemId(position);
-                Intent intent = new Intent(view.getContext(), ExerciseActivity.class).putExtra(Intent.EXTRA_TEXT, id);
+                Intent intent = new Intent(view.getContext(), ExerciseHistoryActivity.class).putExtra(Intent.EXTRA_TEXT, id);
                 startActivity(intent);
             }
         });

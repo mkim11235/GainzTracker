@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 // Has Exercise title, history of workouts as list
 // button at bottom to add new entry to history
 // hopefully later can support holding click to delete or change entry
-public class ExerciseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExerciseHistoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
 
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
@@ -43,7 +43,9 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise);
+        setContentView(R.layout.activity_exercise_history);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get exercise id from intent
         Intent intent = getIntent();

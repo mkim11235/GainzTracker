@@ -35,10 +35,11 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
                 new String[] {Long.toString(exerciseId)},
                 null);
 
-        cursor.moveToFirst();
-
-        String  exerciseName = cursor.getString(0);
-        ((AppCompatActivity)mContext).getSupportActionBar().setTitle(exerciseName);
+        String exerciseName = null;
+        if (cursor.moveToFirst()) {
+            exerciseName = cursor.getString(0);
+            ((AppCompatActivity)mContext).getSupportActionBar().setTitle(exerciseName);
+        }
         return exerciseName;
     }
 
