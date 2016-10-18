@@ -1,11 +1,11 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.mkim11235.gainztracker.DatabaseContract.ExerciseEntry;
-import com.example.mkim11235.gainztracker.DatabaseContract.ExerciseHistoryEntry;
+import com.example.mkim11235.gainztracker.data.DatabaseContract.ExerciseEntry;
+import com.example.mkim11235.gainztracker.data.DatabaseContract.ExerciseHistoryEntry;
 
 /**
  * Created by Michael on 10/16/2016.
@@ -29,6 +29,7 @@ public class ExerciseDBHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_EXERCISE_HISTORY_TABLE = "CREATE TABLE " + ExerciseHistoryEntry.TABLE_NAME + " (" +
                 ExerciseHistoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " INTEGER NOT NULL, " +
                 ExerciseHistoryEntry.COLUMN_WEIGHT + " INTEGER NOT NULL, " +
                 ExerciseHistoryEntry.COLUMN_REPS + " INTEGER NOT NULL, " +
                 ExerciseHistoryEntry.COLUMN_DATE + " INTEGER NOT NULL);";

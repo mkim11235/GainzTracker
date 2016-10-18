@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
+import com.example.mkim11235.gainztracker.data.DatabaseContract;
+
 /**
  * Created by Michael on 10/16/2016.
  */

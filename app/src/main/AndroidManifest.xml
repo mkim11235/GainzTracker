@@ -16,12 +16,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddExerciseActivity"></activity>
-
         <activity android:name=".ExerciseActivity" />
+
+        <activity android:name=".AddExerciseActivity" />
+        <activity android:name=".AddExerciseHistoryEntryActivity" />
+
         <provider
             android:authorities="com.example.mkim11235.gainztracker"
-            android:name=".ExerciseProvider" />
+            android:name=".data.ExerciseProvider" />
     </application>
 
 </manifest>

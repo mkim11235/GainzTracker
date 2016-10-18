@@ -12,6 +12,11 @@ import android.widget.EditText;
  */
 
 public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
+    // Is there a point for these ot be member variables?
+    // mb put inside on create
+    private long mExerciseId;
+    private String mExerciseName;
+
     Button mAddExerciseHistoryEntryButton;
     EditText mWeightEditText;
     EditText mRepsEditText;
@@ -20,29 +25,38 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_exercise);
+        setContentView(R.layout.activity_add_exercise_history_entry);
 
-        setTitle("Add Exercise Entry");
+        // Get extras from bundle
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mExerciseId = extras.getLong(getString(R.string.EXTRA_EXERCISE_ID));
+            mExerciseName = extras.getString(getString(R.string.EXTRA_EXERCISE_NAME));
+        }
+
+        setTitle("Add " + mExerciseName + " Entry");
 
         mWeightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
         mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
         // When button clicked, create new entry in exercise history table, return to main
-        mAddExerciseHistoryEntryButton = (Button) findViewById(R.id.button_add_exercise);
+        mAddExerciseHistoryEntryButton = (Button) findViewById(R.id.button_add_exercise_history_entry_final);
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weight = mWeightEditText.getText().toString();
-                String reps = mRepsEditText.getText().toString();
-                String date = mDateEditText.getText().toString();
+                // Try converting all to long so asynctask can take params
+                long weight = Integer.parseInt(String.valueOf(mWeightEditText.getText()));
+                long reps = Integer.parseInt(String.valueOf(mRepsEditText.getText()));
+                long date = Integer.parseInt(String.valueOf(mDateEditText.getText()));
 
                 // Add new exercise history entry to DB
                 AddExerciseHistoryDBTask dbTask = new AddExerciseHistoryDBTask(AddExerciseHistoryEntryActivity.this);
-                dbTask.execute(weight, reps, date);
+                dbTask.execute(mExerciseId, weight, reps, date);
 
                 // Return to exercise activity
-                Intent intent = new Intent(v.getContext(), AddExerciseActivity.class);
+                Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, mExerciseId);
                 startActivity(intent);
             }
         });

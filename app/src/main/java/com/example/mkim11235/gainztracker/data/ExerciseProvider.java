@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -17,9 +17,9 @@ public class ExerciseProvider extends ContentProvider {
     private ExerciseDBHelper mDBHelper;
 
     static final int EXERCISE = 100;
-    static final int EXERCISE_WITH_MUSCLE = 101;
-    static final int EXERCISE_HISTORY_WITH_WEIGHT_REPS = 200;
-    static final int EXERCISE_HISTORY_WITH_WEIGHT_REPS_DATE = 201;
+
+    static final int EXERCISE_HISTORY = 200;
+    //static final int EXERCISE_HISTORY_WITH_EXERCISE_ID = 202;
 
     // MB delete later
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -37,40 +37,31 @@ public class ExerciseProvider extends ContentProvider {
                         "." + DatabaseContract.ExerciseEntry._ID);
     }
 
-    // location.setting = ? AND 23456 >= ?
-    // ? are variables mb
-    // location.setting = kirkland and date=2/3/14
-
-    // muscle = ?
-    private static final String sExerciseWithMuscle =
-            DatabaseContract.ExerciseEntry.TABLE_NAME +
-                    "." + DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " = ? ";
-
-    // Weight = ? and Reps = ?
-    private static final String sExerciseHistoryWithWeightReps =
+    private static final String sExerciseHistoryByExerciseId =
             DatabaseContract.ExerciseHistoryEntry.TABLE_NAME +
-                    "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND " +
-                    DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? ";
+                    "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ";
 
-    // Weight = ? and Reps = ? and date = ?
-    private static final String sExerciseHistoryWithWeightRepsDate =
-            DatabaseContract.ExerciseHistoryEntry.TABLE_NAME +
-                    "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND " +
-                    DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND " +
-                    DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ? ";
+    // -------------------------------------------------------------------------------------
 
-    private Cursor getExerciseWithMuscle(Uri uri, String[] projection, String sortOrder) {
-        String muscle = DatabaseContract.ExerciseEntry.getMuscleFromUri(uri);
+    // Optimization mb later: use sExercisehistoryId instead of passing in through query cuz
+    // always just want weight, reps, date
+    /*
+    private Cursor getExerciseHistoryByExerciseId(Uri uri, String[] projection, String sortOrder) {
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(DatabaseContract.ExerciseHistoryEntry.TABLE_NAME);
 
-        return sExerciseHistoryByExerciseQueryBuilder.query(mDBHelper.getReadableDatabase(),
+        return builder.query(mDBHelper.getReadableDatabase(),
                 projection,
-                sExerciseWithMuscle,
-                new String[]{muscle},
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder);
     }
+    */
 
+
+    /*
     private Cursor getExerciseHistoryWithWeightReps(Uri uri, String[] projection, String sortOrder) {
         String weight = DatabaseContract.ExerciseHistoryEntry.getWeightFromUri(uri);
         String reps = DatabaseContract.ExerciseHistoryEntry.getRepsFromUri(uri);
@@ -97,17 +88,14 @@ public class ExerciseProvider extends ContentProvider {
                 null,
                 sortOrder);
     }
+    */
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DatabaseContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, DatabaseContract.PATH_EXERCISE, EXERCISE);
-        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE + "/*", EXERCISE_WITH_MUSCLE);
-
-        // Not sure. I think name, weight,  reps * # #. might have to add * to start
-        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE_HISTORY + "/#/#", EXERCISE_HISTORY_WITH_WEIGHT_REPS);
-        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE_HISTORY + "/#/#/#", EXERCISE_HISTORY_WITH_WEIGHT_REPS_DATE);
+        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE_HISTORY, EXERCISE_HISTORY);
 
         return matcher;
     }
@@ -138,18 +126,16 @@ public class ExerciseProvider extends ContentProvider {
                 break;
             }
 
-            case EXERCISE_WITH_MUSCLE: {
-                retCursor = getExerciseWithMuscle(uri, projection, sortOrder);
-                break;
-            }
-
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS: {
-                retCursor = getExerciseHistoryWithWeightReps(uri, projection, sortOrder);
-                break;
-            }
-
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS_DATE: {
-                retCursor = getExerciseHistoryWithWeightRepsDate(uri, projection, sortOrder);
+            case EXERCISE_HISTORY: {
+                retCursor = mDBHelper.getReadableDatabase().query(
+                        DatabaseContract.ExerciseHistoryEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             }
 
@@ -172,11 +158,7 @@ public class ExerciseProvider extends ContentProvider {
             // Only returns single row bcuz exercises are unique. so Item_TYpe
             case EXERCISE:
                 return DatabaseContract.ExerciseEntry.CONTENT_ITEM_TYPE;
-            case EXERCISE_WITH_MUSCLE:
-                return  DatabaseContract.ExerciseEntry.CONTENT_ITEM_TYPE;
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS:
-                return DatabaseContract.ExerciseHistoryEntry.CONTENT_TYPE;
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS_DATE:
+            case EXERCISE_HISTORY:
                 return DatabaseContract.ExerciseHistoryEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -202,7 +184,7 @@ public class ExerciseProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS: {
+            case EXERCISE_HISTORY: {
                 long _id = db.insert(DatabaseContract.ExerciseHistoryEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
                     returnUri = DatabaseContract.ExerciseHistoryEntry.buildExerciseHistoryUri(_id);
@@ -230,7 +212,7 @@ public class ExerciseProvider extends ContentProvider {
                 rowsDeleted = db.delete(DatabaseContract.ExerciseEntry.TABLE_NAME, selection,
                         selectionArgs);
                 break;
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS:
+            case EXERCISE_HISTORY:
                 rowsDeleted = db.delete(DatabaseContract.ExerciseHistoryEntry.TABLE_NAME, selection,
                         selectionArgs);
                 break;
@@ -257,7 +239,7 @@ public class ExerciseProvider extends ContentProvider {
                         selection,
                         selectionArgs);
                 break;
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS:
+            case EXERCISE_HISTORY:
                 rowsUpdated = db.update(DatabaseContract.ExerciseHistoryEntry.TABLE_NAME, values,
                         selection,
                         selectionArgs);
@@ -278,7 +260,7 @@ public class ExerciseProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch (match) {
-            case EXERCISE_HISTORY_WITH_WEIGHT_REPS:
+            case EXERCISE_HISTORY:
                 db.beginTransaction();
                 int count = 0;
                 try {

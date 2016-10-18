@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.example.mkim11235.gainztracker.data.DatabaseContract;
+
 import java.util.concurrent.ExecutionException;
 
 // Once clicked on specific exercise from main, enter here
@@ -20,6 +22,12 @@ import java.util.concurrent.ExecutionException;
 public class ExerciseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
 
+    /*
+    private static final String packageName = "com.example.mkim11235.gainztracker";
+    private static final String EXTRA_EXERCISE_ID = packageName + ".EXTRA_EXERCISE_ID";
+    private static final String EXTRA_EXERCISE_NAME = packageName + ".EXTRA_EXERCISE_NAME";
+    */
+
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID,
@@ -28,13 +36,15 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
             DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE
     };
 
-    static final int COL_EXERCISE_HISTORY_EXERCISE_ID = 3;
-    static final int COL_EXERCISE_HISTORY_WEIGHT = 4;
-    static final int COL_EXERCISE_HISTORY_REPS = 5;
-    static final int COL_EXERCISE_HISTORY_DATE = 6;
+    static final int COL_EXERCISE_HISTORY_ID = 0;
+    static final int COL_EXERCISE_HISTORY_EXERCISE_ID = 1;
+    static final int COL_EXERCISE_HISTORY_WEIGHT = 2;
+    static final int COL_EXERCISE_HISTORY_REPS = 3;
+    static final int COL_EXERCISE_HISTORY_DATE = 4;
 
     private ImageButton mAddExerciseHistoryEntryButton;
     private ExerciseHistoryAdapter mExerciseHistoryAdapter;
+    private long mExerciseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +53,14 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
 
         // Get exercise id from intent
         Intent intent = getIntent();
-        long exerciseId = intent.getLongExtra(Intent.EXTRA_TEXT, -1L);
+        mExerciseId = intent.getLongExtra(Intent.EXTRA_TEXT, -1L);
 
         // Need to somehow pass exerciseId into loader for query
         getSupportLoaderManager().initLoader(EXERCISE_HISTORY_LOADER, null, this);
         mExerciseHistoryAdapter = new ExerciseHistoryAdapter(this, null, 0);
 
         // Gets and sets exercise title
-        final String exerciseTitle = getAndSetExerciseTitleFromId(exerciseId);
+        final String exerciseTitle = getAndSetExerciseTitleFromId(mExerciseId);
 
         // Setup adaptor to populate listview
         ListView listView = (ListView) findViewById(R.id.listview_exercise_history);
@@ -70,10 +80,13 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO: Start new activity for creating new history entry
-                // pass in the name of exercise as extra
+                // pass in the exerciseID and name of exercise in bundle
+                Bundle bundle = new Bundle();
+                bundle.putLong(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
+                bundle.putString(getString(R.string.EXTRA_EXERCISE_NAME), exerciseTitle);
+
                 Intent intent = new Intent(view.getContext(), AddExerciseHistoryEntryActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT, exerciseTitle);
+                        .putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -81,7 +94,7 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
 
     // Gets and sets Exercise Title from ID
     // Has to read database so async task
-    // TO DO: looks ugly try optimize later
+    // MB DO: looks ugly try optimize later
     private String getAndSetExerciseTitleFromId(long id) {
         FetchExerciseTitleTask exerciseTitleTask = new FetchExerciseTitleTask(this);
         try {
@@ -98,11 +111,13 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
     // TO DO: Needs work.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // May have to pass in exerciseID through bundle or member variable
+        String exerciseIdString = Long.toString(mExerciseId);
         return new CursorLoader(this,
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
-                null,
-                null,
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
+                new String[] {exerciseIdString},
                 null);
     }
 

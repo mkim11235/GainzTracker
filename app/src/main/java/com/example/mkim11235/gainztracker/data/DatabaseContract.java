@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -37,16 +37,6 @@ public class DatabaseContract {
         public static Uri buildExerciseUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
-
-        // May need to add name before muscle
-        // May remove if not used
-        public static Uri buildExerciseWithMuscle(String muscle) {
-            return CONTENT_URI.buildUpon().appendPath(muscle).build();
-        }
-
-        public static String getMuscleFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
-        }
     }
 
     public static final class ExerciseHistoryEntry implements BaseColumns {
@@ -70,27 +60,6 @@ public class DatabaseContract {
 
         public static Uri buildExerciseHistoryUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
-        // May need to add name before
-        // weight in lb
-        public static Uri buildExerciseHistoryWithWeightReps(int weight, int reps) {
-            return CONTENT_URI.buildUpon().appendPath(Integer.toString(weight))
-                    .appendPath(Integer.toString(reps)).build();
-        }
-        public static Uri buildExerciseHistoryWithWeightRepsDate(int weight, int reps, int date) {
-            return CONTENT_URI.buildUpon().appendPath(Integer.toString(weight))
-                    .appendPath(Integer.toString(reps)).appendPath(Integer.toString(date)).build();
-        }
-
-        public static String getWeightFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
-        }
-        public static String getRepsFromUri(Uri uri) {
-            return uri.getPathSegments().get(2);
-        }
-        public static String getDateFromUri(Uri uri) {
-            return uri.getPathSegments().get(3);
         }
     }
 
