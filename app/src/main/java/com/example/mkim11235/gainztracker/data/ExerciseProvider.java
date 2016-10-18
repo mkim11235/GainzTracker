@@ -17,14 +17,12 @@ public class ExerciseProvider extends ContentProvider {
     private ExerciseDBHelper mDBHelper;
 
     static final int EXERCISE = 100;
-
     static final int EXERCISE_HISTORY = 200;
-    //static final int EXERCISE_HISTORY_WITH_EXERCISE_ID = 202;
 
-    // MB delete later
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    private static final SQLiteQueryBuilder sExerciseHistoryByExerciseQueryBuilder;
 
+    // May not need this
+    private static final SQLiteQueryBuilder sExerciseHistoryByExerciseQueryBuilder;
     static {
         sExerciseHistoryByExerciseQueryBuilder = new SQLiteQueryBuilder();
         // Inner join Exercise and ExerciseHistory Tables on Exercise_ID
@@ -37,11 +35,10 @@ public class ExerciseProvider extends ContentProvider {
                         "." + DatabaseContract.ExerciseEntry._ID);
     }
 
+    // May not need this
     private static final String sExerciseHistoryByExerciseId =
             DatabaseContract.ExerciseHistoryEntry.TABLE_NAME +
                     "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ";
-
-    // -------------------------------------------------------------------------------------
 
     // Optimization mb later: use sExercisehistoryId instead of passing in through query cuz
     // always just want weight, reps, date
@@ -54,36 +51,6 @@ public class ExerciseProvider extends ContentProvider {
                 projection,
                 selection,
                 selectionArgs,
-                null,
-                null,
-                sortOrder);
-    }
-    */
-
-
-    /*
-    private Cursor getExerciseHistoryWithWeightReps(Uri uri, String[] projection, String sortOrder) {
-        String weight = DatabaseContract.ExerciseHistoryEntry.getWeightFromUri(uri);
-        String reps = DatabaseContract.ExerciseHistoryEntry.getRepsFromUri(uri);
-
-        return sExerciseHistoryByExerciseQueryBuilder.query(mDBHelper.getReadableDatabase(),
-                projection,
-                sExerciseHistoryWithWeightReps,
-                new String[]{weight, reps},
-                null,
-                null,
-                sortOrder);
-    }
-
-    private Cursor getExerciseHistoryWithWeightRepsDate(Uri uri, String[] projection, String sortOrder) {
-        String weight = DatabaseContract.ExerciseHistoryEntry.getWeightFromUri(uri);
-        String reps = DatabaseContract.ExerciseHistoryEntry.getRepsFromUri(uri);
-        String date = DatabaseContract.ExerciseHistoryEntry.getDateFromUri(uri);
-
-        return sExerciseHistoryByExerciseQueryBuilder.query(mDBHelper.getReadableDatabase(),
-                projection,
-                sExerciseHistoryWithWeightRepsDate,
-                new String[]{weight, reps, date},
                 null,
                 null,
                 sortOrder);
@@ -172,9 +139,6 @@ public class ExerciseProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
 
-        // TO DO
-        // Probably gonna have to add insert for Exercise w/ name and muscle
-        // history with weight reps date
         switch (match) {
             case EXERCISE: {
                 long _id = db.insert(DatabaseContract.ExerciseEntry.TABLE_NAME, null, values);

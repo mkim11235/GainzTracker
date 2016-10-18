@@ -22,12 +22,6 @@ import java.util.concurrent.ExecutionException;
 public class ExerciseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
 
-    /*
-    private static final String packageName = "com.example.mkim11235.gainztracker";
-    private static final String EXTRA_EXERCISE_ID = packageName + ".EXTRA_EXERCISE_ID";
-    private static final String EXTRA_EXERCISE_NAME = packageName + ".EXTRA_EXERCISE_NAME";
-    */
-
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID,
@@ -60,6 +54,9 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
         mExerciseHistoryAdapter = new ExerciseHistoryAdapter(this, null, 0);
 
         // Gets and sets exercise title
+        // This might not be async
+        // may need to learn about listeners and shiet
+        // Todo: check is async or blocking
         final String exerciseTitle = getAndSetExerciseTitleFromId(mExerciseId);
 
         // Setup adaptor to populate listview
@@ -107,8 +104,6 @@ public class ExerciseActivity extends AppCompatActivity implements LoaderManager
         return null;
     }
 
-    // need to query for only EH entries with matching exercise_id
-    // TO DO: Needs work.
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // May have to pass in exerciseID through bundle or member variable
