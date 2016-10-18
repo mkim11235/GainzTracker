@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -45,6 +47,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity implements Loader
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_history);
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get exercise id from intent
@@ -126,5 +130,11 @@ public class ExerciseHistoryActivity extends AppCompatActivity implements Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseHistoryAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        TextView textViewTitle = (TextView) findViewById(R.id.textview_action_bar_title);
+        textViewTitle.setText(title);
     }
 }

@@ -4,6 +4,7 @@
     <string name="button_add_exercise_text">Add Exercise</string>
     <string name="button_add_exercise_history_entry_text">Add Exercise Entry</string>
     <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
+    <string name="title_add_exercise_activity">Add New Exercise</string>
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>
     <string name="EXTRA_EXERCISE_NAME">com.example.mkim11235.gainztracker.extra.EXERCISE_NAME</string>
 </resources>

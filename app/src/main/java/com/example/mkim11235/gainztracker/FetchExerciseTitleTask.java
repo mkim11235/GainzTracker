@@ -3,7 +3,6 @@ package com.example.mkim11235.gainztracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -38,7 +37,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
         String exerciseName = null;
         if (cursor.moveToFirst()) {
             exerciseName = cursor.getString(0);
-            ((AppCompatActivity)mContext).getSupportActionBar().setTitle(exerciseName);
+            ((ExerciseHistoryActivity)mContext).setTitle(exerciseName);
         }
         return exerciseName;
     }
