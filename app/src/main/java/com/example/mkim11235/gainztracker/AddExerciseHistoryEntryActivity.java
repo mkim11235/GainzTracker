@@ -4,14 +4,12 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,9 +39,6 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_exercise_history_entry);
 
-        // actionbar setup
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get extras from bundle
@@ -157,12 +152,6 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void setTitle(CharSequence title) {
-        TextView textViewTitle = (TextView) findViewById(R.id.textview_action_bar_title);
-        textViewTitle.setText(title);
     }
 
     public void showDatePickerDialog(View v) {
