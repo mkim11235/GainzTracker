@@ -8,6 +8,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ListView listView = (ListView) findViewById(R.id.listview_exercises);
         listView.setAdapter(mExerciseAdapter);
+        registerForContextMenu(listView);
         // On Click goes to exercise history activity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,6 +69,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view
+            , ContextMenu.ContextMenuInfo menuInfo) {
+        if (view.getId() == R.id.listview_exercises) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
+            for (int i = 0; i < menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+
+            Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
+            String exerciseName =selectedItem.getString(COL_EXERCISE_NAME);
+            menu.setHeaderTitle(exerciseName);
+        }
     }
 
     @Override

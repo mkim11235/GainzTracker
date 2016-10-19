@@ -8,7 +8,10 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +24,8 @@ import java.util.concurrent.ExecutionException;
 // Has Exercise title, history of workouts as list
 // button at bottom to add new entry to history
 // hopefully later can support holding click to delete or change entry
-public class ExerciseHistoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExerciseHistoryActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
 
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
@@ -68,6 +72,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity implements Loader
         // Setup adaptor to populate listview
         ListView listView = (ListView) findViewById(R.id.listview_exercise_history);
         listView.setAdapter(mExerciseHistoryAdapter);
+        registerForContextMenu(listView);
 
         /*
         // Add functionality for details maybe later
@@ -79,7 +84,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity implements Loader
         });
         */
 
-        mAddExerciseHistoryEntryButton = (ImageButton) findViewById(R.id.image_button_add_exercise_history_entry);
+        mAddExerciseHistoryEntryButton = (ImageButton)
+                findViewById(R.id.image_button_add_exercise_history_entry);
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +114,19 @@ public class ExerciseHistoryActivity extends AppCompatActivity implements Loader
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view
+            , ContextMenu.ContextMenuInfo menuInfo) {
+        if (view.getId() == R.id.listview_exercise_history) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+            String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
+            for (int i = 0; i < menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
     }
 
     @Override
