@@ -1,6 +1,5 @@
 package com.example.mkim11235.gainztracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-        setTitle(getAppName(this));
+        setTitle(getString(R.string.title_main_activity));
 
         // Sets up loader for getting all exercises
         getSupportLoaderManager().initLoader(EXERCISE_LOADER, null, this);
@@ -93,10 +92,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void setTitle(CharSequence title) {
         TextView textViewTitle = (TextView) findViewById(R.id.textview_action_bar_title);
         textViewTitle.setText(title);
-    }
-
-    private static String getAppName(Context context) {
-        int id = context.getApplicationInfo().labelRes;
-        return context.getString(id);
     }
 }

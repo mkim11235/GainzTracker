@@ -48,13 +48,25 @@ public class AddExerciseActivity extends AppCompatActivity {
                 String exerciseName = mExerciseName.getText().toString();
                 String exerciseMuscle = mExerciseMuscle.getText().toString();
 
-                // Add new exercise to DB
-                AddExerciseDBTask dbTask = new AddExerciseDBTask(AddExerciseActivity.this);
-                dbTask.execute(exerciseName, exerciseMuscle);
+                // Validation check
+                boolean allValidEntries = true;
+                if (exerciseName.length() == 0) {
+                    mExerciseName.setError("Please enter a valid name");
+                    allValidEntries = false;
+                }
+                if (exerciseMuscle.length() == 0) {
+                    mExerciseMuscle.setError("Please enter a valid muscle");
+                    allValidEntries = false;
+                }
 
-                // Return to main activity
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                startActivity(intent);
+                if (allValidEntries) {
+                    AddExerciseDBTask dbTask = new AddExerciseDBTask(AddExerciseActivity.this);
+                    dbTask.execute(exerciseName, exerciseMuscle);
+
+                    // Return to main activity
+                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

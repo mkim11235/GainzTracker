@@ -32,6 +32,8 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:inputType="date"
+        android:onClick="showDatePickerDialog"
+        android:focusableInTouchMode="false"
         android:hint="Date"/>
 
     <Button
