@@ -4,27 +4,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textview_exercise_history_entry_title"
-        android:textSize="30dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edittext_exercise_history_entry_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:inputType="number"
-        android:hint="Weight"/>
+        <ImageButton
+            android:id="@+id/image_button_exercise_history_decrement_weight"
+            android:layout_marginRight="30dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00000000"
+            android:src="@mipmap/ic_minus" />
 
-    <EditText
-        android:id="@+id/edittext_exercise_history_entry_reps"
+        <EditText
+            android:id="@+id/edittext_exercise_history_entry_weight"
+            android:textSize="30sp"
+            android:text="100"
+            android:inputType="number"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="@string/exercise_history_weight_unit"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/image_button_exercise_history_increment_weight"
+            android:layout_marginLeft="30dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00000000"
+            android:src="@mipmap/ic_plus" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:inputType="number"
-        android:hint="Reps"/>
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/image_button_exercise_history_decrement_reps"
+            android:layout_marginRight="30dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00000000"
+            android:src="@mipmap/ic_minus" />
+
+        <EditText
+            android:id="@+id/edittext_exercise_history_entry_reps"
+            android:textSize="30sp"
+            android:text="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:inputType="number" />
+
+        <TextView
+            android:text="@string/exercise_history_reps_label"
+            android:textSize="30sp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/image_button_exercise_history_increment_reps"
+            android:layout_marginLeft="30dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00000000"
+            android:src="@mipmap/ic_plus" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edittext_exercise_history_entry_date"

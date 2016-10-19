@@ -38,24 +38,4 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         textViewDate.setText(formattedDate);
     }
-
-    // Returns date in format mmddyyyy
-    // Remove later mb
-    private String formatDate(int year, int month, int day) {
-        StringBuilder builder = new StringBuilder();
-        if (month / 10 == 0) {
-            builder.append("0");
-        }
-        builder.append(month);
-        builder.append("/");
-
-        if (day / 10 == 0) {
-            builder.append("0");
-        }
-        builder.append(day);
-        builder.append("/");
-        builder.append(year);
-
-        return builder.toString();
-    }
 }

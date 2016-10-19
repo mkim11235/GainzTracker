@@ -10,7 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by Michael on 10/17/2016.
@@ -23,6 +27,11 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
     private String mExerciseName;
 
     Button mAddExerciseHistoryEntryButton;
+    ImageButton mDecrementWeightButton;
+    ImageButton mIncrementWeightButton;
+    ImageButton mDecrementRepsButton;
+    ImageButton mIncrementRepsButton;
+
     EditText mWeightEditText;
     EditText mRepsEditText;
     EditText mDateEditText;
@@ -46,29 +55,53 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
 
         setTitle("Add " + mExerciseName + " Entry");
 
+        mDecrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_weight);
+        mIncrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_increment_weight);
+        mDecrementRepsButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_reps);
+        mIncrementRepsButton = (ImageButton) findViewById(R.id.image_button_exercise_history_increment_reps);
+
         mWeightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
         mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
-        /*
-        // Setup Listeners when text changed
-        mWeightEditText.addTextChangedListener(new TextWatcher() {
+        // Set default entries: date = current date
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        String formattedDate = dateFormat.format(calendar.getTime());
+        mDateEditText.setText(formattedDate);
+
+        // Decrement/Increment button setup
+        mDecrementWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+            public void onClick(View view) {
+                int curWeight = Integer.parseInt(mWeightEditText.getText().toString());
+                mWeightEditText.setText(Integer.toString(curWeight - 1));
             }
         });
-        */
+
+        mIncrementWeightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int curWeight = Integer.parseInt(mWeightEditText.getText().toString());
+                mWeightEditText.setText(Integer.toString(curWeight + 1));
+            }
+        });
+
+        mDecrementRepsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int curReps = Integer.parseInt(mRepsEditText.getText().toString());
+                mRepsEditText.setText(Integer.toString(curReps - 1));
+            }
+        });
+
+        mIncrementRepsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int curReps = Integer.parseInt(mRepsEditText.getText().toString());
+                mRepsEditText.setText(Integer.toString(curReps + 1));
+            }
+        });
 
         // When button clicked, create new entry in exercise history table, return to main
         // Todo: add code to check whether all fields entered. cannot be null. or allow null values in table
