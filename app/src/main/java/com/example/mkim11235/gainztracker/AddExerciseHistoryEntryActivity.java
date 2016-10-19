@@ -11,9 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 /**
  * Created by Michael on 10/17/2016.
  */
@@ -50,6 +47,7 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
 
         setTitle("Add " + mExerciseName + " Entry");
 
+        // initialize member variables
         mDecrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_weight);
         mIncrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_increment_weight);
         mDecrementRepsButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_reps);
@@ -59,11 +57,12 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
         mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
-        // Set default entries: date = current date
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-        String formattedDate = dateFormat.format(calendar.getTime());
-        mDateEditText.setText(formattedDate);
+        // Set weight default to most recent weight. empty if none.
+
+        // Set reps default to most recent reps. empty if none
+
+        // Set date default to current date
+        mDateEditText.setText(Utility.getCurrentDate());
 
         // Decrement/Increment button setup
         mDecrementWeightButton.setOnClickListener(new View.OnClickListener() {
