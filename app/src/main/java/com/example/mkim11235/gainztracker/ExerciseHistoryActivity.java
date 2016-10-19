@@ -10,11 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -127,6 +129,36 @@ public class ExerciseHistoryActivity extends AppCompatActivity
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
+                item.getMenuInfo();
+
+        Cursor cursor = (Cursor) mExerciseHistoryAdapter.getItem(info.position);
+        String exerciseWeight = cursor.getString(COL_EXERCISE_HISTORY_WEIGHT);
+        String exerciseReps = cursor.getString(COL_EXERCISE_HISTORY_REPS);
+        String exerciseDate = cursor.getString(COL_EXERCISE_HISTORY_DATE);
+
+        String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
+        int menuItemIndex = item.getItemId();
+        String menuItemName = menuItems[menuItemIndex];
+
+        switch (menuItemName) {
+            case "Edit":
+                // Todo: implement edit stuff
+                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG);
+                break;
+            case "Delete":
+                getContentResolver().delete(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND "
+                                + DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND "
+                                + DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ?",
+                        new String[] {exerciseWeight, exerciseReps, exerciseDate});
+                break;
+        }
+        return true;
     }
 
     @Override

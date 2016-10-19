@@ -10,11 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -83,9 +85,37 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 
             Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
-            String exerciseName =selectedItem.getString(COL_EXERCISE_NAME);
+            String exerciseName = selectedItem.getString(COL_EXERCISE_NAME);
             menu.setHeaderTitle(exerciseName);
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
+                item.getMenuInfo();
+
+        Cursor cursor = (Cursor) mExerciseAdapter.getItem(info.position);
+        String exerciseName = cursor.getString(COL_EXERCISE_NAME);
+        String exerciseMuscle = cursor.getString(COL_EXERCISE_MUSCLE);
+
+        String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
+        int menuItemIndex = item.getItemId();
+        String menuItemName = menuItems[menuItemIndex];
+
+        switch (menuItemName) {
+            case "Edit":
+                // Todo: implement edit stuff
+                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG);
+                break;
+            case "Delete":
+                getContentResolver().delete(DatabaseContract.ExerciseEntry.CONTENT_URI,
+                        DatabaseContract.ExerciseEntry.COLUMN_NAME + " = ? AND "
+                            + DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " = ?",
+                        new String[] {exerciseName, exerciseMuscle});
+                break;
+        }
+        return true;
     }
 
     @Override
