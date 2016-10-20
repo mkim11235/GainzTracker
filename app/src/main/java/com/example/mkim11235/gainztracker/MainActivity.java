@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Sets up loader for getting all exercises
         getSupportLoaderManager().initLoader(EXERCISE_LOADER, null, this);
+
         mExerciseAdapter = new ExerciseAdapter(this, null, 0);
+        mAddExerciseButton = (ImageButton) findViewById(R.id.image_button_add_exercise);
 
         ListView listView = (ListView) findViewById(R.id.listview_exercises);
         listView.setAdapter(mExerciseAdapter);
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        mAddExerciseButton = (ImageButton) findViewById(R.id.image_button_add_exercise);
         // Add Exercise Button onClick starts AddExercise Activity
         mAddExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,13 +103,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (menuItemName) {
             case "Edit":
                 // Todo: implement edit stuff
-                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG).show();
                 break;
             case "Delete":
-                getContentResolver().delete(DatabaseContract.ExerciseEntry.CONTENT_URI,
-                        DatabaseContract.ExerciseEntry.COLUMN_NAME + " = ? AND "
-                            + DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " = ?",
-                        new String[] {exerciseName, exerciseMuscle});
+                new DeleteExerciseTask(this).execute(exerciseName, exerciseMuscle);
                 break;
         }
         return true;

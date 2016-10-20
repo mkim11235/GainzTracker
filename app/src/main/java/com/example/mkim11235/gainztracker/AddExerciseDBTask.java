@@ -45,9 +45,7 @@ public class AddExerciseDBTask extends AsyncTask<String, Void, Void> {
             values.put(DatabaseContract.ExerciseEntry.COLUMN_MUSCLE, muscle);
 
             Uri insertedUri = mContext.getContentResolver().insert(
-                    DatabaseContract.ExerciseEntry.CONTENT_URI,
-                    values
-            );
+                    DatabaseContract.ExerciseEntry.CONTENT_URI, values);
 
             exerciseId = ContentUris.parseId(insertedUri);
         }

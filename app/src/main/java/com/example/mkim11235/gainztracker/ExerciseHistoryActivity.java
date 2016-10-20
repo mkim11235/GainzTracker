@@ -143,16 +143,12 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         String menuItemName = menuItems[menuItemIndex];
 
         switch (menuItemName) {
+            // Todo: implement edit stuff
             case "Edit":
-                // Todo: implement edit stuff
-                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG);
+                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG).show();
                 break;
             case "Delete":
-                getContentResolver().delete(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
-                        DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND "
-                                + DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND "
-                                + DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ?",
-                        new String[] {exerciseWeight, exerciseReps, exerciseDate});
+                new DeleteExerciseHistoryTask(this).execute(exerciseWeight, exerciseReps, exerciseDate);
                 break;
         }
         return true;
@@ -160,7 +156,6 @@ public class ExerciseHistoryActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // May have to pass in exerciseID through bundle or member variable
         String exerciseIdString = Long.toString(mExerciseId);
         return new CursorLoader(this,
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,

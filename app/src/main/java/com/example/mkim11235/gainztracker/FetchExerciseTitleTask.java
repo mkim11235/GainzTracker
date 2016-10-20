@@ -19,14 +19,14 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
         mContext = context;
     }
 
-    // Need to find row in exercise table with given id
-    // set title to name
-    // return name
+    // Gets the name of exercise with given exerciseId
+    // Sets the title to exerciseName
+    // Returns the name
     @Override
     protected String doInBackground(Long... longs) {
         long exerciseId = longs[0];
 
-        // Find row in exercises where id = id. return name
+        // Find row in exercises where id = id
         Cursor cursor = mContext.getContentResolver().query(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 new String[] {DatabaseContract.ExerciseEntry.COLUMN_NAME},
@@ -39,6 +39,8 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
             exerciseName = cursor.getString(0);
             ((ExerciseHistoryActivity)mContext).setTitle(exerciseName);
         }
+
+        cursor.close();
         return exerciseName;
     }
 
