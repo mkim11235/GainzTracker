@@ -9,6 +9,9 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Created by Michael on 10/19/2016.
  */
 
+/**
+ * Deletes given exercise history entry from DB
+ */
 public class DeleteExerciseHistoryTask extends AsyncTask<String, Void, Void> {
     private final Context mContext;
 

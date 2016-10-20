@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
@@ -119,8 +121,6 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
         if (view.getId() == R.id.listview_exercise_history) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -133,10 +133,14 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        Cursor cursor = (Cursor) mExerciseHistoryAdapter.getItem(info.position);
-        String exerciseWeight = cursor.getString(COL_EXERCISE_HISTORY_WEIGHT);
-        String exerciseReps = cursor.getString(COL_EXERCISE_HISTORY_REPS);
-        String exerciseDate = cursor.getString(COL_EXERCISE_HISTORY_DATE);
+        LinearLayout view = (LinearLayout) info.targetView;
+        String exerciseWeight = ((TextView)view.findViewById(R.id.list_item_exercise_history_weight))
+                .getText().toString();
+        String exerciseReps = ((TextView)view.findViewById(R.id.list_item_exercise_history_reps))
+                .getText().toString();
+        String exerciseDate = ((TextView)view.findViewById(R.id.list_item_exercise_history_date))
+                .getText().toString();
+        exerciseDate = Utility.formatDateReadableToDB(exerciseDate);
 
         String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
         int menuItemIndex = item.getItemId();
