@@ -27,11 +27,16 @@ public class Utility {
     }
 
     // Returns date in readable format MMDDYYYY to MM/DD/YYYY
-    public static String formatDateFromString(String date) {
+    public static String formatDateDBToReadable(String date) {
         int month = Integer.parseInt(date.substring(0, 2));
         int day = Integer.parseInt(date.substring(2, 4));
         int year = Integer.parseInt(date.substring(4, date.length()));
         return formatDate(year, month, day);
+    }
+
+    // Returns date in db format MMM/DD/YYYY to MMDDYYYY
+    public static String formatDateReadableToDB(String date) {
+        return date.replace("/", "");
     }
 
     // Returns current  date in format mm/dd/yyyy
@@ -41,9 +46,5 @@ public class Utility {
         int month = calendar.get(Calendar.MONTH) + 1;
         int date = calendar.get(Calendar.DAY_OF_MONTH);
         return formatDate(year, month, date);
-    }
-
-    public static String formatDateReadableToDB(String date) {
-        return date.replace("/", "");
     }
 }

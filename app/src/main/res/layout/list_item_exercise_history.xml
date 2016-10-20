@@ -8,32 +8,74 @@
 
     <TextView
         android:id="@+id/list_item_exercise_history_weight"
-        android:textSize="30dp"
+        android:layout_weight="0.3"
+        android:textSize="25sp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="100lb"/>
+        android:text="100"/>
+
+    <TextView
+        android:text="@string/weight_unit"
+        android:layout_weight=".05"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
     <TextView
         android:text="@string/exercise_history_x"
-        android:textSize="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_weight=".05"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeight"
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_reps"
-        android:textSize="30dp"
+        android:layout_weight="0.1"
+        android:textSize="25sp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="5 reps"/>
+        android:text="5"/>
+
+    <!--
+    <TextView
+        android:text="@string/reps"
+        android:layout_weight="0.5"
+        android:textSize="25sp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+        -->
+
+    <TextView
+        android:text="@string/on"
+        android:layout_weight="0.1"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_date"
-        android:textSize="30dp"
-        android:layout_marginLeft="20dp"
+        android:layout_weight="0.4"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:minHeight="?android:attr/listPreferredItemHeight"

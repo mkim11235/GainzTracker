@@ -31,7 +31,7 @@ public class ExerciseHistoryAdapter extends CursorAdapter {
 
         textViewWeight.setText(getWeightFromCursor(cursor));
         textViewReps.setText(getRepsFromCursor(cursor));
-        textViewDate.setText(Utility.formatDateFromString(getDateFromCursor(cursor)));
+        textViewDate.setText(Utility.formatDateDBToReadable(getDateFromCursor(cursor)));
     }
 
 
