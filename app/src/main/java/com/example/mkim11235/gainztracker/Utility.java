@@ -47,4 +47,18 @@ public class Utility {
         int date = calendar.get(Calendar.DAY_OF_MONTH);
         return formatDate(year, month, date);
     }
+
+    // Returns date in sortable format YYYYMMDD
+    // May not need this. may have to store date in DB like this
+    public static String formatDateSortable(String date) {
+        int month = Integer.parseInt(date.substring(0, 2));
+        int day = Integer.parseInt(date.substring(2, 4));
+        int year = Integer.parseInt(date.substring(4, date.length()));
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(year);
+        builder.append(month);
+        builder.append(day);
+        return builder.toString();
+    }
 }

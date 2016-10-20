@@ -57,9 +57,8 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
         mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
-        // Set weight default to most recent weight. empty if none.
-
-        // Set reps default to most recent reps. empty if none
+        // Set weight/reps default to most recent weight/reps. empty if none.
+        getAndSetDefaultWeightAndReps();
 
         // Set date default to current date
         mDateEditText.setText(Utility.getCurrentDate());
@@ -156,5 +155,10 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment fragment = new DatePickerFragment();
         fragment.show(getFragmentManager(), "datePicker");
+    }
+
+    private void getAndSetDefaultWeightAndReps() {
+        FetchMostRecentWeightRepsGivenExerciseIdTask task = new FetchMostRecentWeightRepsGivenExerciseIdTask(this);
+        task.execute(mExerciseId);
     }
 }

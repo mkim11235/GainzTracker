@@ -36,6 +36,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
 
         String exerciseName = null;
         if (cursor.moveToFirst()) {
+            // set this to 1, see what happens@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             exerciseName = cursor.getString(0);
             ((ExerciseHistoryActivity)mContext).setTitle(exerciseName);
         }
