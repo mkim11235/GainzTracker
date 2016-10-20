@@ -3,6 +3,7 @@ package com.example.mkim11235.gainztracker;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.widget.EditText;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -15,10 +16,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Sets corresponding edittext values from context to those value. "" if none
  */
 public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long, Void, Void> {
-    private Context mContext;
+    private AddExerciseHistoryEntryActivity mContext;
 
     public FetchMostRecentWeightRepsGivenExerciseIdTask(Context context) {
-        mContext = context;
+        mContext = (AddExerciseHistoryEntryActivity) context;
     }
 
     @Override
@@ -26,25 +27,28 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
         long exerciseId = longs[0];
 
         // Find row in exerciseHistory where id = id
-        // Want to sort by date to get most recent date
+        // Want to sort by most recent date highest weight
+        String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
         Cursor cursor = mContext.getContentResolver().query(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 new String[] {DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT
                         , DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS},
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ?",
                 new String[] {Long.toString(exerciseId)},
-                null);
+                orderBy);
 
-        String exerciseWeight = null;
-        String exerciseReps = null;
-
-        // MOst recent date is highest formatsortable date so sort desc
-        // if multipel match, take highest weight and its corresponding reps
+        // Set the edittext for weight and reps to first entry.
         if (cursor.moveToFirst()) {
-            /*
-            exerciseName = cursor.getString(0);
-            ((ExerciseHistoryActivity)mContext).setTitle(exerciseName);
-            */
+            String exerciseWeight = Integer.toString(cursor.getInt(0));
+            EditText editTextWeight = (EditText) mContext.findViewById(
+                    R.id.edittext_exercise_history_entry_weight);
+            mContext.setEditTextText(editTextWeight, exerciseWeight);
+
+            String exerciseReps = Integer.toString(cursor.getInt(1));
+            EditText editTextReps = (EditText) mContext.findViewById(
+                    R.id.edittext_exercise_history_entry_reps);
+            mContext.setEditTextText(editTextReps, exerciseReps);
         }
 
         cursor.close();

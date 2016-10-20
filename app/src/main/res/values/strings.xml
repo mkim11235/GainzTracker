@@ -11,4 +11,5 @@
     <string name="weight_unit">LB</string>
     <string name="reps">Reps</string>
     <string name="on">on</string>
+    <string name="placeholder_number">10</string>
 </resources>

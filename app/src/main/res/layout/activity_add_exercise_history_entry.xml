@@ -21,8 +21,8 @@
         <EditText
             android:id="@+id/edittext_exercise_history_entry_weight"
             android:textSize="30sp"
-            android:text="100"
             android:inputType="number"
+            android:hint="@string/placeholder_number"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -61,7 +61,7 @@
         <EditText
             android:id="@+id/edittext_exercise_history_entry_reps"
             android:textSize="30sp"
-            android:text="10"
+            android:hint="@string/placeholder_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"

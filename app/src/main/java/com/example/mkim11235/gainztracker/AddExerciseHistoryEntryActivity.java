@@ -67,32 +67,44 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
         mDecrementWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curWeight = Integer.parseInt(mWeightEditText.getText().toString());
-                mWeightEditText.setText(Integer.toString(curWeight - 1));
+                String editTextString = mWeightEditText.getText().toString();
+                if (editTextString.length() > 0) {
+                    int curWeight = Integer.parseInt(editTextString);
+                    mWeightEditText.setText(Integer.toString(curWeight - 1));
+                }
             }
         });
 
         mIncrementWeightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curWeight = Integer.parseInt(mWeightEditText.getText().toString());
-                mWeightEditText.setText(Integer.toString(curWeight + 1));
+                String editTextString = mWeightEditText.getText().toString();
+                if (editTextString.length() > 0) {
+                    int curWeight = Integer.parseInt(editTextString);
+                    mWeightEditText.setText(Integer.toString(curWeight + 1));
+                }
             }
         });
 
         mDecrementRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curReps = Integer.parseInt(mRepsEditText.getText().toString());
-                mRepsEditText.setText(Integer.toString(curReps - 1));
+                String editTextString = mRepsEditText.getText().toString();
+                if (editTextString.length() > 0) {
+                    int curReps = Integer.parseInt(editTextString);
+                    mRepsEditText.setText(Integer.toString(curReps - 1));
+                }
             }
         });
 
         mIncrementRepsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int curReps = Integer.parseInt(mRepsEditText.getText().toString());
-                mRepsEditText.setText(Integer.toString(curReps + 1));
+                String editTextString = mRepsEditText.getText().toString();
+                if (editTextString.length() > 0) {
+                    int curReps = Integer.parseInt(mRepsEditText.getText().toString());
+                    mRepsEditText.setText(Integer.toString(curReps + 1));
+                }
             }
         });
 
@@ -125,8 +137,8 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
                     // Try converting all to long so asynctask can take params
                     long weight = Integer.parseInt(weightString);
                     long reps = Integer.parseInt(repsString);
-                    // Need to remove the '/' from date string
-                    dateString = dateString.replace("/", "");
+                    // Format date string into DB format
+                    dateString = Utility.formatDateReadableToDB(dateString);
                     long date = Integer.parseInt(dateString);
 
                     // Add new exercise history entry to DB
@@ -155,6 +167,15 @@ public class AddExerciseHistoryEntryActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment fragment = new DatePickerFragment();
         fragment.show(getFragmentManager(), "datePicker");
+    }
+
+    /**
+     * Way for async task to edit text text
+     * @param editText = the edittext to modify
+     * @param text = the new text to set edittext to
+     */
+    public void setEditTextText(EditText editText, String text) {
+        editText.setText(text);
     }
 
     private void getAndSetDefaultWeightAndReps() {

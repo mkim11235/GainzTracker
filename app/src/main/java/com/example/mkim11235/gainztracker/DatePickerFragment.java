@@ -31,7 +31,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         int actualMonth = month + 1;
-        String formattedDate = Utility.formatDate(year, actualMonth, day);
+        String formattedDate = Utility.formatDateReadable(year, actualMonth, day);
 
         TextView textViewDate = (TextView) getActivity()
                 .findViewById(R.id.edittext_exercise_history_entry_date);
