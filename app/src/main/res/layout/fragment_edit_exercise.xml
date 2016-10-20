@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_exercise"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edittext_edit_exercise_name"
+        android:textSize="@dimen/font_size_dialog_edittext"
+        android:hint="New Exercise Name"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:inputType="textAutoComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/edittext_edit_exercise_muscle"
+        android:textSize="@dimen/font_size_dialog_edittext"
+        android:hint="New Exercise Muscle"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:inputType="textAutoComplete"
+        android:imeOptions="actionDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_edit_exercise"
+        android:text="@string/button_edit_exercise"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

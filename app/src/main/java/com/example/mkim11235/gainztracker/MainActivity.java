@@ -16,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -104,16 +103,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int menuItemIndex = item.getItemId();
         String menuItemName = menuItems[menuItemIndex];
 
+
+
         switch (menuItemName) {
             // Todo: implement edit stuff
             case "Edit":
-                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG).show();
+                // need to pass in the exercise name in the bundle
+                showEditExerciseDialog(exerciseName, exerciseMuscle, info.position);
                 break;
             case "Delete":
                 new DeleteExerciseTask(this).execute(exerciseName, exerciseMuscle);
                 break;
         }
         return true;
+    }
+
+    /**
+     * Called from EditExerciseDialog when user hits done button
+     * Calls asynctask to update exercise table with new values
+     *
+     * @param exerciseName the new name of exercise to update db
+     * @param exerciseMuscle the new muscle of exercise to update db
+     * @param selectedItemPosition the position of item selected
+     */
+    public void onFinishEditExerciseDialog(String exerciseName, String exerciseMuscle,
+                                           int selectedItemPosition) {
+        new UpdateExerciseTask(this, mExerciseAdapter).execute(exerciseName, exerciseMuscle,
+                Integer.toString(selectedItemPosition));
     }
 
     @Override
@@ -134,6 +150,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseAdapter.swapCursor(null);
+    }
+
+    private void showEditExerciseDialog(String exerciseName, String exerciseMuscle, int position) {
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        EditExerciseDialog dialog = new EditExerciseDialog();
+
+        // Load bundle arguments for fragment
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.EXTRA_EXERCISE_NAME), exerciseName);
+        bundle.putString(getString(R.string.EXTRA_EXERCISE_MUSCLE), exerciseMuscle);
+        bundle.putInt(getString(R.string.EXTRA_LIST_ITEM_POSITION), position);
+        dialog.setArguments(bundle);
+
+        dialog.show(fragmentManager, "fragment_edit_exercise");
     }
 
 }
