@@ -15,8 +15,8 @@
     <!-- TO DO: Somehow refactor imagebuttons in main and exercise activity xml -->
     <ImageButton
         android:id="@+id/image_button_add_exercise_history_entry"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:background="@drawable/oval"
         android:src="@mipmap/ic_plus"
         android:layout_marginBottom="10dp"

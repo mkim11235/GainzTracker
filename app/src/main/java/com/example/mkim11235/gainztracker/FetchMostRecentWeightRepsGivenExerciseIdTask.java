@@ -27,7 +27,7 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
         long exerciseId = longs[0];
 
         // Find row in exerciseHistory where id = id
-        // Want to sort by most recent date highest weight
+        // Sort by most recent date highest weight
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
         Cursor cursor = mContext.getContentResolver().query(

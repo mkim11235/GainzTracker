@@ -161,12 +161,14 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String exerciseIdString = Long.toString(mExerciseId);
+        String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
         return new CursorLoader(this,
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
                 new String[] {exerciseIdString},
-                null);
+                orderBy);
     }
 
     @Override
