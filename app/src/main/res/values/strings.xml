@@ -16,4 +16,8 @@
     <string name="EXTRA_EXERCISE_MUSCLE">com.example.mkim11235.gainztracker.extra.EXERCISE_MUSCLE</string>
     <string name="button_edit_exercise">Done</string>
     <string name="EXTRA_LIST_ITEM_POSITION">com.example.mkim11235.gainztracker.extra.LIST_ITEM_POS</string>
+    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
+    <string name="EXTRA_EXERCISE_WEIGHT">com.example.mkim11235.gainztracker.extra.EXERCISE_WEIGHT</string>
+    <string name="EXTRA_EXERCISE_REPS">com.example.mkim11235.gainztracker.extra.EXERCISE_REPS</string>
+    <string name="EXTRA_EXERCISE_DATE">com.example.mkim11235.gainztracker.extra.EXERCISE_DATE</string>
 </resources>

@@ -48,6 +48,7 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         if (extras != null) {
             mExerciseId = extras.getLong(getString(R.string.EXTRA_EXERCISE_ID));
             mExerciseName = extras.getString(getString(R.string.EXTRA_EXERCISE_NAME));
+            initExtraArguments(extras);
         }
 
         setTitle(mExerciseName + " Entry");
@@ -132,6 +133,12 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         }
         return allValid;
     }
+
+    /**
+     * Initialize any extra arguments from bundle
+     * @param bundle bundle containinng args
+     */
+    protected abstract void initExtraArguments(Bundle bundle);
 
     /**
      * Set the default weight and rep texts to appropriate values

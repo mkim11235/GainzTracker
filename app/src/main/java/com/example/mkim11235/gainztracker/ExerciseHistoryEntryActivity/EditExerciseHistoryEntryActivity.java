@@ -4,36 +4,46 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mkim11235.gainztracker.AddExerciseHistoryDBTask;
 import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
-import com.example.mkim11235.gainztracker.FetchMostRecentWeightRepsGivenExerciseIdTask;
 import com.example.mkim11235.gainztracker.R;
+import com.example.mkim11235.gainztracker.UpdateExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.Utility;
 
 /**
- * Created by Michael on 10/17/2016.
+ * Created by Michael on 10/20/2016.
  */
 
-public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivity {
+public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivity {
+    private long mOldExerciseWeight;
+    private long mOldExerciseReps;
+    private long mOldExerciseDate;
+
     /**
-     * Initialize members with any extra args from bundle
+     * Initialize weight,reps,date from bundle
      * @param bundle bundle containing args
      */
     @Override
-    protected void initExtraArguments(Bundle bundle) {}
+    protected void initExtraArguments(Bundle bundle) {
+        mOldExerciseWeight = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_WEIGHT)));
+        mOldExerciseReps = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_REPS)));
+        mOldExerciseDate = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_DATE)));
+    }
 
     /**
-     * Set the default weight and rep texts to appropriate values
+     * Set default weight and reps to what they were before click edit
      */
     @Override
     protected void getAndSetDefaultWeightAndReps() {
-        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(mExerciseId);
+        mWeightEditText.setText(Long.toString(mOldExerciseWeight));
+        mRepsEditText.setText(Long.toString(mOldExerciseReps));
+        String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
+        mDateEditText.setText(formatDate);
     }
 
     @Override
-    protected  void setupFinalButtonText() {
+    protected void setupFinalButtonText() {
         mExerciseHistoryFinalButton.setText(
-                getString(R.string.button_add_exercise_history_entry_text_final));
+                getString(R.string.button_edit_exercise_history_entry_text_final));
     }
 
     @Override
@@ -54,9 +64,10 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
                     dateString = Utility.formatDateReadableToDB(dateString);
                     long date = Integer.parseInt(dateString);
 
-                    // Add new exercise history entry to DB
-                    AddExerciseHistoryDBTask dbTask = new AddExerciseHistoryDBTask(AddExerciseHistoryEntryActivity.this);
-                    dbTask.execute(mExerciseId, weight, reps, date);
+                    // Update exercise history entry in DB
+                    new UpdateExerciseHistoryTask(EditExerciseHistoryEntryActivity.this)
+                            .execute(mExerciseId, weight, reps, date, mOldExerciseWeight,
+                                    mOldExerciseReps, mOldExerciseDate);
 
                     // Return to exercise activity
                     Intent intent = new Intent(v.getContext(), ExerciseHistoryActivity.class)

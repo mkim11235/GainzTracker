@@ -16,12 +16,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
-
-import java.util.concurrent.ExecutionException;
 
 // Once clicked on specific exercise from main, enter here
 // Has Exercise title, history of workouts as list
@@ -48,6 +46,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     private ImageButton mAddExerciseHistoryEntryButton;
     private ExerciseHistoryAdapter mExerciseHistoryAdapter;
     private long mExerciseId;
+    private String mExerciseName;
+    private Bundle mExerciseHistoryEntryBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +65,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         mExerciseHistoryAdapter = new ExerciseHistoryAdapter(this, null, 0);
 
         // Gets and sets exercise title
-        // This might not be async
-        // may need to learn about listeners and shiet
-        // Todo: check is async or blocking
-        final String exerciseTitle = getAndSetExerciseTitleFromId(mExerciseId);
+        new FetchExerciseTitleTask(this).execute(mExerciseId);
 
         // Setup adaptor to populate listview
         ListView listView = (ListView) findViewById(R.id.listview_exercise_history);
@@ -90,32 +87,12 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // pass in the exerciseID and name of exercise in bundle
-                Bundle bundle = new Bundle();
-                bundle.putLong(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
-                bundle.putString(getString(R.string.EXTRA_EXERCISE_NAME), exerciseTitle);
-
+                // pass in the exerciseID and name of exercise via bundle
                 Intent intent = new Intent(view.getContext(), AddExerciseHistoryEntryActivity.class)
-                        .putExtras(bundle);
+                        .putExtras(mExerciseHistoryEntryBundle);
                 startActivity(intent);
             }
         });
-    }
-
-    // Gets and sets Exercise Title from ID
-    // Has to read database so async task
-    // MB DO: looks ugly try optimize later
-    // mb needs to use loader
-    private String getAndSetExerciseTitleFromId(long id) {
-        FetchExerciseTitleTask exerciseTitleTask = new FetchExerciseTitleTask(this);
-        try {
-            return exerciseTitleTask.execute(id).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
@@ -148,15 +125,37 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         String menuItemName = menuItems[menuItemIndex];
 
         switch (menuItemName) {
-            // Todo: implement edit stuff
             case "Edit":
-                Toast.makeText(this, "Not yet implemented", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(view.getContext(), EditExerciseHistoryEntryActivity.class);
+                intent.putExtras(mExerciseHistoryEntryBundle);
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), exerciseWeight);
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_REPS), exerciseReps);
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_DATE), exerciseDate);
+                startActivity(intent);
                 break;
             case "Delete":
                 new DeleteExerciseHistoryTask(this).execute(exerciseWeight, exerciseReps, exerciseDate);
                 break;
         }
         return true;
+    }
+
+    /**
+     * Called from FetchExerciseTitleTask to set member exerciseName
+     * @param name name to set exerciseName to
+     */
+    public void setExerciseName(String name) {
+        mExerciseName = name;
+    }
+
+    /**
+     * Called from FetchExerciseTitleTask when name is computed
+     * Puts id and name in bundle
+     */
+    public void setBundle() {
+        mExerciseHistoryEntryBundle = new Bundle();
+        mExerciseHistoryEntryBundle.putLong(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
+        mExerciseHistoryEntryBundle.putString(getString(R.string.EXTRA_EXERCISE_NAME), mExerciseName);
     }
 
     @Override

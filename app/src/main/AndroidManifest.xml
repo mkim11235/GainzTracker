@@ -32,6 +32,11 @@
             android:parentActivityName=".ExerciseHistoryActivity">
         </activity>
 
+        <activity
+            android:name=".ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity"
+            android:parentActivityName=".ExerciseHistoryActivity">
+        </activity>
+
         <provider
             android:authorities="com.example.mkim11235.gainztracker"
             android:name=".data.ExerciseProvider" />

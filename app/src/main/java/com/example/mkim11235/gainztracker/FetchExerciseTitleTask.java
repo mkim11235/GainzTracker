@@ -6,24 +6,30 @@ import android.os.AsyncTask;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
+import java.util.Locale;
+
 /**
  * Created by Michael on 10/17/2016.
  */
 
 // Given exercise id, reads exercise table and gets the name
 // Try to set exerciseActivity title to name + "History"
-public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
-    private final Context mContext;
+public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
+    private final ExerciseHistoryActivity mContext;
 
     public FetchExerciseTitleTask(Context context) {
-        mContext = context;
+        mContext = (ExerciseHistoryActivity) context;
     }
 
-    // Gets the name of exercise with given exerciseId
-    // Sets the title to exerciseName
-    // Returns the name
+    /**
+     * Gets the name of exercise with given exerciseId
+     * Sets title of ExerciseHistoryActivity to name
+     * Sets member variable exerciseName to name
+     * Sets bundle in the context
+     * @param longs 0 is the exerciseId to query
+     */
     @Override
-    protected String doInBackground(Long... longs) {
+    protected Void doInBackground(Long... longs) {
         long exerciseId = longs[0];
 
         // Find row in exercises where id = id
@@ -34,15 +40,16 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, String> {
                 new String[] {Long.toString(exerciseId)},
                 null);
 
-        String exerciseName = null;
         if (cursor.moveToFirst()) {
-            // set this to 1, see what happens@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-            exerciseName = cursor.getString(0);
-            ((ExerciseHistoryActivity)mContext).setTitle(exerciseName);
+            String exerciseName = cursor.getString(0);
+
+            mContext.setTitle(String.format(Locale.US, "%s History", exerciseName));
+            mContext.setExerciseName(exerciseName);
+            mContext.setBundle();
         }
 
         cursor.close();
-        return exerciseName;
+        return null;
     }
 
 }
