@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.widget.EditText;
 
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**

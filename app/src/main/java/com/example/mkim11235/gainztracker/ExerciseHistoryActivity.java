@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 import java.util.concurrent.ExecutionException;
