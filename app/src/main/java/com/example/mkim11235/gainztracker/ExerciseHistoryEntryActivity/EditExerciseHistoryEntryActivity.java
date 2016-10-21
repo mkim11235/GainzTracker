@@ -3,7 +3,6 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
 import com.example.mkim11235.gainztracker.R;
@@ -35,14 +34,10 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
      */
     @Override
     protected void getAndSetDefaultWeightAndReps(long exerciseId) {
-        EditText weightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
-        EditText repsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
-        EditText dateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
-
-        weightEditText.setText(Long.toString(mOldExerciseWeight));
-        repsEditText.setText(Long.toString(mOldExerciseReps));
+        mWeightEditText.setText(Long.toString(mOldExerciseWeight));
+        mRepsEditText.setText(Long.toString(mOldExerciseReps));
         String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
-        dateEditText.setText(formatDate);
+        mDateEditText.setText(formatDate);
     }
 
     /**
@@ -64,9 +59,9 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightString = getWeightEditTextString();
-                String repsString = getRepsEditTextString();
-                String dateString = getDateEditTextString();
+                String weightString = mWeightEditText.getText().toString();;
+                String repsString = mRepsEditText.getText().toString();;
+                String dateString = mDateEditText.getText().toString();
 
                 // Validation check. all must be entered
                 if (allValidEntries(weightString, repsString, dateString)) {

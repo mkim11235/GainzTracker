@@ -42,11 +42,12 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
         // Set the edittext for weight and reps to first entry.
         if (cursor.moveToFirst()) {
             String exerciseWeight = Integer.toString(cursor.getInt(0));
+            String exerciseReps = Integer.toString(cursor.getInt(1));
+
             EditText editTextWeight = (EditText) mContext.findViewById(
                     R.id.edittext_exercise_history_entry_weight);
             mContext.setEditTextText(editTextWeight, exerciseWeight);
 
-            String exerciseReps = Integer.toString(cursor.getInt(1));
             EditText editTextReps = (EditText) mContext.findViewById(
                     R.id.edittext_exercise_history_entry_reps);
             mContext.setEditTextText(editTextReps, exerciseReps);

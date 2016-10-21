@@ -50,9 +50,9 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightString = getWeightEditTextString();
-                String repsString = getRepsEditTextString();
-                String dateString = getDateEditTextString();
+                String weightString = mWeightEditText.getText().toString();
+                String repsString = mRepsEditText.getText().toString();
+                String dateString = mDateEditText.getText().toString();
 
                 // Validation check. all must be entered
                 if (allValidEntries(weightString, repsString, dateString)) {

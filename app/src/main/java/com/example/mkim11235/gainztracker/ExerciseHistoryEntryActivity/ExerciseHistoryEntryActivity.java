@@ -31,9 +31,10 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
     private ImageButton mDecrementRepsButton;
     private ImageButton mIncrementRepsButton;
 
-    private EditText mWeightEditText;
-    private EditText mRepsEditText;
-    private EditText mDateEditText;
+    // Decided make these protected cuz subclasses often need this
+    protected EditText mWeightEditText;
+    protected EditText mRepsEditText;
+    protected EditText mDateEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,27 +103,6 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
      */
     public void setEditTextText(EditText editText, String text) {
         editText.setText(text);
-    }
-
-    /**
-     * @return the string of the weightedittext
-     */
-    public String getWeightEditTextString() {
-        return mWeightEditText.getText().toString();
-    }
-
-    /**
-     * @return the string of repsedittext
-     */
-    public String getRepsEditTextString() {
-        return mRepsEditText.getText().toString();
-    }
-
-    /**
-     * @return string of dateedittext
-     */
-    public String getDateEditTextString() {
-        return mDateEditText.getText().toString();
     }
 
     /**
