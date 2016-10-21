@@ -22,18 +22,18 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
 
-    protected long mExerciseId;
-    protected String mExerciseName;
+    private long mExerciseId;
+    private String mExerciseName;
 
-    protected Button mExerciseHistoryFinalButton;
-    protected ImageButton mDecrementWeightButton;
-    protected ImageButton mIncrementWeightButton;
-    protected ImageButton mDecrementRepsButton;
-    protected ImageButton mIncrementRepsButton;
+    private Button mExerciseHistoryFinalButton;
+    private ImageButton mDecrementWeightButton;
+    private ImageButton mIncrementWeightButton;
+    private ImageButton mDecrementRepsButton;
+    private ImageButton mIncrementRepsButton;
 
-    protected EditText mWeightEditText;
-    protected EditText mRepsEditText;
-    protected EditText mDateEditText;
+    private EditText mWeightEditText;
+    private EditText mRepsEditText;
+    private EditText mDateEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
         // Set weight/reps default to most recent weight/reps. empty if none.
-        getAndSetDefaultWeightAndReps();
+        getAndSetDefaultWeightAndReps(mExerciseId);
 
         // Set date default to current date
         mDateEditText.setText(Utility.getCurrentDate());
@@ -75,10 +75,9 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         setupChangeButtons(mIncrementRepsButton, mRepsEditText, INCREMENT_CHANGE);
 
         // When button clicked, create new entry in exercise history table, return to main
-        // Todo: add code to check whether all fields entered. cannot be null. or allow null values in table
         mExerciseHistoryFinalButton = (Button) findViewById(R.id.button_exercise_history_entry_final);
-        setupFinalButtonText();
-        setupFinalButtonOnClick();
+        mExerciseHistoryFinalButton.setText(getFinalButtonText());
+        mExerciseHistoryFinalButton.setOnClickListener(getFinalButtonOnClickListener(mExerciseId));
     }
 
     @Override
@@ -103,6 +102,27 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
      */
     public void setEditTextText(EditText editText, String text) {
         editText.setText(text);
+    }
+
+    /**
+     * @return the string of the weightedittext
+     */
+    public String getWeightEditTextString() {
+        return mWeightEditText.getText().toString();
+    }
+
+    /**
+     * @return the string of repsedittext
+     */
+    public String getRepsEditTextString() {
+        return mRepsEditText.getText().toString();
+    }
+
+    /**
+     * @return string of dateedittext
+     */
+    public String getDateEditTextString() {
+        return mDateEditText.getText().toString();
     }
 
     /**
@@ -140,18 +160,22 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
 
     /**
      * Set the default weight and rep texts to appropriate values
+     * @param exerciseId the id of exercise that history entry refers to
      */
-    protected abstract void getAndSetDefaultWeightAndReps();
+    protected abstract void getAndSetDefaultWeightAndReps(long exerciseId);
 
     /**
-     * Setup final button text
+     * Gets the final button's text
+     * @return the value to set final button text
      */
-    protected abstract void setupFinalButtonText();
+    protected abstract String getFinalButtonText();
 
     /**
-     * Setup the final button OnClick
+     * Gets the final button's onclicklistener
+     * @param exerciseId exercise id for the history entry
+     * @return final button onclicklistener
      */
-    protected abstract void setupFinalButtonOnClick();
+    protected abstract View.OnClickListener getFinalButtonOnClickListener(long exerciseId);
 
     /**
      * Sets up button onclicklisteners for increment/decrement

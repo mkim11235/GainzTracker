@@ -3,6 +3,7 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
 import com.example.mkim11235.gainztracker.R;
@@ -33,27 +34,39 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
      * Set default weight and reps to what they were before click edit
      */
     @Override
-    protected void getAndSetDefaultWeightAndReps() {
-        mWeightEditText.setText(Long.toString(mOldExerciseWeight));
-        mRepsEditText.setText(Long.toString(mOldExerciseReps));
+    protected void getAndSetDefaultWeightAndReps(long exerciseId) {
+        EditText weightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
+        EditText repsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
+        EditText dateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
+
+        weightEditText.setText(Long.toString(mOldExerciseWeight));
+        repsEditText.setText(Long.toString(mOldExerciseReps));
         String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
-        mDateEditText.setText(formatDate);
+        dateEditText.setText(formatDate);
     }
 
+    /**
+     * Gets final button text string
+     * @return final button text string
+     */
     @Override
-    protected void setupFinalButtonText() {
-        mExerciseHistoryFinalButton.setText(
-                getString(R.string.button_edit_exercise_history_entry_text_final));
+    protected String getFinalButtonText() {
+        return getString(R.string.button_edit_exercise_history_entry_text_final);
     }
 
+    /**
+     * Gets final button onclicklistener
+     * @param exerciseId exercise id for the history entry
+     * @return final button onclicklistener
+     */
     @Override
-    protected void setupFinalButtonOnClick() {
-        mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
+    protected View.OnClickListener getFinalButtonOnClickListener(final long exerciseId) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightString = String.valueOf(mWeightEditText.getText());
-                String repsString = String.valueOf(mRepsEditText.getText());
-                String dateString = String.valueOf(mDateEditText.getText());
+                String weightString = getWeightEditTextString();
+                String repsString = getRepsEditTextString();
+                String dateString = getDateEditTextString();
 
                 // Validation check. all must be entered
                 if (allValidEntries(weightString, repsString, dateString)) {
@@ -66,15 +79,15 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
 
                     // Update exercise history entry in DB
                     new UpdateExerciseHistoryTask(EditExerciseHistoryEntryActivity.this)
-                            .execute(mExerciseId, weight, reps, date, mOldExerciseWeight,
+                            .execute(exerciseId, weight, reps, date, mOldExerciseWeight,
                                     mOldExerciseReps, mOldExerciseDate);
 
                     // Return to exercise activity
                     Intent intent = new Intent(v.getContext(), ExerciseHistoryActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, mExerciseId);
+                            .putExtra(Intent.EXTRA_TEXT, exerciseId);
                     startActivity(intent);
                 }
             }
-        });
+        };
     }
 }

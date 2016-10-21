@@ -24,26 +24,35 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
 
     /**
      * Set the default weight and rep texts to appropriate values
+     * @param exerciseId id of the exercise this history entry refers to
      */
     @Override
-    protected void getAndSetDefaultWeightAndReps() {
-        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(mExerciseId);
+    protected void getAndSetDefaultWeightAndReps(long exerciseId) {
+        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(exerciseId);
     }
 
+    /**
+     * Gets final button text string
+     * @return final button text string
+     */
     @Override
-    protected  void setupFinalButtonText() {
-        mExerciseHistoryFinalButton.setText(
-                getString(R.string.button_add_exercise_history_entry_text_final));
+    protected String getFinalButtonText() {
+        return getString(R.string.button_add_exercise_history_entry_text_final);
     }
 
+    /**
+     * Gets final button onclicklistener
+     * @param exerciseId exercise id for the history entry
+     * @return final button onclicklistener
+     */
     @Override
-    protected void setupFinalButtonOnClick() {
-        mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
+    protected View.OnClickListener getFinalButtonOnClickListener(final long exerciseId) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightString = String.valueOf(mWeightEditText.getText());
-                String repsString = String.valueOf(mRepsEditText.getText());
-                String dateString = String.valueOf(mDateEditText.getText());
+                String weightString = getWeightEditTextString();
+                String repsString = getRepsEditTextString();
+                String dateString = getDateEditTextString();
 
                 // Validation check. all must be entered
                 if (allValidEntries(weightString, repsString, dateString)) {
@@ -55,15 +64,15 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
                     long date = Integer.parseInt(dateString);
 
                     // Add new exercise history entry to DB
-                    AddExerciseHistoryDBTask dbTask = new AddExerciseHistoryDBTask(AddExerciseHistoryEntryActivity.this);
-                    dbTask.execute(mExerciseId, weight, reps, date);
+                    new AddExerciseHistoryDBTask(AddExerciseHistoryEntryActivity.this)
+                            .execute(exerciseId, weight, reps, date);
 
                     // Return to exercise activity
                     Intent intent = new Intent(v.getContext(), ExerciseHistoryActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, mExerciseId);
+                            .putExtra(Intent.EXTRA_TEXT, exerciseId);
                     startActivity(intent);
                 }
             }
-        });
+        };
     }
 }
