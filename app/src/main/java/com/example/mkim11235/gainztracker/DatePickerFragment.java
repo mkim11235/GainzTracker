@@ -7,27 +7,38 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
 /**
  * Created by Michael on 10/18/2016.
  */
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    /**
+     * Create new datepicker with date selected from arg bundle
+     * @param savedInstanceState
+     * @return new datepickerdialog with date selected from bundle
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar calendar = Calendar.getInstance();
+        Bundle args = getArguments();
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = args.getInt(getString(R.string.EXTRA_YEAR));
+        int month = args.getInt(getString(R.string.EXTRA_MONTH));
+        int day = args.getInt(getString(R.string.EXTRA_DAY));
 
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(getActivity(), this, year, month - 1, day);
     }
 
     //do smt with chosen date
     // maybe send intent back to history entry activity of date to add
+
+    /**
+     * Updated the date on the ExerciseHistoryEntryActivity edittext to selected date
+     * @param datePicker datepicker object
+     * @param year year to set edittext to
+     * @param month month to set edittext to
+     * @param day day to set edittext to
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         int actualMonth = month + 1;

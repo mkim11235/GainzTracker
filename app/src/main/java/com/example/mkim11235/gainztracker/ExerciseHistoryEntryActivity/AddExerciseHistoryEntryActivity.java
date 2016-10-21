@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mkim11235.gainztracker.AddExerciseHistoryDBTask;
+import com.example.mkim11235.gainztracker.tasks.AddExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
-import com.example.mkim11235.gainztracker.FetchMostRecentWeightRepsGivenExerciseIdTask;
+import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightRepsGivenExerciseIdTask;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 
@@ -27,7 +27,8 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
      * @param exerciseId id of the exercise this history entry refers to
      */
     @Override
-    protected void getAndSetDefaultWeightAndReps(long exerciseId) {
+    protected void getAndSetDefaultWeightRepsDate(long exerciseId) {
+        mDateEditText.setText(Utility.getCurrentDate());
         new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(exerciseId);
     }
 
@@ -64,7 +65,7 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
                     long date = Integer.parseInt(dateString);
 
                     // Add new exercise history entry to DB
-                    new AddExerciseHistoryDBTask(AddExerciseHistoryEntryActivity.this)
+                    new AddExerciseHistoryTask(AddExerciseHistoryEntryActivity.this)
                             .execute(exerciseId, weight, reps, date);
 
                     // Return to exercise activity

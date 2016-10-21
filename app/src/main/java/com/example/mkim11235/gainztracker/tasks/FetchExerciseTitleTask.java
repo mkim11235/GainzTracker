@@ -1,12 +1,11 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
+import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
-
-import java.util.Locale;
 
 /**
  * Created by Michael on 10/17/2016.
@@ -43,7 +42,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
         if (cursor.moveToFirst()) {
             String exerciseName = cursor.getString(0);
 
-            mContext.setTitleFromAsync(String.format(Locale.US, "%s History", exerciseName));
+            mContext.setTitleFromAsync(exerciseName + " History");
             mContext.setExerciseName(exerciseName);
             mContext.setBundle();
         }

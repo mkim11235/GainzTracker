@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
+import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
+import com.example.mkim11235.gainztracker.tasks.FetchExerciseTitleTask;
 
 // Once clicked on specific exercise from main, enter here
 // Has Exercise title, history of workouts as list

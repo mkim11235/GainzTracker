@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
+
 /**
  * Created by Michael on 10/16/2016.
  */
@@ -56,7 +58,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 }
 
                 if (allValidEntries) {
-                    AddExerciseDBTask dbTask = new AddExerciseDBTask(AddExerciseActivity.this);
+                    AddExerciseTask dbTask = new AddExerciseTask(AddExerciseActivity.this);
                     dbTask.execute(exerciseName, exerciseMuscle);
 
                     // Return to main activity

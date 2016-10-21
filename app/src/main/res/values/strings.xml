@@ -20,4 +20,8 @@
     <string name="EXTRA_EXERCISE_WEIGHT">com.example.mkim11235.gainztracker.extra.EXERCISE_WEIGHT</string>
     <string name="EXTRA_EXERCISE_REPS">com.example.mkim11235.gainztracker.extra.EXERCISE_REPS</string>
     <string name="EXTRA_EXERCISE_DATE">com.example.mkim11235.gainztracker.extra.EXERCISE_DATE</string>
+    <string name="fragment_date_picker_tag">fragment_date_picker_tag</string>
+    <string name="EXTRA_YEAR">com.example.mkim11235.gainztracker.extra.YEAR</string>
+    <string name="EXTRA_MONTH">com.example.mkim11235.gainztracker.extra.MONTH</string>
+    <string name="EXTRA_DAY">com.example.mkim11235.gainztracker.extra.DAY</string>
 </resources>

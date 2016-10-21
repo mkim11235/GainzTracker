@@ -65,4 +65,31 @@ public class Utility {
         builder.append(day);
         return builder.toString();
     }
+
+    /**
+     * gets the year from readable date
+     * @param date date to get year from
+     * @return int value of year
+     */
+    public static int getYearFromReadableDate(String date) {
+        return Integer.parseInt(date.substring(6));
+    }
+
+    /**
+     * Gets the month from readable date
+     * @param date date to get month from
+     * @return int value of month
+     */
+    public static int getMonthFromReadableDate(String date) {
+        return Integer.parseInt(date.substring(0, 2));
+    }
+
+    /**
+     * Gets the day from readable date
+     * @param date date to get day from
+     * @return int value of day
+     */
+    public static int getDayFromReadableDate(String date) {
+        return Integer.parseInt(date.substring(3, 5));
+    }
 }

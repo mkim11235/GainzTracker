@@ -1,8 +1,10 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.database.Cursor;
 import android.os.AsyncTask;
 
+import com.example.mkim11235.gainztracker.ExerciseAdapter;
+import com.example.mkim11235.gainztracker.MainActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**

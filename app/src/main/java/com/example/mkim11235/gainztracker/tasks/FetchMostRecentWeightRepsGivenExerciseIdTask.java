@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.EditText;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
+import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**

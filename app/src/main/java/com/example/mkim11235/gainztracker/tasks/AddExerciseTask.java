@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -13,13 +13,13 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Created by Michael on 10/16/2016.
  */
 
-public class AddExerciseDBTask extends AsyncTask<String, Void, Void> {
+public class AddExerciseTask extends AsyncTask<String, Void, Void> {
 
-    private final String LOG_TAG = AddExerciseDBTask.class.getSimpleName();
+    private final String LOG_TAG = AddExerciseTask.class.getSimpleName();
 
     private final Context mContext;
 
-    public AddExerciseDBTask(Context context) {
+    public AddExerciseTask(Context context) {
         mContext = context;
     }
 

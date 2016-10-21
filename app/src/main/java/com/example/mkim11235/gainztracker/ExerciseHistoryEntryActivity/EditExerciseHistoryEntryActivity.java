@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
 import com.example.mkim11235.gainztracker.R;
-import com.example.mkim11235.gainztracker.UpdateExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.Utility;
+import com.example.mkim11235.gainztracker.tasks.UpdateExerciseHistoryTask;
 
 /**
  * Created by Michael on 10/20/2016.
@@ -33,7 +33,7 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
      * Set default weight and reps to what they were before click edit
      */
     @Override
-    protected void getAndSetDefaultWeightAndReps(long exerciseId) {
+    protected void getAndSetDefaultWeightRepsDate(long exerciseId) {
         mWeightEditText.setText(Long.toString(mOldExerciseWeight));
         mRepsEditText.setText(Long.toString(mOldExerciseReps));
         String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));

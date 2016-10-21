@@ -64,16 +64,13 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
 
         // Set weight/reps default to most recent weight/reps. empty if none.
-        getAndSetDefaultWeightAndReps(mExerciseId);
-
-        // Set date default to current date
-        mDateEditText.setText(Utility.getCurrentDate());
+        getAndSetDefaultWeightRepsDate(mExerciseId);
 
         // Decrement/Increment button setup
-        setupChangeButtons(mDecrementWeightButton, mWeightEditText, DECREMENT_CHANGE);
-        setupChangeButtons(mDecrementRepsButton, mRepsEditText, DECREMENT_CHANGE);
-        setupChangeButtons(mIncrementWeightButton, mWeightEditText, INCREMENT_CHANGE);
-        setupChangeButtons(mIncrementRepsButton, mRepsEditText, INCREMENT_CHANGE);
+        mDecrementWeightButton.setOnClickListener(setChangeButtonOnClickListener(mWeightEditText, DECREMENT_CHANGE));
+        mDecrementRepsButton.setOnClickListener(setChangeButtonOnClickListener(mRepsEditText, DECREMENT_CHANGE));
+        mIncrementWeightButton.setOnClickListener(setChangeButtonOnClickListener(mWeightEditText, INCREMENT_CHANGE));
+        mIncrementRepsButton.setOnClickListener(setChangeButtonOnClickListener(mRepsEditText, INCREMENT_CHANGE));
 
         // When button clicked, create new entry in exercise history table, return to main
         mExerciseHistoryFinalButton = (Button) findViewById(R.id.button_exercise_history_entry_final);
@@ -93,7 +90,8 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
 
     public void showDatePickerDialog(View v) {
         DialogFragment fragment = new DatePickerFragment();
-        fragment.show(getFragmentManager(), "datePicker");
+        fragment.setArguments(buildDatePickerArgsBundle());
+        fragment.show(getFragmentManager(), getString(R.string.fragment_date_picker_tag));
     }
 
     /**
@@ -142,7 +140,7 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
      * Set the default weight and rep texts to appropriate values
      * @param exerciseId the id of exercise that history entry refers to
      */
-    protected abstract void getAndSetDefaultWeightAndReps(long exerciseId);
+    protected abstract void getAndSetDefaultWeightRepsDate(long exerciseId);
 
     /**
      * Gets the final button's text
@@ -160,8 +158,8 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
     /**
      * Sets up button onclicklisteners for increment/decrement
      */
-    private void setupChangeButtons(final ImageButton button, final EditText editText, final int change) {
-        button.setOnClickListener(new View.OnClickListener() {
+    private View.OnClickListener setChangeButtonOnClickListener(final EditText editText, final int change) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String editTextString = editText.getText().toString();
@@ -170,6 +168,23 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
                     editText.setText(Integer.toString(curWeight + change));
                 }
             }
-        });
+        };
+    }
+
+    /**
+     * Builds bundle with year, month, day arguments
+     * @return bundle containing args year, month, day
+     */
+    private Bundle buildDatePickerArgsBundle() {
+        String selectedDate = mDateEditText.getText().toString();
+        int year = Utility.getYearFromReadableDate(selectedDate);
+        int month = Utility.getMonthFromReadableDate(selectedDate);
+        int day = Utility.getDayFromReadableDate(selectedDate);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(getString(R.string.EXTRA_YEAR), year);
+        bundle.putInt(getString(R.string.EXTRA_MONTH), month);
+        bundle.putInt(getString(R.string.EXTRA_DAY), day);
+        return bundle;
     }
 }

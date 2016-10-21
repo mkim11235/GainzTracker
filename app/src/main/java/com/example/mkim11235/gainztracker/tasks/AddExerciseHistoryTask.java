@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -13,10 +13,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  */
 
 // Adds new entry (exerciseID as a string, weight, reps, date) into exercise history table
-public class AddExerciseHistoryDBTask extends AsyncTask<Long, Void, Void> {
+public class AddExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
     private final Context mContext;
 
-    public AddExerciseHistoryDBTask(Context context) {
+    public AddExerciseHistoryTask(Context context) {
         mContext = context;
     }
 

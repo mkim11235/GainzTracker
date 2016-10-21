@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker;
+package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.ContentValues;
 import android.database.Cursor;

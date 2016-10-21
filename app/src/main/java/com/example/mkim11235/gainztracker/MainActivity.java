@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
+import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
+import com.example.mkim11235.gainztracker.tasks.UpdateExerciseTask;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int EXERCISE_LOADER = 0;
