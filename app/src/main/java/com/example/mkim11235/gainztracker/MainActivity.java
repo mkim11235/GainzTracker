@@ -103,16 +103,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int menuItemIndex = item.getItemId();
         String menuItemName = menuItems[menuItemIndex];
 
-
-
         switch (menuItemName) {
-            // Todo: implement edit stuff
             case "Edit":
-                // need to pass in the exercise name in the bundle
                 showEditExerciseDialog(exerciseName, exerciseMuscle, info.position);
                 break;
             case "Delete":
-                new DeleteExerciseTask(this).execute(exerciseName, exerciseMuscle);
+                new DeleteExerciseTask(this, mExerciseAdapter)
+                        .execute(exerciseName, exerciseMuscle, Integer.toString(info.position));
                 break;
         }
         return true;

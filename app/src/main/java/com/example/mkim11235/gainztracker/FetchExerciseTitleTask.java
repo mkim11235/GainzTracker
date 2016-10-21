@@ -43,7 +43,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
         if (cursor.moveToFirst()) {
             String exerciseName = cursor.getString(0);
 
-            mContext.setTitle(String.format(Locale.US, "%s History", exerciseName));
+            mContext.setTitleFromAsync(String.format(Locale.US, "%s History", exerciseName));
             mContext.setExerciseName(exerciseName);
             mContext.setBundle();
         }

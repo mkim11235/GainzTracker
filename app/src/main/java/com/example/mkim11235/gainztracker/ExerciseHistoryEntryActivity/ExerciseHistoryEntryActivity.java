@@ -21,8 +21,7 @@ import com.example.mkim11235.gainztracker.Utility;
 public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
-    // Is there a point for these ot be member variables?
-    // mb put inside on create
+
     protected long mExerciseId;
     protected String mExerciseName;
 
@@ -70,7 +69,6 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         mDateEditText.setText(Utility.getCurrentDate());
 
         // Decrement/Increment button setup
-        // New way may cause crash
         setupChangeButtons(mDecrementWeightButton, mWeightEditText, DECREMENT_CHANGE);
         setupChangeButtons(mDecrementRepsButton, mRepsEditText, DECREMENT_CHANGE);
         setupChangeButtons(mIncrementWeightButton, mWeightEditText, INCREMENT_CHANGE);

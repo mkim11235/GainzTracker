@@ -36,23 +36,8 @@ public class UpdateExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
         Long oldDate = longs[6];
 
         // Query db for entry with old values
-        String selection = DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? AND " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ? ";
-        String[] selectionArgs = new String[] {exerciseId.toString(), oldWeight.toString(),
-                oldReps.toString(), oldDate.toString()};
-
-        Cursor cursor = mContext.getContentResolver().query(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
-                new String[] {DatabaseContract.ExerciseHistoryEntry._ID},
-                selection,
-                selectionArgs,
-                null);
-
-        Long exerciseHistoryId = null;
-        if (cursor.moveToFirst()) {
-            exerciseHistoryId = cursor.getLong(0);
-        }
+        Long exerciseHistoryId = getExerciseHistoryIdWithOldValues(exerciseId, oldWeight, oldReps,
+                oldDate);
 
         // Update entry with id with new values
         if (exerciseHistoryId != null) {
@@ -70,7 +55,29 @@ public class UpdateExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
                     new String[] {Long.toString(exerciseHistoryId)});
         }
 
-        cursor.close();
         return null;
+    }
+
+    private Long getExerciseHistoryIdWithOldValues(long exerciseId, long oldWeight, long oldReps, long oldDate) {
+        String selection = DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? AND " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ? ";
+        String[] selectionArgs = new String[] {Long.toString(exerciseId), Long.toString(oldWeight),
+                Long.toString(oldReps), Long.toString(oldDate)};
+
+        Cursor cursor = mContext.getContentResolver().query(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
+                new String[] {DatabaseContract.ExerciseHistoryEntry._ID},
+                selection,
+                selectionArgs,
+                null);
+
+        Long exerciseHistoryId = null;
+        if (cursor.moveToFirst()) {
+            exerciseHistoryId = cursor.getLong(0);
+        }
+
+        cursor.close();
+        return exerciseHistoryId;
     }
 }

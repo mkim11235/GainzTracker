@@ -149,6 +149,14 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     }
 
     /**
+     * Sets title to title from asynctask
+     * @param title new title to set title to
+     */
+    public void setTitleFromAsync(String title) {
+        setTitle(title);
+    }
+
+    /**
      * Called from FetchExerciseTitleTask when name is computed
      * Puts id and name in bundle
      */
@@ -162,7 +170,8 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String exerciseIdString = Long.toString(mExerciseId);
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC";
         return new CursorLoader(this,
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
