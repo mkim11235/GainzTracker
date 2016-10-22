@@ -10,22 +10,25 @@ import android.view.View;
  * Borrows heavily from https://github.com/anagri/AndroidLearnings/blob/master/app/src/main/java/me/creativei/ContinuousLongClickListenerActivity.java
  */
 
+/**
+ * Continuous onclicklistener for increment/decrement buttons
+ */
 public class ContinuousLongClickListener implements View.OnTouchListener, View.OnLongClickListener {
-    private static final int DELAY = 500;
+    private static final int DELAY = 333;
 
     private View.OnLongClickListener mOnLongClickListener;
     private Handler mHandler;
     private Runnable mRunnable;
 
-    public ContinuousLongClickListener(final View view, View.OnLongClickListener onLongClickListener) {
+    public ContinuousLongClickListener(final View view, Handler handler, View.OnLongClickListener onLongClickListener) {
         mOnLongClickListener = onLongClickListener;
-        mHandler = new Handler();
+        mHandler = handler;
 
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 mOnLongClickListener.onLongClick(view);
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 mHandler.postDelayed(this, DELAY);
             }
         };
