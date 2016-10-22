@@ -5,4 +5,5 @@
     <dimen name="icon_size">60dp</dimen>
     <dimen name="font_size_title">30sp</dimen>
     <dimen name="font_size_dialog_edittext">20sp</dimen>
+    <dimen name="button_plus_margin">10dp</dimen>
 </resources>

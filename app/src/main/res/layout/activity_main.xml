@@ -12,12 +12,12 @@
 
     <ImageButton
         android:id="@+id/image_button_add_exercise"
+        android:src="@mipmap/ic_plus"
+        android:background="@drawable/oval"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:background="@drawable/oval"
-        android:src="@mipmap/ic_plus"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginBottom="@dimen/button_plus_margin"
+        android:layout_marginRight="@dimen/button_plus_margin"
         android:layout_gravity="bottom|right"/>
 
 </FrameLayout>

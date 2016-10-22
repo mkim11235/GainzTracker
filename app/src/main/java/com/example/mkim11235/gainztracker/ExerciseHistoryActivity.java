@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
@@ -113,7 +113,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        LinearLayout view = (LinearLayout) info.targetView;
+        RelativeLayout view = (RelativeLayout) info.targetView;
         String exerciseWeight = ((TextView)view.findViewById(R.id.list_item_exercise_history_weight))
                 .getText().toString();
         String exerciseReps = ((TextView)view.findViewById(R.id.list_item_exercise_history_reps))

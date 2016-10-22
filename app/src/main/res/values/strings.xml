@@ -6,7 +6,7 @@
     <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
     <string name="title_add_exercise_activity">Add New Exercise</string>
     <string name="title_main_activity">Exercises</string>
-    <string name="weight_unit">LB</string>
+    <string name="weight_unit">lb</string>
     <string name="reps">Reps</string>
     <string name="on">on</string>
     <string name="placeholder_number">10</string>
