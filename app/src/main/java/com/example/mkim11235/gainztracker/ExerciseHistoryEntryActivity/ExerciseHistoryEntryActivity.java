@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.mkim11235.gainztracker.ContinuousLongClickListener;
 import com.example.mkim11235.gainztracker.DatePickerFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
@@ -54,10 +55,14 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         setTitle(mExerciseName + " Entry");
 
         // initialize member variables
-        mDecrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_weight);
-        mIncrementWeightButton = (ImageButton) findViewById(R.id.image_button_exercise_history_increment_weight);
-        mDecrementRepsButton = (ImageButton) findViewById(R.id.image_button_exercise_history_decrement_reps);
-        mIncrementRepsButton = (ImageButton) findViewById(R.id.image_button_exercise_history_increment_reps);
+        mDecrementWeightButton = (ImageButton)
+                findViewById(R.id.image_button_exercise_history_decrement_weight);
+        mIncrementWeightButton = (ImageButton)
+                findViewById(R.id.image_button_exercise_history_increment_weight);
+        mDecrementRepsButton = (ImageButton)
+                findViewById(R.id.image_button_exercise_history_decrement_reps);
+        mIncrementRepsButton = (ImageButton)
+                findViewById(R.id.image_button_exercise_history_increment_reps);
 
         mWeightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
         mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
@@ -67,10 +72,24 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         getAndSetDefaultWeightRepsDate(mExerciseId);
 
         // Decrement/Increment button setup
-        mDecrementWeightButton.setOnClickListener(setChangeButtonOnClickListener(mWeightEditText, DECREMENT_CHANGE));
-        mDecrementRepsButton.setOnClickListener(setChangeButtonOnClickListener(mRepsEditText, DECREMENT_CHANGE));
-        mIncrementWeightButton.setOnClickListener(setChangeButtonOnClickListener(mWeightEditText, INCREMENT_CHANGE));
-        mIncrementRepsButton.setOnClickListener(setChangeButtonOnClickListener(mRepsEditText, INCREMENT_CHANGE));
+        mDecrementWeightButton.setOnClickListener(
+                setChangeButtonOnClickListener(mWeightEditText, DECREMENT_CHANGE));
+        mDecrementRepsButton.setOnClickListener(
+                setChangeButtonOnClickListener(mRepsEditText, DECREMENT_CHANGE));
+        mIncrementWeightButton.setOnClickListener(
+                setChangeButtonOnClickListener(mWeightEditText, INCREMENT_CHANGE));
+        mIncrementRepsButton.setOnClickListener(
+                setChangeButtonOnClickListener(mRepsEditText, INCREMENT_CHANGE));
+
+        // Trying to setup  onLongClick with CLCL class
+        ContinuousLongClickListener c = new ContinuousLongClickListener(mIncrementWeightButton, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                int curWeight = Integer.parseInt(mWeightEditText.getText().toString());
+                mWeightEditText.setText(Integer.toString(curWeight + 5));
+                return false;
+            }
+        });
 
         // When button clicked, create new entry in exercise history table, return to main
         mExerciseHistoryFinalButton = (Button) findViewById(R.id.button_exercise_history_entry_final);
