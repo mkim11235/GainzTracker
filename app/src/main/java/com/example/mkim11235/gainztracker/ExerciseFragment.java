@@ -84,8 +84,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                //Todo: Need to use main activity to replace this fragment with exercisehistoryfragment
-                // Make sure mainActivity passes exerciseId to new fragment
                 long exerciseId = mExerciseAdapter.getItemId(position);
                 mCallBack.onExerciseSelected(exerciseId);
             }
@@ -93,10 +91,13 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         registerForContextMenu(exerciseListView);
 
         // Add Exercise Button onClick starts ExerciseEntryActivity
+        // Need to pass in indicator to attach AddExerciseEntryActivity
         mAddExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ExerciseEntryActivity.class);
+                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
+                        getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_ENTRY));
                 startActivity(intent);
             }
         });

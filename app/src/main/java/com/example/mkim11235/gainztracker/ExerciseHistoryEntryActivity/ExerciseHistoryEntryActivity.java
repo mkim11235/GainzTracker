@@ -118,7 +118,7 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DialogFragment fragment = new DatePickerFragment();
         fragment.setArguments(buildDatePickerArgsBundle());
-        fragment.show(getFragmentManager(), getString(R.string.fragment_date_picker_tag));
+        fragment.show(getFragmentManager(), getString(R.string.FRAGMENT_TAG_DATE_PICKER));
     }
 
     /**

@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements ExerciseFragment.OnExerciseSelectedListener {
 
-    private final String EXERCISE_FRAGMENT_TAG = "EFTAG";
-    private final String EXERCISE_HISTORY_FRAGMENT_TAG = "EHFTAG";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +12,7 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.container_activity_main,
-                    new ExerciseFragment(), EXERCISE_FRAGMENT_TAG).commit();
+                    new ExerciseFragment(), getString(R.string.FRAGMENT_TAG_EXERCISE)).commit();
         }
 
         // Dunno about setting title here
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
 
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.container_activity_main, exerciseHistoryFragment,
-                EXERCISE_HISTORY_FRAGMENT_TAG);
+                getString(R.string.FRAGMENT_TAG_EXERCISE_HISTORY));
         ft.addToBackStack(null);
         ft.commit();
     }

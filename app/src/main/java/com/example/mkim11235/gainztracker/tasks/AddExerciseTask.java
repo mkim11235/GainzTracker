@@ -15,8 +15,6 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 public class AddExerciseTask extends AsyncTask<String, Void, Void> {
 
-    private final String LOG_TAG = AddExerciseTask.class.getSimpleName();
-
     private final Context mContext;
 
     public AddExerciseTask(Context context) {

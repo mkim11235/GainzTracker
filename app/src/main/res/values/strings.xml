@@ -10,18 +10,26 @@
     <string name="reps">Reps</string>
     <string name="on">on</string>
     <string name="placeholder_number">10</string>
+    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
+    <string name="button_edit_exercise">Done</string>
 
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>
     <string name="EXTRA_EXERCISE_NAME">com.example.mkim11235.gainztracker.extra.EXERCISE_NAME</string>
     <string name="EXTRA_EXERCISE_MUSCLE">com.example.mkim11235.gainztracker.extra.EXERCISE_MUSCLE</string>
-    <string name="button_edit_exercise">Done</string>
     <string name="EXTRA_LIST_ITEM_POSITION">com.example.mkim11235.gainztracker.extra.LIST_ITEM_POS</string>
-    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
     <string name="EXTRA_EXERCISE_WEIGHT">com.example.mkim11235.gainztracker.extra.EXERCISE_WEIGHT</string>
     <string name="EXTRA_EXERCISE_REPS">com.example.mkim11235.gainztracker.extra.EXERCISE_REPS</string>
     <string name="EXTRA_EXERCISE_DATE">com.example.mkim11235.gainztracker.extra.EXERCISE_DATE</string>
-    <string name="fragment_date_picker_tag">fragment_date_picker_tag</string>
     <string name="EXTRA_YEAR">com.example.mkim11235.gainztracker.extra.YEAR</string>
     <string name="EXTRA_MONTH">com.example.mkim11235.gainztracker.extra.MONTH</string>
     <string name="EXTRA_DAY">com.example.mkim11235.gainztracker.extra.DAY</string>
+    <string name="EXTRA_FRAGMENT_TAG">com.example.mkim11235.gainztracker.extra.FRAGMENT_TAG</string>
+
+    <string name="FRAGMENT_TAG_DATE_PICKER">com.example.mkim11235.gainztracker.fragment.tag.DATE_PICKER</string>
+    <string name="FRAGMENT_TAG_EXERCISE">com.example.mkim11235.gainztracker.fragment.tag.EXERCISE</string>
+    <string name="FRAGMENT_TAG_EXERCISE_HISTORY">com.example.mkim11235.gainztracker.fragment.tag.EXERCISE_HISTORY</string>
+    <string name="FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.ADD_EXERCISE_HISTORY_ENTRY</string>
+    <string name="FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.EDIT_EXERCISE_HISTORY_ENTRY</string>
+    <string name="FRAGMENT_TAG_ADD_EXERCISE_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.ADD_EXERCISE_ENTRY</string>
+    <string name="FRAGMENT_TAG_EDIT_EXERCISE_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.EDIT_EXERCISE_ENTRY</string>
 </resources>
