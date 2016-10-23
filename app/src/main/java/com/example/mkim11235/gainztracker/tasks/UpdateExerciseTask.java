@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.widget.Adapter;
 
-import com.example.mkim11235.gainztracker.ExerciseAdapter;
-import com.example.mkim11235.gainztracker.MainActivity;
+import com.example.mkim11235.gainztracker.ExerciseEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
@@ -18,12 +16,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Updates the db with new name and muscle
  */
 public class UpdateExerciseTask extends AsyncTask<String, Void, Void> {
-    private MainActivity mContext;
-    private ExerciseAdapter mAdapter;
+    private ExerciseEntryActivity mContext;
 
-    public UpdateExerciseTask(Context context, Adapter adapter) {
-        mContext = (MainActivity) context;
-        mAdapter = (ExerciseAdapter) adapter;
+    public UpdateExerciseTask(Context context) {
+        mContext = (ExerciseEntryActivity) context;
     }
 
     /**
@@ -34,11 +30,12 @@ public class UpdateExerciseTask extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String newExerciseName = strings[0];
         String newExerciseMuscle = strings[1];
-        String selectedItemPosition = strings[2];
+        String oldExerciseName = strings[2];
+        String oldExerciseMuscle = strings[3];
 
         // I need to get id cuz unique
         // use id for selection & args
-        long id = getExerciseIdFromPosition(Integer.parseInt(selectedItemPosition));
+        long id = getExerciseIdWithNameMuscle(oldExerciseName, oldExerciseMuscle);
 
         // setup content values
         ContentValues newValues = new ContentValues();
@@ -57,9 +54,24 @@ public class UpdateExerciseTask extends AsyncTask<String, Void, Void> {
     /**
      * returns exercise _ID from position of list item clicked
      */
-    private long getExerciseIdFromPosition(int position) {
-        Cursor cursor = mAdapter.getCursor();
-        cursor.moveToPosition(position);
-        return cursor.getLong(0);
+    private long getExerciseIdWithNameMuscle(String name, String muscle) {
+        String selection = DatabaseContract.ExerciseEntry.COLUMN_NAME + " = ? AND " +
+                DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " = ?";
+
+        String[] selectionArgs = new String[] {name, muscle};
+
+        Cursor cursor = mContext.getContentResolver().query(DatabaseContract.ExerciseEntry.CONTENT_URI,
+                new String[] {DatabaseContract.ExerciseEntry._ID},
+                selection,
+                selectionArgs,
+                null);
+
+        Long exerciseId = null;
+        if (cursor.moveToFirst()) {
+            exerciseId = cursor.getLong(0);
+        }
+
+        cursor.close();
+        return exerciseId;
     }
 }

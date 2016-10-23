@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">GainzTracker</string>
     <string name="exercise_history_x">x</string>
-    <string name="button_add_exercise_text">Add Exercise</string>
+    <string name="button_add_exercise_entry_text">Add Exercise</string>
+    <string name="button_edit_exercise_entry_text">Update Exercise Entry</string>
     <string name="button_add_exercise_history_entry_text">Add Exercise Entry</string>
     <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
+    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
     <string name="title_add_exercise_activity">Add New Exercise</string>
     <string name="title_main_activity">Exercises</string>
     <string name="weight_unit">lb</string>
     <string name="reps">Reps</string>
     <string name="on">on</string>
     <string name="placeholder_number">10</string>
-    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
     <string name="button_edit_exercise">Done</string>
 
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>

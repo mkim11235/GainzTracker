@@ -35,7 +35,13 @@ public class ExerciseEntryActivity extends AppCompatActivity {
                 fragment = new AddExerciseEntryFragment();
                 tag = getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_ENTRY);
             } else if (fragmentTag.equals(getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY))){
+                /*
+                String oldExerciseName = extras.getString(getString(R.string.EXTRA_EXERCISE_NAME));
+                String oldExerciseMuscle = extras.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));
+                */
+
                 fragment = new EditExerciseEntryFragment();
+                fragment.setArguments(extras);
                 tag = getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY);
             } else {
                 throw new IllegalArgumentException(
@@ -47,5 +53,4 @@ public class ExerciseEntryActivity extends AppCompatActivity {
             ft.commit();
         }
     }
-
 }

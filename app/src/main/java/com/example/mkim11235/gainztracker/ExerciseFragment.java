@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
@@ -157,9 +156,14 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
         switch (menuItemName) {
             case "Edit":
-                //Todo: start intent for ExerciseEntryActivity and pass somthing indicating load UpdateExerciseEntryFragment
-                // start ExerciseEntryActivity w/ fragment UpdateExerciseEntry
-                Toast.makeText(getActivity(), "Not Yet Implemented", Toast.LENGTH_LONG);
+                // start ExerciseEntryActivity w/ fragment tag for UpdateExerciseEntry
+                // pass in old values
+                Intent intent = new Intent(view.getContext(), ExerciseEntryActivity.class);
+                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
+                        getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY));
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_NAME), exerciseName);
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_MUSCLE), exerciseMuscle);
+                startActivity(intent);
                 break;
             case "Delete":
                 new DeleteExerciseTask(getActivity(), mExerciseAdapter)

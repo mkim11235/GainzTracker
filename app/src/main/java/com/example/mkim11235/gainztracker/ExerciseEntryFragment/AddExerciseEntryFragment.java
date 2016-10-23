@@ -1,9 +1,11 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.example.mkim11235.gainztracker.MainActivity;
+import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
 
 /**
@@ -11,6 +13,24 @@ import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
  */
 
 public class AddExerciseEntryFragment extends ExerciseEntryFragment {
+
+    /**
+     * No extra arguments needed from bundle
+     * @param bundle bundle to get args from
+     */
+    @Override
+    protected void getExtraArguments(Bundle bundle) {}
+
+    /**
+     * Default is empty for creating new exercise
+     */
+    @Override
+    protected void setEditTextDefaults() {}
+
+    @Override
+    protected void setExerciseEntryButtonText() {
+        mExerciseEntryButton.setText(getString(R.string.button_add_exercise_entry_text));
+    }
 
     /**
      * Sets up ExerciseEntryButton to add exerciseEntry to DB
@@ -34,24 +54,5 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
                 }
             }
         });
-    }
-
-    /*
-     * Checks if entered name and muscle are entered
-     * Returns true if so, otherwise sets error and returns false
-     */
-    private boolean allValidEntries(String name, String muscle) {
-        boolean allValid = true;
-        if (name.length() == 0) {
-            mExerciseName.setError("Please enter a valid name");
-            allValid = false;
-        }
-
-        if (muscle.length() == 0) {
-            mExerciseMuscle.setError("Please enter a valid muscle");
-            allValid = false;
-        }
-
-        return allValid;
     }
 }
