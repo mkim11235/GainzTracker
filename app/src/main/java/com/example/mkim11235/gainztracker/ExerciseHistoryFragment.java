@@ -1,35 +1,42 @@
 package com.example.mkim11235.gainztracker;
 
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity;
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.ExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.tasks.FetchExerciseTitleTask;
 
-// Once clicked on specific exercise from main, enter here
-// Has Exercise title, history of workouts as list
-// button at bottom to add new entry to history
-// hopefully later can support holding click to delete or change entry
-public class ExerciseHistoryActivity extends AppCompatActivity
+/**
+ * Created by Michael on 10/22/2016.
+ */
+
+public class ExerciseHistoryFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
     private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
+    private static final int EXERCISE_HISTORY_ADAPTER_FLAGS = 0;
+    private static final String EXTRA_EXERCISE_ID =
+            "com.example.mkim11235.gainztracker.extra.EXERCISE_ID";
 
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
@@ -51,50 +58,79 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     private String mExerciseName;
     private Bundle mExerciseHistoryEntryBundle;
 
+    public ExerciseHistoryFragment() {}
+
+    public static ExerciseHistoryFragment newInstance(long exerciseId) {
+        Bundle args = new Bundle();
+        args.putLong(EXTRA_EXERCISE_ID, exerciseId);
+
+        ExerciseHistoryFragment fragment = new ExerciseHistoryFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    //Todo: if implement options menu, uncomment line below
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise_history);
+        //setHasOptionsMenu(true);
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    /*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-        // Get exercise id from intent
-        Intent intent = getIntent();
-        mExerciseId = intent.getLongExtra(Intent.EXTRA_TEXT, -1L);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+    */
 
-        // Need to somehow pass exerciseId into loader for query
-        getSupportLoaderManager().initLoader(EXERCISE_HISTORY_LOADER, null, this);
-        mExerciseHistoryAdapter = new ExerciseHistoryAdapter(this, null, 0);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
+        // Todo: check if this is correct when reviewing actionbar
+        // Dunno if do it here or in the activity
+        //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Gets and sets exercise title
-        new FetchExerciseTitleTask(this).execute(mExerciseId);
+        // Get exerciseId from intent
+        mExerciseId = getArguments().getLong(getString(R.string.EXTRA_EXERCISE_ID));
 
-        // Setup adaptor to populate listview
-        ListView listView = (ListView) findViewById(R.id.listview_exercise_history);
-        listView.setAdapter(mExerciseHistoryAdapter);
-        registerForContextMenu(listView);
-
-        /*
-        // Add functionality for details maybe later
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                long id = mExerciseHistoryAdapter.getItemId(position);
-            }
-        });
-        */
-
+        // Initialize member vars
+        mExerciseHistoryAdapter = new ExerciseHistoryAdapter(getActivity(), null,
+                EXERCISE_HISTORY_ADAPTER_FLAGS);
         mAddExerciseHistoryEntryButton = (ImageButton)
-                findViewById(R.id.image_button_add_exercise_history_entry);
+                rootView.findViewById(R.id.image_button_add_exercise_history_entry);
+
+        // Implement listview functionality
+        ListView exerciseHistoryListView = (ListView)
+                rootView.findViewById(R.id.listview_exercise_history);
+        exerciseHistoryListView.setAdapter(mExerciseHistoryAdapter);
+        registerForContextMenu(exerciseHistoryListView);
+
+        // Add ExerciseHistory Button onClick starts ExerciseHistoryEntryActivity
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // pass in the exerciseID and name of exercise via bundle
-                Intent intent = new Intent(view.getContext(), AddExerciseHistoryEntryActivity.class)
+                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class)
                         .putExtras(mExerciseHistoryEntryBundle);
                 startActivity(intent);
             }
         });
+
+        //Todo: rethink title scheme. maybe have title below actionbar in xml
+        // Gets and sets exercise title
+        new FetchExerciseTitleTask(this).execute(mExerciseId);
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(EXERCISE_HISTORY_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -136,7 +172,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case "Delete":
-                new DeleteExerciseHistoryTask(this).execute(exerciseWeight, exerciseReps, exerciseDate);
+                new DeleteExerciseHistoryTask(getActivity()).execute(exerciseWeight, exerciseReps, exerciseDate);
                 break;
         }
         return true;
@@ -148,14 +184,6 @@ public class ExerciseHistoryActivity extends AppCompatActivity
      */
     public void setExerciseName(String name) {
         mExerciseName = name;
-    }
-
-    /**
-     * Sets title to title from asynctask
-     * @param title new title to set title to
-     */
-    public void setTitleFromAsync(String title) {
-        setTitle(title);
     }
 
     /**
@@ -174,7 +202,7 @@ public class ExerciseHistoryActivity extends AppCompatActivity
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC";
-        return new CursorLoader(this,
+        return new CursorLoader(getActivity(),
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
@@ -191,5 +219,4 @@ public class ExerciseHistoryActivity extends AppCompatActivity
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseHistoryAdapter.swapCursor(null);
     }
-
 }

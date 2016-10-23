@@ -1,10 +1,9 @@
 package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 import com.example.mkim11235.gainztracker.tasks.UpdateExerciseHistoryTask;
@@ -78,9 +77,13 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
                                     mOldExerciseReps, mOldExerciseDate);
 
                     // Return to exercise activity
-                    Intent intent = new Intent(v.getContext(), ExerciseHistoryActivity.class)
+                    // Todo: I want to return to MainActivity with ExerciseHistoryFragment
+                    Toast.makeText(EditExerciseHistoryEntryActivity.this, "Not yet implemented", Toast.LENGTH_LONG);
+                    /*
+                    Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
                             .putExtra(Intent.EXTRA_TEXT, exerciseId);
                     startActivity(intent);
+                    */
                 }
             }
         };

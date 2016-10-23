@@ -1,5 +1,6 @@
 package com.example.mkim11235.gainztracker.tasks;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
@@ -19,8 +20,8 @@ public class DeleteExerciseTask extends AsyncTask<String, Void, Void> {
     private MainActivity mContext;
     private ExerciseAdapter mAdapter;
 
-    public DeleteExerciseTask(MainActivity context, ExerciseAdapter adapter) {
-        mContext = context;
+    public DeleteExerciseTask(Context context, ExerciseAdapter adapter) {
+        mContext = (MainActivity) context;
         mAdapter = adapter;
     }
 

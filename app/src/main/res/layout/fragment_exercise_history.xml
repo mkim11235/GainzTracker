@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/activity_workout"
-    tools:context="com.example.mkim11235.gainztracker.ExerciseHistoryActivity">
+    tools:context="com.example.mkim11235.gainztracker.MainActivity">
 
     <ListView
         android:id="@+id/listview_exercise_history"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- TO DO: Somehow refactor imagebuttons in main and exercise activity xml -->
+    <!-- Todo: Somehow refactor imagebuttons in main and exercise activity xml -->
     <ImageButton
         android:id="@+id/image_button_add_exercise_history_entry"
         android:layout_width="@dimen/icon_size"

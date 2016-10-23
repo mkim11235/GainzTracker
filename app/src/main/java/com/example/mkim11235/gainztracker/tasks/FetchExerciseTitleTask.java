@@ -1,10 +1,10 @@
 package com.example.mkim11235.gainztracker.tasks;
 
-import android.content.Context;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryActivity;
+import com.example.mkim11235.gainztracker.ExerciseHistoryFragment;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
@@ -14,15 +14,15 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 // Given exercise id, reads exercise table and gets the name
 // Try to set exerciseActivity title to name + "History"
 public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
-    private final ExerciseHistoryActivity mContext;
+    private final ExerciseHistoryFragment mFragment;
 
-    public FetchExerciseTitleTask(Context context) {
-        mContext = (ExerciseHistoryActivity) context;
+    public FetchExerciseTitleTask(Fragment fragment) {
+        mFragment = (ExerciseHistoryFragment) fragment;
     }
 
     /**
      * Gets the name of exercise with given exerciseId
-     * Sets title of ExerciseHistoryActivity to name
+     * Sets title of ExerciseActivity to name
      * Sets member variable exerciseName to name
      * Sets bundle in the context
      * @param longs 0 is the exerciseId to query
@@ -32,7 +32,7 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
         long exerciseId = longs[0];
 
         // Find row in exercises where id = id
-        Cursor cursor = mContext.getContentResolver().query(
+        Cursor cursor = mFragment.getActivity().getContentResolver().query(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 new String[] {DatabaseContract.ExerciseEntry.COLUMN_NAME},
                 DatabaseContract.ExerciseEntry._ID + " = ?",
@@ -42,9 +42,8 @@ public class FetchExerciseTitleTask extends AsyncTask<Long, Void, Void> {
         if (cursor.moveToFirst()) {
             String exerciseName = cursor.getString(0);
 
-            mContext.setTitleFromAsync(exerciseName + " History");
-            mContext.setExerciseName(exerciseName);
-            mContext.setBundle();
+            mFragment.setExerciseName(exerciseName);
+            mFragment.setBundle();
         }
 
         cursor.close();

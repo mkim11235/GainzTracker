@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static com.example.mkim11235.gainztracker.ExerciseFragment.COL_EXERCISE_MUSCLE;
+import static com.example.mkim11235.gainztracker.ExerciseFragment.COL_EXERCISE_NAME;
+
 /**
  * Created by Michael on 10/17/2016.
  */
@@ -33,10 +36,10 @@ public class ExerciseAdapter extends CursorAdapter {
     }
 
     private String getNameFromCursor(Cursor cursor) {
-       return cursor.getString(MainActivity.COL_EXERCISE_NAME);
+       return cursor.getString(COL_EXERCISE_NAME);
     }
 
     private String getMuscleFromCursor(Cursor cursor) {
-        return cursor.getString(MainActivity.COL_EXERCISE_MUSCLE);
+        return cursor.getString(COL_EXERCISE_MUSCLE);
     }
 }

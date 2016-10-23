@@ -17,24 +17,20 @@
         </activity>
 
         <activity
-            android:name=".AddExerciseActivity"
+            android:name=".ExerciseEntryActivity"
             android:parentActivityName=".MainActivity">
         </activity>
 
         <activity
-            android:name=".ExerciseHistoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTop">
+            android:name=".ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity">
+            <!-- Todo: may need to set parentActivity for up navigation -->
+            <!--android:parentActivityName=".ExerciseActivityGG"> -->
         </activity>
 
         <activity
-            android:name=".ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity"
-            android:parentActivityName=".ExerciseHistoryActivity">
-        </activity>
-
-        <activity
-            android:name=".ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity"
-            android:parentActivityName=".ExerciseHistoryActivity">
+            android:name=".ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity">
+            <!-- Todo: may need to set parentActivity for up navigation -->
+            <!--android:parentActivityName=".ExerciseActivityGG"> -->
         </activity>
 
         <provider

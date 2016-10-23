@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static com.example.mkim11235.gainztracker.ExerciseHistoryFragment.COL_EXERCISE_HISTORY_DATE;
+import static com.example.mkim11235.gainztracker.ExerciseHistoryFragment.COL_EXERCISE_HISTORY_REPS;
+import static com.example.mkim11235.gainztracker.ExerciseHistoryFragment.COL_EXERCISE_HISTORY_WEIGHT;
+
 /**
  * Created by Michael on 10/17/2016.
  */
@@ -36,14 +40,14 @@ public class ExerciseHistoryAdapter extends CursorAdapter {
 
 
     private String getWeightFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_WEIGHT);
+        return cursor.getString(COL_EXERCISE_HISTORY_WEIGHT);
     }
 
     private String getRepsFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_REPS);
+        return cursor.getString(COL_EXERCISE_HISTORY_REPS);
     }
 
     private String getDateFromCursor(Cursor cursor) {
-        return cursor.getString(ExerciseHistoryActivity.COL_EXERCISE_HISTORY_DATE);
+        return cursor.getString(COL_EXERCISE_HISTORY_DATE);
     }
 }

@@ -20,7 +20,7 @@ import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
 
     needs to add changes to exercise table
  */
-public class AddExerciseActivity extends AppCompatActivity {
+public class ExerciseEntryActivity extends AppCompatActivity {
 
     Button mAddExerciseButton;
     EditText mExerciseName;
@@ -58,7 +58,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 }
 
                 if (allValidEntries) {
-                    AddExerciseTask dbTask = new AddExerciseTask(AddExerciseActivity.this);
+                    AddExerciseTask dbTask = new AddExerciseTask(ExerciseEntryActivity.this);
                     dbTask.execute(exerciseName, exerciseMuscle);
 
                     // Return to main activity
