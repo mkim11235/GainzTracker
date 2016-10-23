@@ -1,6 +1,5 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.mkim11235.gainztracker.ExerciseEntryBaseFragment;
 import com.example.mkim11235.gainztracker.R;
 
 /**
  * Created by Michael on 10/22/2016.
  */
 
-public abstract class ExerciseEntryFragment extends Fragment {
+public abstract class ExerciseEntryFragment extends ExerciseEntryBaseFragment {
     private static final String EDIT_TEXT_ERROR = "Please enter a valid entry";
 
     protected Button mExerciseEntryButton;
@@ -46,15 +46,19 @@ public abstract class ExerciseEntryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_entry, container, false);
 
+        Bundle args = getArguments();
+        if (args != null) {
+            setExtraMembersFromBundle(args);
+        }
+
         // Initialize member variables
         mExerciseName = (EditText) rootView.findViewById(R.id.edittext_exercise_name);
         mExerciseMuscle = (EditText) rootView.findViewById(R.id.edittext_exercise_muscle);
         mExerciseEntryButton = (Button) rootView.findViewById(R.id.button_exercise_entry);
 
-        getExtraArguments(getArguments());
         setEditTextDefaults();
-        setExerciseEntryButtonText();
-        setExerciseEntryButtonOnClickListener();
+        setFinalButtonText();
+        setFinalButtonOnClickListener();
 
         return rootView;
     }
@@ -80,24 +84,4 @@ public abstract class ExerciseEntryFragment extends Fragment {
         return allValid;
     }
 
-    /**
-     * Gets and Initializes extra args from bundle
-     * @param bundle bundle to get args from
-     */
-    protected abstract void getExtraArguments(Bundle bundle);
-
-    /**
-     * Sets default values for edittexts
-     */
-    protected abstract void setEditTextDefaults();
-
-    /**
-     * Sets the exerciseEntryButton's text
-     */
-    protected abstract void setExerciseEntryButtonText();
-
-    /**
-     * Sets ExerciseEntryButton onclicklistener
-     */
-    protected abstract void setExerciseEntryButtonOnClickListener();
 }

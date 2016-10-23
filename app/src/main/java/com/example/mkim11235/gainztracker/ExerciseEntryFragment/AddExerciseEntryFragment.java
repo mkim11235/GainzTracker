@@ -19,7 +19,7 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
      * @param bundle bundle to get args from
      */
     @Override
-    protected void getExtraArguments(Bundle bundle) {}
+    protected void setExtraMembersFromBundle(Bundle bundle) {}
 
     /**
      * Default is empty for creating new exercise
@@ -28,7 +28,7 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
     protected void setEditTextDefaults() {}
 
     @Override
-    protected void setExerciseEntryButtonText() {
+    protected void setFinalButtonText() {
         mExerciseEntryButton.setText(getString(R.string.button_add_exercise_entry_text));
     }
 
@@ -36,7 +36,7 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
      * Sets up ExerciseEntryButton to add exerciseEntry to DB
      */
     @Override
-    protected void setExerciseEntryButtonOnClickListener() {
+    protected void setFinalButtonOnClickListener() {
         mExerciseEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

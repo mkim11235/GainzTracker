@@ -22,15 +22,8 @@
         </activity>
 
         <activity
-            android:name=".ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity">
-            <!-- Todo: may need to set parentActivity for up navigation -->
-            <!--android:parentActivityName=".ExerciseActivityGG"> -->
-        </activity>
-
-        <activity
-            android:name=".ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity">
-            <!-- Todo: may need to set parentActivity for up navigation -->
-            <!--android:parentActivityName=".ExerciseActivityGG"> -->
+            android:name=".ExerciseHistoryEntryActivity"
+            android:parentActivityName=".MainActivity">
         </activity>
 
         <provider

@@ -1,10 +1,11 @@
 package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity;
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
@@ -12,10 +13,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  */
 
 public class UpdateExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
-    private EditExerciseHistoryEntryActivity mContext;
+    private ExerciseHistoryEntryActivity mContext;
 
-    public UpdateExerciseHistoryTask(EditExerciseHistoryEntryActivity context) {
-        mContext = context;
+    public UpdateExerciseHistoryTask(Context context) {
+        mContext = (ExerciseHistoryEntryActivity) context;
     }
 
     /**

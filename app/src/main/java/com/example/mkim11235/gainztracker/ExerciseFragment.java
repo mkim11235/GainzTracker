@@ -156,8 +156,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
         switch (menuItemName) {
             case "Edit":
-                // start ExerciseEntryActivity w/ fragment tag for UpdateExerciseEntry
-                // pass in old values
+                // start ExerciseEntryActivity w/ fragment tag for UpdateExerciseEntry pass old values
                 Intent intent = new Intent(view.getContext(), ExerciseEntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
                         getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY));

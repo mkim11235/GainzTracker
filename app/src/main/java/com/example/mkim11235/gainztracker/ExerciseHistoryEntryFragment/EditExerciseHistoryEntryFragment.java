@@ -1,61 +1,44 @@
-package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
+package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 import com.example.mkim11235.gainztracker.tasks.UpdateExerciseHistoryTask;
 
 /**
- * Created by Michael on 10/20/2016.
+ * Created by Michael on 10/23/2016.
  */
-
-public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivity {
+public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment {
     private long mOldExerciseWeight;
     private long mOldExerciseReps;
     private long mOldExerciseDate;
 
-    /**
-     * Initialize weight,reps,date from bundle
-     * @param bundle bundle containing args
-     */
     @Override
-    protected void initExtraArguments(Bundle bundle) {
+    protected void setExtraMembersFromBundle(Bundle bundle) {
         mOldExerciseWeight = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_WEIGHT)));
         mOldExerciseReps = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_REPS)));
         mOldExerciseDate = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_DATE)));
     }
 
-    /**
-     * Set default weight and reps to what they were before click edit
-     */
     @Override
-    protected void getAndSetDefaultWeightRepsDate(long exerciseId) {
+    protected void setEditTextDefaults() {
         mWeightEditText.setText(Long.toString(mOldExerciseWeight));
         mRepsEditText.setText(Long.toString(mOldExerciseReps));
         String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
         mDateEditText.setText(formatDate);
     }
 
-    /**
-     * Gets final button text string
-     * @return final button text string
-     */
     @Override
-    protected String getFinalButtonText() {
-        return getString(R.string.button_edit_exercise_history_entry_text_final);
+    protected void setFinalButtonText() {
+        mExerciseHistoryFinalButton.setText(
+                getString(R.string.button_edit_exercise_history_entry_text_final));
     }
 
-    /**
-     * Gets final button onclicklistener
-     * @param exerciseId exercise id for the history entry
-     * @return final button onclicklistener
-     */
     @Override
-    protected View.OnClickListener getFinalButtonOnClickListener(final long exerciseId) {
-        return new View.OnClickListener() {
+    protected void setFinalButtonOnClickListener() {
+        mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String weightString = mWeightEditText.getText().toString();;
@@ -72,13 +55,13 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
                     long date = Integer.parseInt(dateString);
 
                     // Update exercise history entry in DB
-                    new UpdateExerciseHistoryTask(EditExerciseHistoryEntryActivity.this)
-                            .execute(exerciseId, weight, reps, date, mOldExerciseWeight,
+                    new UpdateExerciseHistoryTask(getActivity())
+                            .execute(mExerciseId, weight, reps, date, mOldExerciseWeight,
                                     mOldExerciseReps, mOldExerciseDate);
 
                     // Return to exercise activity
                     // Todo: I want to return to MainActivity with ExerciseHistoryFragment
-                    Toast.makeText(EditExerciseHistoryEntryActivity.this, "Not yet implemented", Toast.LENGTH_LONG);
+                    getActivity().onBackPressed();
                     /*
                     Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
                             .putExtra(Intent.EXTRA_TEXT, exerciseId);
@@ -86,6 +69,6 @@ public class EditExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivi
                     */
                 }
             }
-        };
+        });
     }
 }

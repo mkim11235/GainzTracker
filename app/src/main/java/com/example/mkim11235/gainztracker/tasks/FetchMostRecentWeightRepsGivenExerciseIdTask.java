@@ -1,11 +1,11 @@
 package com.example.mkim11235.gainztracker.tasks;
 
-import android.content.Context;
+import android.app.Fragment;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.widget.EditText;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.AddExerciseHistoryEntryActivity;
+import com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment.ExerciseHistoryEntryFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -18,10 +18,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Sets corresponding edittext values from context to those value. "" if none
  */
 public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long, Void, Void> {
-    private AddExerciseHistoryEntryActivity mContext;
+    private ExerciseHistoryEntryFragment mFragment;
 
-    public FetchMostRecentWeightRepsGivenExerciseIdTask(Context context) {
-        mContext = (AddExerciseHistoryEntryActivity) context;
+    public FetchMostRecentWeightRepsGivenExerciseIdTask(Fragment context) {
+        mFragment = (ExerciseHistoryEntryFragment) context;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
         // Sort by most recent date highest weight
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
-        Cursor cursor = mContext.getContentResolver().query(
+        Cursor cursor = mFragment.getActivity().getContentResolver().query(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 new String[] {DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT
                         , DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS},
@@ -45,13 +45,13 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
             String exerciseWeight = Integer.toString(cursor.getInt(0));
             String exerciseReps = Integer.toString(cursor.getInt(1));
 
-            EditText editTextWeight = (EditText) mContext.findViewById(
+            EditText editTextWeight = (EditText) mFragment.getActivity().findViewById(
                     R.id.edittext_exercise_history_entry_weight);
-            mContext.setEditTextText(editTextWeight, exerciseWeight);
+            mFragment.setEditTextText(editTextWeight, exerciseWeight);
 
-            EditText editTextReps = (EditText) mContext.findViewById(
+            EditText editTextReps = (EditText) mFragment.getActivity().findViewById(
                     R.id.edittext_exercise_history_entry_reps);
-            mContext.setEditTextText(editTextReps, exerciseReps);
+            mFragment.setEditTextText(editTextReps, exerciseReps);
         }
 
         cursor.close();

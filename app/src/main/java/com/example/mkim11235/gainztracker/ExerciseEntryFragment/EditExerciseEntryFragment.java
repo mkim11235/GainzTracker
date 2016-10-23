@@ -21,7 +21,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
      * @param bundle bundle to get args from
      */
     @Override
-    protected void getExtraArguments(Bundle bundle) {
+    protected void setExtraMembersFromBundle(Bundle bundle) {
         mOldExerciseName = bundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
         mOldExerciseMuscle = bundle.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));
     }
@@ -39,7 +39,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
      * Sets exerciseEntryButtonText
      */
     @Override
-    protected void setExerciseEntryButtonText() {
+    protected void setFinalButtonText() {
         mExerciseEntryButton.setText(getString(R.string.button_edit_exercise_entry_text));
     }
 
@@ -47,7 +47,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
      * Sets exerciseEntryButton onclick to edit db with new values
      */
     @Override
-    protected void setExerciseEntryButtonOnClickListener() {
+    protected void setFinalButtonOnClickListener() {
         mExerciseEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

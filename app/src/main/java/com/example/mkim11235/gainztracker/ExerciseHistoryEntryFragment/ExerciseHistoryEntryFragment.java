@@ -1,83 +1,103 @@
-package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
+package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.mkim11235.gainztracker.ContinuousLongClickListener;
 import com.example.mkim11235.gainztracker.DatePickerFragment;
+import com.example.mkim11235.gainztracker.ExerciseEntryBaseFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 
 /**
- * Created by Michael on 10/17/2016.
+ * Created by Michael on 10/23/2016.
  */
 
-public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
+public abstract class ExerciseHistoryEntryFragment extends ExerciseEntryBaseFragment {
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
 
     private static final int DECREMENT_CHANGE_LONG = -5;
     private static final int INCREMENT_CHANGE_LONG = 5;
 
-    private long mExerciseId;
-    private String mExerciseName;
+    private Handler mIncrementHandler;
 
-    private Button mExerciseHistoryFinalButton;
     private ImageButton mDecrementWeightButton;
     private ImageButton mIncrementWeightButton;
     private ImageButton mDecrementRepsButton;
     private ImageButton mIncrementRepsButton;
 
     // Decided make these protected cuz subclasses often need this
+    protected long mExerciseId;
+    protected String mExerciseName;
+
+    protected Button mExerciseHistoryFinalButton;
     protected EditText mWeightEditText;
     protected EditText mRepsEditText;
     protected EditText mDateEditText;
 
-    private Handler mIncrementHandler;
+    //Todo: if implement options menu, uncomment line below
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setHasOptionsMenu(true);
+    }
+
+    /*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise_history_entry);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+    */
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_exercise_history_entry, container, false);
 
-        // Get extras from bundle
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mExerciseId = extras.getLong(getString(R.string.EXTRA_EXERCISE_ID));
-            mExerciseName = extras.getString(getString(R.string.EXTRA_EXERCISE_NAME));
-            initExtraArguments(extras);
+        // Initialize member variables
+        Bundle args = getArguments();
+        if (args != null) {
+            mExerciseId = args.getLong(getString(R.string.EXTRA_EXERCISE_ID));
+            mExerciseName = args.getString(getString(R.string.EXTRA_EXERCISE_NAME));
+            setExtraMembersFromBundle(args);
         }
 
-        setTitle(mExerciseName + " Entry");
-
-        // initialize member variables
+        mExerciseHistoryFinalButton = (Button)
+                rootView.findViewById(R.id.button_exercise_history_entry_final);
         mDecrementWeightButton = (ImageButton)
-                findViewById(R.id.image_button_exercise_history_decrement_weight);
+                rootView.findViewById(R.id.image_button_exercise_history_decrement_weight);
         mIncrementWeightButton = (ImageButton)
-                findViewById(R.id.image_button_exercise_history_increment_weight);
+                rootView.findViewById(R.id.image_button_exercise_history_increment_weight);
         mDecrementRepsButton = (ImageButton)
-                findViewById(R.id.image_button_exercise_history_decrement_reps);
+                rootView.findViewById(R.id.image_button_exercise_history_decrement_reps);
         mIncrementRepsButton = (ImageButton)
-                findViewById(R.id.image_button_exercise_history_increment_reps);
+                rootView.findViewById(R.id.image_button_exercise_history_increment_reps);
 
-        mWeightEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_weight);
-        mRepsEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_reps);
-        mDateEditText = (EditText) findViewById(R.id.edittext_exercise_history_entry_date);
+        mWeightEditText = (EditText) rootView.findViewById(R.id.edittext_exercise_history_entry_weight);
+        mRepsEditText = (EditText) rootView.findViewById(R.id.edittext_exercise_history_entry_reps);
+        mDateEditText = (EditText) rootView.findViewById(R.id.edittext_exercise_history_entry_date);
+        mDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDatePickerDialog(view);
+            }
+        });
 
         mIncrementHandler = new Handler();
-
-        // Set weight/reps default to most recent weight/reps. empty if none.
-        getAndSetDefaultWeightRepsDate(mExerciseId);
 
         // Decrement/Increment button setup
         mDecrementWeightButton.setOnClickListener(
@@ -99,22 +119,17 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         new ContinuousLongClickListener(mIncrementRepsButton, mIncrementHandler,
                 getChangeButtonOnLongClickListener(mRepsEditText, INCREMENT_CHANGE));
 
-        // When button clicked, create new entry in exercise history table, return to main
-        mExerciseHistoryFinalButton = (Button) findViewById(R.id.button_exercise_history_entry_final);
-        mExerciseHistoryFinalButton.setText(getFinalButtonText());
-        mExerciseHistoryFinalButton.setOnClickListener(getFinalButtonOnClickListener(mExerciseId));
+        setEditTextDefaults();
+        setFinalButtonText();
+        setFinalButtonOnClickListener();
+
+        return rootView;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * Shows the datepickerdialog. Called from layout fragment_exercise_history_entry onClick
+     * @param v view from which called
+     */
     public void showDatePickerDialog(View v) {
         DialogFragment fragment = new DatePickerFragment();
         fragment.setArguments(buildDatePickerArgsBundle());
@@ -156,31 +171,6 @@ public abstract class ExerciseHistoryEntryActivity extends AppCompatActivity {
         }
         return allValid;
     }
-
-    /**
-     * Initialize any extra arguments from bundle
-     * @param bundle bundle containinng args
-     */
-    protected abstract void initExtraArguments(Bundle bundle);
-
-    /**
-     * Set the default weight and rep texts to appropriate values
-     * @param exerciseId the id of exercise that history entry refers to
-     */
-    protected abstract void getAndSetDefaultWeightRepsDate(long exerciseId);
-
-    /**
-     * Gets the final button's text
-     * @return the value to set final button text
-     */
-    protected abstract String getFinalButtonText();
-
-    /**
-     * Gets the final button's onclicklistener
-     * @param exerciseId exercise id for the history entry
-     * @return final button onclicklistener
-     */
-    protected abstract View.OnClickListener getFinalButtonOnClickListener(long exerciseId);
 
     /**
      * gets button onclicklisteners for increment/decrement

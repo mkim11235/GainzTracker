@@ -1,4 +1,4 @@
-package com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity;
+package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,44 +10,34 @@ import com.example.mkim11235.gainztracker.tasks.AddExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightRepsGivenExerciseIdTask;
 
 /**
- * Created by Michael on 10/17/2016.
+ * Created by Michael on 10/23/2016.
  */
 
-public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivity {
+public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment {
     /**
-     * Initialize members with any extra args from bundle
-     * @param bundle bundle containing args
+     * Initialize extra members from bundle
+     * @param bundle bundle to get args from
      */
     @Override
-    protected void initExtraArguments(Bundle bundle) {}
+    protected void setExtraMembersFromBundle(Bundle bundle) {}
 
     /**
-     * Set the default weight and rep texts to appropriate values
-     * @param exerciseId id of the exercise this history entry refers to
+     * Set default values for edittexts weight, reps, date
      */
     @Override
-    protected void getAndSetDefaultWeightRepsDate(long exerciseId) {
+    protected void setEditTextDefaults() {
         mDateEditText.setText(Utility.getCurrentDate());
-        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(exerciseId);
+        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(mExerciseId);
     }
 
-    /**
-     * Gets final button text string
-     * @return final button text string
-     */
     @Override
-    protected String getFinalButtonText() {
-        return getString(R.string.button_add_exercise_history_entry_text_final);
+    protected void setFinalButtonText() {
+        mExerciseHistoryFinalButton.setText(getString(R.string.button_add_exercise_history_entry_text_final));
     }
 
-    /**
-     * Gets final button onclicklistener
-     * @param exerciseId exercise id for the history entry
-     * @return final button onclicklistener
-     */
     @Override
-    protected View.OnClickListener getFinalButtonOnClickListener(final long exerciseId) {
-        return new View.OnClickListener() {
+    protected void setFinalButtonOnClickListener() {
+        mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String weightString = mWeightEditText.getText().toString();
@@ -64,12 +54,12 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
                     long date = Integer.parseInt(dateString);
 
                     // Add new exercise history entry to DB
-                    new AddExerciseHistoryTask(AddExerciseHistoryEntryActivity.this)
-                            .execute(exerciseId, weight, reps, date);
+                    new AddExerciseHistoryTask(getActivity())
+                            .execute(mExerciseId, weight, reps, date);
 
                     // Return to exercise activity
                     // Todo: I want to return to MainActivity with ExerciseHistoryFragment
-                    Toast.makeText(AddExerciseHistoryEntryActivity.this, "Not yet implemented", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_LONG);
                     /*
                     Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
                             .putExtra(Intent.EXTRA_TEXT, exerciseId);
@@ -77,6 +67,6 @@ public class AddExerciseHistoryEntryActivity extends ExerciseHistoryEntryActivit
                     */
                 }
             }
-        };
+        });
     }
 }

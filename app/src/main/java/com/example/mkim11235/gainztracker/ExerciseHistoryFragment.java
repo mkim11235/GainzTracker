@@ -19,9 +19,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.EditExerciseHistoryEntryActivity;
-import com.example.mkim11235.gainztracker.ExerciseHistoryEntryActivity.ExerciseHistoryEntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
 import com.example.mkim11235.gainztracker.tasks.FetchExerciseTitleTask;
@@ -33,7 +32,7 @@ import com.example.mkim11235.gainztracker.tasks.FetchExerciseTitleTask;
 public class ExerciseHistoryFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXERCISE_HISTORY_LOADER = 1; // try doing 0 later see wat hapen
+    private static final int EXERCISE_HISTORY_LOADER = 1;
     private static final int EXERCISE_HISTORY_ADAPTER_FLAGS = 0;
     private static final String EXTRA_EXERCISE_ID =
             "com.example.mkim11235.gainztracker.extra.EXERCISE_ID";
@@ -117,6 +116,7 @@ public class ExerciseHistoryFragment extends Fragment
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class)
                         .putExtras(mExerciseHistoryEntryBundle);
+                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
                 startActivity(intent);
             }
         });
@@ -164,12 +164,16 @@ public class ExerciseHistoryFragment extends Fragment
 
         switch (menuItemName) {
             case "Edit":
-                Intent intent = new Intent(view.getContext(), EditExerciseHistoryEntryActivity.class);
+                //Todo: implement
+                Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_LONG);
+                /*
+                Intent intent = new Intent(view.getContext(), ggEditExerciseHistoryEntryActivity.class);
                 intent.putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), exerciseWeight);
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_REPS), exerciseReps);
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_DATE), exerciseDate);
                 startActivity(intent);
+                */
                 break;
             case "Delete":
                 new DeleteExerciseHistoryTask(getActivity()).execute(exerciseWeight, exerciseReps, exerciseDate);
@@ -202,6 +206,7 @@ public class ExerciseHistoryFragment extends Fragment
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC";
+
         return new CursorLoader(getActivity(),
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
