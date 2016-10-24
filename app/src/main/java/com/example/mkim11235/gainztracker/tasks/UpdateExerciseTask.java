@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 
-import com.example.mkim11235.gainztracker.ExerciseEntryActivity;
+import com.example.mkim11235.gainztracker.EntryActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
@@ -16,10 +16,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Updates the db with new name and muscle
  */
 public class UpdateExerciseTask extends AsyncTask<String, Void, Void> {
-    private ExerciseEntryActivity mContext;
+    private EntryActivity mContext;
 
     public UpdateExerciseTask(Context context) {
-        mContext = (ExerciseEntryActivity) context;
+        mContext = (EntryActivity) context;
     }
 
     /**

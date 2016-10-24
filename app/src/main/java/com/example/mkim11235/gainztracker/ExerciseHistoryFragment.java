@@ -114,11 +114,11 @@ public class ExerciseHistoryFragment extends Fragment
         // Gets and sets exercise title
         new FetchExerciseTitleTask(this).execute(mExerciseId);
 
-        // Add ExerciseHistory Button onClick starts ExerciseHistoryEntryActivity
+        // Add ExerciseHistory Button onClick starts ExerciseHistoryEntryFrag
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
                 startActivity(intent);
@@ -165,7 +165,7 @@ public class ExerciseHistoryFragment extends Fragment
 
         switch (menuItemName) {
             case "Edit":
-                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY));
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), exerciseWeight);

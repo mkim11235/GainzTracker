@@ -30,7 +30,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     /**
-     * Updated the date on the ExerciseHistoryEntryActivity edittext to selected date
+     * Updated the date on the ExerciseHistoryEntryFrag edittext to selected date
      * @param datePicker datepicker object
      * @param year year to set edittext to
      * @param month month to set edittext to

@@ -89,12 +89,12 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         });
         registerForContextMenu(exerciseListView);
 
-        // Add Exercise Button onClick starts ExerciseEntryActivity
+        // Add Exercise Button onClick starts entryActivity
         // Need to pass in indicator to attach AddExerciseEntryActivity
         mAddExerciseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ExerciseEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
                         getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_ENTRY));
                 startActivity(intent);
@@ -156,8 +156,8 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
         switch (menuItemName) {
             case "Edit":
-                // start ExerciseEntryActivity w/ fragment tag for UpdateExerciseEntry pass old values
-                Intent intent = new Intent(view.getContext(), ExerciseEntryActivity.class);
+                // start entryActivity w/ fragment tag for UpdateExerciseEntry pass old values
+                Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
                         getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY));
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_NAME), exerciseName);
