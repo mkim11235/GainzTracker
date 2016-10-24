@@ -2,7 +2,6 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
@@ -57,14 +56,9 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
                     new AddExerciseHistoryTask(getActivity())
                             .execute(mExerciseId, weight, reps, date);
 
-                    // Return to exercise activity
-                    // Todo: I want to return to MainActivity with ExerciseHistoryFragment
-                    Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_LONG);
-                    /*
-                    Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, exerciseId);
-                    startActivity(intent);
-                    */
+                    // Return to MainActivity w/ EHEFragment
+                    getActivity().finish();
+                    getActivity().onBackPressed();
                 }
             }
         });

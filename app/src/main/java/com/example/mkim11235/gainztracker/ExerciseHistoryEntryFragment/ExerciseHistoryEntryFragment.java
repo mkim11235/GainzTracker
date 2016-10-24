@@ -45,6 +45,7 @@ public abstract class ExerciseHistoryEntryFragment extends ExerciseEntryBaseFrag
     protected EditText mDateEditText;
 
     //Todo: if implement options menu, uncomment line below
+    // Maybe this belongs in BaseClass
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

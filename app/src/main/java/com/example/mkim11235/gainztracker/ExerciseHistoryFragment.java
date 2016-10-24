@@ -117,6 +117,8 @@ public class ExerciseHistoryFragment extends Fragment
                 Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class)
                         .putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
+                intent.putExtra(getString(R.string.EXTRA_EXERCISE_NAME), mExerciseName);
                 startActivity(intent);
             }
         });

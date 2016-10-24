@@ -35,13 +35,13 @@ public class ExerciseHistoryEntryActivity extends AppCompatActivity {
                 tag = getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY);
             } else if (fragmentTag.equals(getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY))){
                 fragment = new EditExerciseHistoryEntryFragment();
-                fragment.setArguments(extras);
                 tag = getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY);
             } else {
                 throw new IllegalArgumentException(
                         String.format("Unrecognized fragment tag: %s", fragmentTag));
             }
 
+            fragment.setArguments(extras);
             android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.add(containerId, fragment, tag);
             ft.commit();
