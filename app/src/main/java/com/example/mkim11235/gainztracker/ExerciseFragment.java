@@ -21,10 +21,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
+import com.example.mkim11235.gainztracker.events.DbEvent;
 import com.example.mkim11235.gainztracker.events.ExerciseClickedEvent;
-import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
+import com.example.mkim11235.gainztracker.events.ExerciseDbEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -143,8 +146,13 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         int menuItemIndex = item.getItemId();
         String menuItemName = menuItems[menuItemIndex];
 
+        Cursor cursor = mExerciseAdapter.getCursor();
+        cursor.moveToPosition(info.position);
+        long exerciseId = cursor.getLong(COL_EXERCISE_ID);
+
         switch (menuItemName) {
             case "Edit":
+
                 // start entryActivity w/ fragment tag for UpdateExerciseEntry pass old values
                 Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
@@ -154,11 +162,41 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 startActivity(intent);
                 break;
             case "Delete":
-                new DeleteExerciseTask(getActivity(), mExerciseAdapter)
-                        .execute(exerciseName, exerciseMuscle, Integer.toString(info.position));
+                EventBus.getDefault().post(new ExerciseDbEvent(exerciseName, exerciseMuscle, exerciseId,
+                        DbEvent.DbOperationType.DELETE));
                 break;
         }
         return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEvent(ExerciseDbEvent event) {
+        long exerciseId = event.getExerciseId();
+        String exerciseName = event.getExerciseName();
+        String exerciseMuscle = event.getExerciseMuscle();
+
+        switch(event.getDbOperationType()) {
+            case DELETE:
+                deleteExercise(exerciseId, exerciseName, exerciseMuscle);
+                break;
+            case UPDATE:
+                updateExercise(exerciseId, exerciseName, exerciseMuscle);
+                break;
+            case ADD:
+                throw new IllegalArgumentException("Should not be able to add to DB from here");
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -179,5 +217,27 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseAdapter.swapCursor(null);
+    }
+
+    /*
+     * Deletes exercise with id from db. Deletes exercisehistory entries with exerciseId from db
+     */
+    private void deleteExercise(long id, String name, String muscle) {
+        String idString = Long.toString(id);
+
+        getActivity().getContentResolver().delete(
+                DatabaseContract.ExerciseEntry.CONTENT_URI,
+                DatabaseContract.ExerciseEntry._ID + " = ?",
+                new String[] {idString});
+
+        getActivity().getContentResolver().delete(
+                DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
+                DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
+                new String[] {idString});
+    }
+
+    //Todo: implement and rewire alot of passing extras fragments cuz have id computed
+    private void updateExercise(long id, String name, String muscle) {
+
     }
 }

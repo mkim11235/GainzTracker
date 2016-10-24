@@ -19,9 +19,6 @@ public class MainActivity extends AppCompatActivity {
             getFragmentManager().beginTransaction().add(R.id.container_activity_main,
                     new ExerciseFragment(), getString(R.string.FRAGMENT_TAG_EXERCISE)).commit();
         }
-
-        // Dunno about setting title here
-        //setTitle(getString(R.string.title_main_activity));
     }
 
     @Override
