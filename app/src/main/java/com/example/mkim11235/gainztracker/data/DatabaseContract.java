@@ -63,5 +63,4 @@ public class DatabaseContract {
         }
     }
 
-    // useful to include functions that help build contentprovider queries
 }
