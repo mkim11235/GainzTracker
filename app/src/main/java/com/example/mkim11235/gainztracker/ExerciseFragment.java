@@ -1,6 +1,5 @@
 package com.example.mkim11235.gainztracker;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -22,7 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
+import com.example.mkim11235.gainztracker.events.ExerciseClickedEvent;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -45,7 +47,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
     private ImageButton mAddExerciseButton;
     private ExerciseAdapter mExerciseAdapter;
-    private OnExerciseSelectedListener mCallBack;
 
     public ExerciseFragment() {}
 
@@ -84,7 +85,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 long exerciseId = mExerciseAdapter.getItemId(position);
-                mCallBack.onExerciseSelected(exerciseId);
+                EventBus.getDefault().post(new ExerciseClickedEvent(exerciseId));
             }
         });
         registerForContextMenu(exerciseListView);
@@ -108,18 +109,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(EXERCISE_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        try {
-            mCallBack = (OnExerciseSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnExerciseSelectedListener");
-        }
     }
 
     @Override
@@ -190,9 +179,5 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseAdapter.swapCursor(null);
-    }
-
-    public interface OnExerciseSelectedListener {
-        public void onExerciseSelected(long exerciseId);
     }
 }

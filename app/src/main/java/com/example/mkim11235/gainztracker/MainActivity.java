@@ -3,7 +3,12 @@ package com.example.mkim11235.gainztracker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements ExerciseFragment.OnExerciseSelectedListener {
+import com.example.mkim11235.gainztracker.events.ExerciseClickedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +25,21 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
     }
 
     @Override
-    public void onExerciseSelected(long exerciseId) {
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEvent(ExerciseClickedEvent event) {
         ExerciseHistoryFragment exerciseHistoryFragment =
-                ExerciseHistoryFragment.newInstance(exerciseId);
+                ExerciseHistoryFragment.newInstance(event.getExerciseId());
 
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.container_activity_main, exerciseHistoryFragment,
