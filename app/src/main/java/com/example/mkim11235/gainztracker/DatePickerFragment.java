@@ -29,9 +29,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return new DatePickerDialog(getActivity(), this, year, month - 1, day);
     }
 
-    //do smt with chosen date
-    // maybe send intent back to history entry activity of date to add
-
     /**
      * Updated the date on the ExerciseHistoryEntryActivity edittext to selected date
      * @param datePicker datepicker object
