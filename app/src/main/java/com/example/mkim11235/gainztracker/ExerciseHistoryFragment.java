@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
@@ -110,22 +109,22 @@ public class ExerciseHistoryFragment extends Fragment
         exerciseHistoryListView.setAdapter(mExerciseHistoryAdapter);
         registerForContextMenu(exerciseHistoryListView);
 
+        //Todo: rethink title scheme. maybe have title below actionbar in xml
+        //Todo: this thing doesnt set up bundle correctly figure out bug
+        // Gets and sets exercise title
+        new FetchExerciseTitleTask(this).execute(mExerciseId);
+
         // Add ExerciseHistory Button onClick starts ExerciseHistoryEntryActivity
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class)
-                        .putExtras(mExerciseHistoryEntryBundle);
+                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class);
+                intent.putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
-                intent.putExtra(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
-                intent.putExtra(getString(R.string.EXTRA_EXERCISE_NAME), mExerciseName);
                 startActivity(intent);
             }
         });
 
-        //Todo: rethink title scheme. maybe have title below actionbar in xml
-        // Gets and sets exercise title
-        new FetchExerciseTitleTask(this).execute(mExerciseId);
         return rootView;
     }
 
@@ -166,16 +165,13 @@ public class ExerciseHistoryFragment extends Fragment
 
         switch (menuItemName) {
             case "Edit":
-                //Todo: implement
-                Toast.makeText(getActivity(), "Not yet implemented", Toast.LENGTH_LONG);
-                /*
-                Intent intent = new Intent(view.getContext(), ggEditExerciseHistoryEntryActivity.class);
+                Intent intent = new Intent(view.getContext(), ExerciseHistoryEntryActivity.class);
                 intent.putExtras(mExerciseHistoryEntryBundle);
+                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY));
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), exerciseWeight);
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_REPS), exerciseReps);
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_DATE), exerciseDate);
                 startActivity(intent);
-                */
                 break;
             case "Delete":
                 new DeleteExerciseHistoryTask(getActivity()).execute(exerciseWeight, exerciseReps, exerciseDate);

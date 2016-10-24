@@ -59,14 +59,9 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
                             .execute(mExerciseId, weight, reps, date, mOldExerciseWeight,
                                     mOldExerciseReps, mOldExerciseDate);
 
-                    // Return to exercise activity
-                    // Todo: I want to return to MainActivity with ExerciseHistoryFragment
+                    // Return to MainActivity w/ EHEFrag
+                    getActivity().finish();
                     getActivity().onBackPressed();
-                    /*
-                    Intent intent = new Intent(v.getContext(), ExerciseActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, exerciseId);
-                    startActivity(intent);
-                    */
                 }
             }
         });
