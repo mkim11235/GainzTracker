@@ -1,10 +1,9 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mkim11235.gainztracker.MainActivity;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
 
@@ -27,6 +26,9 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
     @Override
     protected void setEditTextDefaults() {}
 
+    /**
+     * Set final button text to "Add Exercise"
+     */
     @Override
     protected void setFinalButtonText() {
         mExerciseEntryButton.setText(getString(R.string.button_add_exercise_entry_text));
@@ -45,12 +47,12 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
 
                 // Validation check
                 if (allValidEntries(exerciseName, exerciseMuscle)) {
-                    AddExerciseTask dbTask = new AddExerciseTask(getActivity());
-                    dbTask.execute(exerciseName, exerciseMuscle);
+                    Activity activity = getActivity();
+                    new AddExerciseTask(activity).execute(exerciseName, exerciseMuscle);
 
                     // Return to main activity
-                    Intent intent = new Intent(view.getContext(), MainActivity.class);
-                    startActivity(intent);
+                    activity.finish();
+                    activity.onBackPressed();
                 }
             }
         });

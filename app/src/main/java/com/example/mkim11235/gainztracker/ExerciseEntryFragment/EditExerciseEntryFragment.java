@@ -1,10 +1,9 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mkim11235.gainztracker.MainActivity;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.tasks.UpdateExerciseTask;
 
@@ -13,6 +12,8 @@ import com.example.mkim11235.gainztracker.tasks.UpdateExerciseTask;
  */
 
 public class EditExerciseEntryFragment extends ExerciseEntryFragment {
+
+    private String mExerciseId;
     private String mOldExerciseName;
     private String mOldExerciseMuscle;
 
@@ -22,6 +23,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
      */
     @Override
     protected void setExtraMembersFromBundle(Bundle bundle) {
+        mExerciseId = bundle.getString(getString(R.string.EXTRA_EXERCISE_ID));
         mOldExerciseName = bundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
         mOldExerciseMuscle = bundle.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));
     }
@@ -56,12 +58,13 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
 
                 // Validation check
                 if (allValidEntries(exerciseName, exerciseMuscle)) {
-                    new UpdateExerciseTask(getActivity()).execute(exerciseName, exerciseMuscle,
-                            mOldExerciseName, mOldExerciseMuscle);
+                    Activity activity = getActivity();
+                    new UpdateExerciseTask(activity).execute(
+                            mExerciseId, exerciseName, exerciseMuscle);
 
                     // Return to main activity
-                    Intent intent = new Intent(view.getContext(), MainActivity.class);
-                    startActivity(intent);
+                    activity.finish();
+                    activity.onBackPressed();
                 }
             }
         });

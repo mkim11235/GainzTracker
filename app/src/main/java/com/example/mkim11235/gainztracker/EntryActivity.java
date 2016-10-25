@@ -33,7 +33,7 @@ public class EntryActivity extends AppCompatActivity {
 
         // Attach the fragment based on the received fragmentTag
         if (savedInstanceState == null) {
-            int containerId = R.id.container_activity_exercise_entry;
+            int containerId = R.id.container_activity_entry;
             Fragment fragment;
 
             // Cannot use switch statement because R.string values are not static
