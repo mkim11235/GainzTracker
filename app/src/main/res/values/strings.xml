@@ -10,7 +10,6 @@
     <string name="title_main_activity">Exercises</string>
     <string name="weight_unit">lb</string>
     <string name="reps">reps</string>
-    <string name="on">on</string>
     <string name="placeholder_number">#</string>
 
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>

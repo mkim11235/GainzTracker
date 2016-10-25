@@ -1,81 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/list_item_exercise_history_weight"
-        android:textSize="25sp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentStart="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="100"/>
-
-    <TextView
-        android:id="@+id/list_item_exercise_history_weight_unit"
-        android:text="@string/weight_unit"
-        android:gravity="center"
-        android:layout_toRightOf="@+id/list_item_exercise_history_weight"
-        android:textSize="25sp"
-        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textSize="@dimen/font_size_textview"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="@string/exercise_history_x"
+        android:id="@+id/list_item_exercise_history_weight_unit"
+        android:text="@string/weight_unit"
+        android:textSize="@dimen/font_size_textview2"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
+        android:layout_toRightOf="@+id/list_item_exercise_history_weight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/list_item_exercise_history_x"
-        android:gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:text="@string/exercise_history_x"
+        android:textSize="@dimen/font_size_textview2"
+        android:layout_marginLeft="@dimen/margin_unit_from_entry"
+        android:layout_marginRight="@dimen/margin_unit_from_entry"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_weight_unit"
-        android:textSize="20sp"
-        android:minHeight="?android:attr/listPreferredItemHeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_reps"
+        android:textSize="@dimen/font_size_textview"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_x"
-        android:textSize="25sp"
-        android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="5"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_word_reps"
         android:text="@string/reps"
-        android:gravity="center"
+        android:textSize="@dimen/font_size_textview2"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_reps"
-        android:textSize="25sp"
-        android:minHeight="?android:attr/listPreferredItemHeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_date"
-        android:layout_alignParentEnd="true"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:layout_marginRight="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:text="10/12/16"/>
-
-    <TextView
-        android:id="@+id/list_item_exercise_history_word_on"
-        android:layout_toLeftOf="@id/list_item_exercise_history_date"
-        android:layout_marginRight="10dp"
-        android:text="@string/on"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textSize="@dimen/font_size_textview2"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
