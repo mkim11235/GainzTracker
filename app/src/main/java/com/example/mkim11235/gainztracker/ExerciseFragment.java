@@ -8,6 +8,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -183,7 +184,8 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 updateExercise(exerciseId, exerciseName, exerciseMuscle);
                 break;
             case ADD:
-                throw new IllegalArgumentException("Should not be able to add to DB from here");
+                Log.v("GG", "add event received EFrag");
+                //throw new IllegalArgumentException("Should not be able to add to DB from here");
         }
     }
 

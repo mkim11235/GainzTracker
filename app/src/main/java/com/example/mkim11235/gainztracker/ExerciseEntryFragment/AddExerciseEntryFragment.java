@@ -1,12 +1,14 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-import com.example.mkim11235.gainztracker.MainActivity;
 import com.example.mkim11235.gainztracker.R;
-import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
+import com.example.mkim11235.gainztracker.events.DbEvent;
+import com.example.mkim11235.gainztracker.events.ExerciseDbEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -45,12 +47,21 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
 
                 // Validation check
                 if (allValidEntries(exerciseName, exerciseMuscle)) {
+                    EventBus.getDefault().post(new ExerciseDbEvent(exerciseName, exerciseMuscle, DbEvent.DbOperationType.ADD));
+                    //Todo: left off here
+                    Log.v("GG", "addevent posted inside AEEF");
+                    /*
                     AddExerciseTask dbTask = new AddExerciseTask(getActivity());
                     dbTask.execute(exerciseName, exerciseMuscle);
+                    */
 
                     // Return to main activity
+                    /*
                     Intent intent = new Intent(view.getContext(), MainActivity.class);
                     startActivity(intent);
+                    */
+                    getActivity().finish();
+                    getActivity().onBackPressed();
                 }
             }
         });
