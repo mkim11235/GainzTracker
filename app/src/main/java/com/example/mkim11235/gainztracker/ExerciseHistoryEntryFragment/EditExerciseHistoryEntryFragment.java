@@ -1,25 +1,29 @@
 package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
-import com.example.mkim11235.gainztracker.tasks.UpdateExerciseHistoryTask;
+import com.example.mkim11235.gainztracker.tasks.EditExerciseHistoryTask;
 
 /**
  * Created by Michael on 10/23/2016.
  */
 public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment {
+
     private long mOldExerciseWeight;
     private long mOldExerciseReps;
     private long mOldExerciseDate;
+    private long mExerciseHistoryId;
 
     @Override
     protected void setExtraMembersFromBundle(Bundle bundle) {
-        mOldExerciseWeight = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_WEIGHT)));
-        mOldExerciseReps = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_REPS)));
-        mOldExerciseDate = Long.parseLong(bundle.getString(getString(R.string.EXTRA_EXERCISE_DATE)));
+        mOldExerciseWeight = bundle.getLong(getString(R.string.EXTRA_EXERCISE_WEIGHT));
+        mOldExerciseReps = bundle.getLong(getString(R.string.EXTRA_EXERCISE_REPS));
+        mOldExerciseDate = bundle.getLong(getString(R.string.EXTRA_EXERCISE_DATE));
+        mExerciseHistoryId = bundle.getLong(getString(R.string.EXTRA_EXERCISE_HISTORY_ID));
     }
 
     @Override
@@ -55,13 +59,13 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
                     long date = Integer.parseInt(dateString);
 
                     // Update exercise history entry in DB
-                    new UpdateExerciseHistoryTask(getActivity())
-                            .execute(mExerciseId, weight, reps, date, mOldExerciseWeight,
-                                    mOldExerciseReps, mOldExerciseDate);
+                    Activity activity = getActivity();
+                    new EditExerciseHistoryTask(activity)
+                            .execute(mExerciseId, weight, reps, date, mExerciseHistoryId);
 
                     // Return to MainActivity w/ EHEFrag
-                    getActivity().finish();
-                    getActivity().onBackPressed();
+                    activity.finish();
+                    activity.onBackPressed();
                 }
             }
         });

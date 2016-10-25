@@ -9,9 +9,9 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Created by Michael on 10/25/2016.
  */
 
-public class UpdateExerciseTask extends DbTask<String> {
+public class EditExerciseTask extends DbTask<String> {
 
-    public UpdateExerciseTask(Context context) {
+    public EditExerciseTask(Context context) {
         super(context);
     }
 

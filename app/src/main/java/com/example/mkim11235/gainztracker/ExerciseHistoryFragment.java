@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
@@ -94,7 +92,7 @@ public class ExerciseHistoryFragment extends Fragment
         // Dunno if do it here or in the activity
         //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Get exerciseId from intent
+        // Get exerciseId from bundle
         mExerciseId = getArguments().getLong(getString(R.string.EXTRA_EXERCISE_ID));
 
         // Initialize member vars
@@ -110,17 +108,17 @@ public class ExerciseHistoryFragment extends Fragment
         registerForContextMenu(exerciseHistoryListView);
 
         //Todo: rethink title scheme. maybe have title below actionbar in xml
-        //Todo: this thing doesnt set up bundle correctly figure out bug
+        //Todo: maybe use eventbus here
         // Gets and sets exercise title
         new FetchExerciseTitleTask(this).execute(mExerciseId);
 
-        // Add ExerciseHistory Button onClick starts ExerciseHistoryEntryFrag
+        // Add ExerciseHistory Button onClick starts EntryActivity w/ ExerciseHistoryEntryFrag
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EntryActivity.class);
-                intent.putExtras(mExerciseHistoryEntryBundle);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
+                intent.putExtras(mExerciseHistoryEntryBundle);
                 startActivity(intent);
             }
         });
@@ -150,14 +148,8 @@ public class ExerciseHistoryFragment extends Fragment
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        RelativeLayout view = (RelativeLayout) info.targetView;
-        String exerciseWeight = ((TextView)view.findViewById(R.id.list_item_exercise_history_weight))
-                .getText().toString();
-        String exerciseReps = ((TextView)view.findViewById(R.id.list_item_exercise_history_reps))
-                .getText().toString();
-        String exerciseDate = ((TextView)view.findViewById(R.id.list_item_exercise_history_date))
-                .getText().toString();
-        exerciseDate = Utility.formatDateReadableToDB(exerciseDate);
+        Cursor selectedItem = (Cursor) mExerciseHistoryAdapter.getItem(info.position);
+        Long exerciseHistoryId = selectedItem.getLong(COL_EXERCISE_HISTORY_ID);
 
         String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
         int menuItemIndex = item.getItemId();
@@ -165,16 +157,20 @@ public class ExerciseHistoryFragment extends Fragment
 
         switch (menuItemName) {
             case "Edit":
-                Intent intent = new Intent(view.getContext(), EntryActivity.class);
+                Long exerciseWeight = selectedItem.getLong(COL_EXERCISE_HISTORY_WEIGHT);
+                Long exerciseReps = selectedItem.getLong(COL_EXERCISE_HISTORY_REPS);
+                Long exerciseDate = selectedItem.getLong(COL_EXERCISE_HISTORY_DATE);
+
+                Intent intent = new Intent(getActivity(), EntryActivity.class);
+                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
+                        getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY));
                 intent.putExtras(mExerciseHistoryEntryBundle);
-                intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY));
-                intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), exerciseWeight);
-                intent.putExtra(getString(R.string.EXTRA_EXERCISE_REPS), exerciseReps);
-                intent.putExtra(getString(R.string.EXTRA_EXERCISE_DATE), exerciseDate);
+                intent.putExtras(buildEditEntryBundle(exerciseWeight, exerciseReps, exerciseDate,
+                        exerciseHistoryId));
                 startActivity(intent);
                 break;
             case "Delete":
-                new DeleteExerciseHistoryTask(getActivity()).execute(exerciseWeight, exerciseReps, exerciseDate);
+                new DeleteExerciseHistoryTask(getActivity()).execute(exerciseHistoryId);
                 break;
         }
         return true;
@@ -221,5 +217,14 @@ public class ExerciseHistoryFragment extends Fragment
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mExerciseHistoryAdapter.swapCursor(null);
+    }
+
+    private Bundle buildEditEntryBundle(long weight, long reps, long date, long id) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(getString(R.string.EXTRA_EXERCISE_WEIGHT), weight);
+        bundle.putLong(getString(R.string.EXTRA_EXERCISE_REPS), reps);
+        bundle.putLong(getString(R.string.EXTRA_EXERCISE_DATE), date);
+        bundle.putLong(getString(R.string.EXTRA_EXERCISE_HISTORY_ID), id);
+        return bundle;
     }
 }

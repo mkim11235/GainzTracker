@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.mkim11235.gainztracker.R;
-import com.example.mkim11235.gainztracker.tasks.UpdateExerciseTask;
+import com.example.mkim11235.gainztracker.tasks.EditExerciseTask;
 
 /**
  * Created by Michael on 10/23/2016.
@@ -59,7 +59,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
                 // Validation check
                 if (allValidEntries(exerciseName, exerciseMuscle)) {
                     Activity activity = getActivity();
-                    new UpdateExerciseTask(activity).execute(
+                    new EditExerciseTask(activity).execute(
                             mExerciseId, exerciseName, exerciseMuscle);
 
                     // Return to main activity

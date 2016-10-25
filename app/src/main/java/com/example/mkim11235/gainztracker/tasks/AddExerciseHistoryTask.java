@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -12,31 +11,13 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Created by Michael on 10/17/2016.
  */
 
-// Adds new entry (exerciseID as a string, weight, reps, date) into exercise history table
-public class AddExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
-    private final Context mContext;
+/**
+ * Adds new exerciseHistoryEntry to db
+ */
+public class AddExerciseHistoryTask extends DbTask<Long> {
 
     public AddExerciseHistoryTask(Context context) {
-        mContext = context;
-    }
-
-    // Inserts exercise into DB
-    private long addExerciseHistoryEntry(long id, long weight, long reps, long date) {
-        long exerciseHistoryEntryId;
-
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID, id);
-        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT, weight);
-        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS, reps);
-        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE, date);
-
-        Uri insertedUri = mContext.getContentResolver().insert(
-                DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
-                values
-        );
-
-        exerciseHistoryEntryId = ContentUris.parseId(insertedUri);
-        return exerciseHistoryEntryId;
+        super(context);
     }
 
     @Override
@@ -48,5 +29,24 @@ public class AddExerciseHistoryTask extends AsyncTask<Long, Void, Void> {
 
         long exerciseHistoryId = addExerciseHistoryEntry(id, weight, reps, date);
         return null;
+    }
+
+    // Inserts exerciseHistoryEntry into DB
+    private long addExerciseHistoryEntry(long id, long weight, long reps, long date) {
+        long exerciseHistoryEntryId;
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID, id);
+        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT, weight);
+        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS, reps);
+        values.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE, date);
+
+        Uri insertedUri = mContentResolver.insert(
+                DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
+                values
+        );
+
+        exerciseHistoryEntryId = ContentUris.parseId(insertedUri);
+        return exerciseHistoryEntryId;
     }
 }

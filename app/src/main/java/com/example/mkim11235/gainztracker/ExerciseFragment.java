@@ -142,14 +142,14 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
-        int menuItemIndex = item.getItemId();
-        String menuItemName = menuItems[menuItemIndex];
-
         Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
         String exerciseId = Long.toString(selectedItem.getLong(COL_EXERCISE_ID));
         String exerciseName = selectedItem.getString(COL_EXERCISE_NAME);
         String exerciseMuscle = selectedItem.getString(COL_EXERCISE_MUSCLE);
+
+        String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
+        int menuItemIndex = item.getItemId();
+        String menuItemName = menuItems[menuItemIndex];
 
         switch (menuItemName) {
             case "Edit":

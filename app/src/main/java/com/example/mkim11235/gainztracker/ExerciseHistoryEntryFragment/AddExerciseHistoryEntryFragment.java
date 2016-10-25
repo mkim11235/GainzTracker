@@ -1,5 +1,6 @@
 package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,6 +30,9 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
         new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(mExerciseId);
     }
 
+    /**
+     * Set final button text to "Add Exercise Entry"
+     */
     @Override
     protected void setFinalButtonText() {
         mExerciseHistoryFinalButton.setText(getString(R.string.button_add_exercise_history_entry_text_final));
@@ -45,20 +49,21 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
 
                 // Validation check. all must be entered
                 if (allValidEntries(weightString, repsString, dateString)) {
-                    // Try converting all to long so asynctask can take params
-                    long weight = Integer.parseInt(weightString);
-                    long reps = Integer.parseInt(repsString);
+                    // Convert all to longs for asynctask
+                    long weight = Long.parseLong(weightString);
+                    long reps = Long.parseLong(repsString);
                     // Format date string into DB format
                     dateString = Utility.formatDateReadableToDB(dateString);
-                    long date = Integer.parseInt(dateString);
+                    long date = Long.parseLong(dateString);
+
+                    Activity activity = getActivity();
 
                     // Add new exercise history entry to DB
-                    new AddExerciseHistoryTask(getActivity())
-                            .execute(mExerciseId, weight, reps, date);
+                    new AddExerciseHistoryTask(activity).execute(mExerciseId, weight, reps, date);
 
                     // Return to MainActivity w/ EHEFragment
-                    getActivity().finish();
-                    getActivity().onBackPressed();
+                    activity.finish();
+                    activity.onBackPressed();
                 }
             }
         });

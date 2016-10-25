@@ -1,7 +1,6 @@
 package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
@@ -12,24 +11,21 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 /**
  * Deletes given exercise history entry from DB
  */
-public class DeleteExerciseHistoryTask extends AsyncTask<String, Void, Void> {
-    private final Context mContext;
+public class DeleteExerciseHistoryTask extends DbTask<Long> {
 
     public DeleteExerciseHistoryTask(Context context) {
-        mContext = context;
+        super(context);
     }
 
     @Override
-    protected Void doInBackground(String... strings) {
-        String exerciseWeight = strings[0];
-        String exerciseReps = strings[1];
-        String exerciseDate = strings[2];
+    protected Void doInBackground(Long... longs) {
+        Long exerciseId = longs[0];
 
-        mContext.getContentResolver().delete(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " = ? AND "
-                        + DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " = ? AND "
-                        + DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " = ?",
-                new String[] {exerciseWeight, exerciseReps, exerciseDate});
+        mContentResolver.delete(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
+                DatabaseContract.ExerciseHistoryEntry._ID + " = ?",
+                new String[] {Long.toString(exerciseId)});
+
         return null;
     }
+
 }
