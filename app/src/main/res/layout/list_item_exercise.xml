@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/textview_exercise_name"
         android:textSize="@dimen/font_size_textview"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/textview_exercise_muscle"
         android:textSize="@dimen/font_size_textview2"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
