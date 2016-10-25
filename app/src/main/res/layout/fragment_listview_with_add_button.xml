@@ -6,11 +6,11 @@
     tools:context="com.example.mkim11235.gainztracker.MainActivity">
 
     <ListView
-        android:id="@+id/listview_exercises"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:id="@+id/listview_listview_with_add_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <include android:id="@+id/image_button_add_exercise_entry"
+    <include android:id="@+id/image_button_listview_with_add_button"
         layout="@layout/image_button_add" />
 
 </FrameLayout>

@@ -87,7 +87,7 @@ public class ExerciseHistoryFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_listview_with_add_button, container, false);
         // Todo: check if this is correct when reviewing actionbar
         // Dunno if do it here or in the activity
         //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,11 +99,11 @@ public class ExerciseHistoryFragment extends Fragment
         mExerciseHistoryAdapter = new ExerciseHistoryAdapter(getActivity(), null,
                 EXERCISE_HISTORY_ADAPTER_FLAGS);
         mAddExerciseHistoryEntryButton = (ImageButton)
-                rootView.findViewById(R.id.image_button_add_exercise_history_entry);
+                rootView.findViewById(R.id.image_button_listview_with_add_button);
 
         // Implement listview functionality
         ListView exerciseHistoryListView = (ListView)
-                rootView.findViewById(R.id.listview_exercise_history);
+                rootView.findViewById(R.id.listview_listview_with_add_button);
         exerciseHistoryListView.setAdapter(mExerciseHistoryAdapter);
         registerForContextMenu(exerciseHistoryListView);
 
@@ -135,7 +135,7 @@ public class ExerciseHistoryFragment extends Fragment
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
-        if (view.getId() == R.id.listview_exercise_history) {
+        if (view.getId() == R.id.listview_listview_with_add_button) {
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);

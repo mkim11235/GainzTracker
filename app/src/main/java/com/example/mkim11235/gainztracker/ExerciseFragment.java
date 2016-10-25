@@ -69,14 +69,14 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_listview_with_add_button, container, false);
 
         // Initialize member variables
         mExerciseAdapter = new ExerciseAdapter(getActivity(), null, EXERCISE_ADAPTER_FLAGS);
-        mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_add_exercise_entry);
+        mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_listview_with_add_button);
 
         // Implement listview functionality
-        ListView exerciseListView = (ListView) rootView.findViewById(R.id.listview_exercises);
+        ListView exerciseListView = (ListView) rootView.findViewById(R.id.listview_listview_with_add_button);
         exerciseListView.setAdapter(mExerciseAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
-        if (view.getId() == R.id.listview_exercises) {
+        if (view.getId() == R.id.listview_listview_with_add_button) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
