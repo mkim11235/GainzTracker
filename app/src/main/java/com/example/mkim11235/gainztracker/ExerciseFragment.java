@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
@@ -144,20 +142,19 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        RelativeLayout view = (RelativeLayout) info.targetView;
-        String exerciseName = ((TextView) view.findViewById(R.id.textview_exercise_name))
-                .getText().toString();
-        String exerciseMuscle = ((TextView) view.findViewById(R.id.textview_exercise_muscle))
-                .getText().toString();
-
         String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
         int menuItemIndex = item.getItemId();
         String menuItemName = menuItems[menuItemIndex];
 
+        Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
+        String exerciseId = Long.toString(selectedItem.getLong(COL_EXERCISE_ID));
+        String exerciseName = selectedItem.getString(COL_EXERCISE_NAME);
+        String exerciseMuscle = selectedItem.getString(COL_EXERCISE_MUSCLE);
+
         switch (menuItemName) {
             case "Edit":
                 // start entryActivity w/ fragment tag for UpdateExerciseEntry pass old values
-                Intent intent = new Intent(view.getContext(), EntryActivity.class);
+                Intent intent = new Intent(getActivity(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
                         getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_ENTRY));
                 intent.putExtra(getString(R.string.EXTRA_EXERCISE_NAME), exerciseName);
@@ -165,8 +162,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 startActivity(intent);
                 break;
             case "Delete":
-                new DeleteExerciseTask(getActivity(), mExerciseAdapter)
-                        .execute(exerciseName, exerciseMuscle, Integer.toString(info.position));
+                new DeleteExerciseTask(getActivity()).execute(exerciseId);
                 break;
         }
         return true;

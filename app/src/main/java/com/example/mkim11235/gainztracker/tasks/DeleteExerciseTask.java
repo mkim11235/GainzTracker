@@ -1,56 +1,33 @@
 package com.example.mkim11235.gainztracker.tasks;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.os.AsyncTask;
 
-import com.example.mkim11235.gainztracker.ExerciseAdapter;
-import com.example.mkim11235.gainztracker.MainActivity;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
- * Created by Michael on 10/19/2016.
+ * Created by Michael on 10/24/2016.
  */
 
-/**
- * Deletes entry w/ name,muscle from exercises table
- * Also deletes all entries in exercisehistory table with matching exerciseId
- */
-public class DeleteExerciseTask extends AsyncTask<String, Void, Void> {
-    private MainActivity mContext;
-    private ExerciseAdapter mAdapter;
+public class DeleteExerciseTask extends DbTask<String> {
 
-    public DeleteExerciseTask(Context context, ExerciseAdapter adapter) {
-        mContext = (MainActivity) context;
-        mAdapter = adapter;
+    public DeleteExerciseTask(Context context) {
+        super(context);
     }
 
-    // Deletes given exercise (name, muscle) from DB
     @Override
     protected Void doInBackground(String... strings) {
-        String exerciseName = strings[0];
-        String exerciseMuscle = strings[1];
+        String exerciseId = strings[0];
 
-        int position = Integer.parseInt(strings[2]);
-        String exerciseId = Long.toString(getExerciseIdGivenPosition(position));
-
-        int rowsDeleted = mContext.getContentResolver().delete(
+        int rowsDeleted = mContentResolver.delete(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
-                DatabaseContract.ExerciseEntry.COLUMN_NAME + " = ? AND "
-                        + DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " = ?",
-                new String[] {exerciseName, exerciseMuscle});
+                DatabaseContract.ExerciseEntry._ID + " = ?",
+                new String[] {exerciseId});
 
-        int exerciseHistoryRowsDeleted = mContext.getContentResolver().delete(
+        int exerciseHistoryRowsDeleted = mContentResolver.delete(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
                 new String[] {exerciseId});
 
         return null;
-    }
-
-    private Long getExerciseIdGivenPosition(int position) {
-        Cursor cursor = mAdapter.getCursor();
-        cursor.moveToPosition(position);
-        return cursor.getLong(0);
     }
 }
