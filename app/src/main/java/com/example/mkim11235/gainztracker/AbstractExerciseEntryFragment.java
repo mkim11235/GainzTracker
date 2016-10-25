@@ -7,7 +7,7 @@ import android.os.Bundle;
  * Created by Michael on 10/23/2016.
  */
 
-public abstract class ExerciseEntryBaseFragment extends Fragment {
+public abstract class AbstractExerciseEntryFragment extends Fragment {
 
     /**
      * Gets and Initializes extra args from bundle

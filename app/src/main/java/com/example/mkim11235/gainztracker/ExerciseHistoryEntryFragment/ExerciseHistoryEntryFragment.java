@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 
 import com.example.mkim11235.gainztracker.ContinuousLongClickListener;
 import com.example.mkim11235.gainztracker.DatePickerFragment;
-import com.example.mkim11235.gainztracker.ExerciseEntryBaseFragment;
+import com.example.mkim11235.gainztracker.AbstractExerciseEntryFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 
@@ -21,7 +21,7 @@ import com.example.mkim11235.gainztracker.Utility;
  * Created by Michael on 10/23/2016.
  */
 
-public abstract class ExerciseHistoryEntryFragment extends ExerciseEntryBaseFragment {
+public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntryFragment {
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
 
@@ -43,26 +43,6 @@ public abstract class ExerciseHistoryEntryFragment extends ExerciseEntryBaseFrag
     protected EditText mWeightEditText;
     protected EditText mRepsEditText;
     protected EditText mDateEditText;
-
-    //Todo: if implement options menu, uncomment line below
-    // Maybe this belongs in BaseClass
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
-    }
-
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-    */
 
     @Nullable
     @Override

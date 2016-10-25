@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Space xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="invisible"
+    android:layout_centerInParent="true"
+    android:layout_width="@dimen/zero_unnecessary"
+    android:layout_height="@dimen/zero_unnecessary">
+
+</Space>

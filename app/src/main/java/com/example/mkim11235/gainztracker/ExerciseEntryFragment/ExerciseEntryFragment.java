@@ -8,38 +8,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.mkim11235.gainztracker.ExerciseEntryBaseFragment;
+import com.example.mkim11235.gainztracker.AbstractExerciseEntryFragment;
 import com.example.mkim11235.gainztracker.R;
 
 /**
  * Created by Michael on 10/22/2016.
  */
 
-public abstract class ExerciseEntryFragment extends ExerciseEntryBaseFragment {
+public abstract class ExerciseEntryFragment extends AbstractExerciseEntryFragment {
     private static final String EDIT_TEXT_ERROR = "Please enter a valid entry";
 
     protected Button mExerciseEntryButton;
     protected EditText mExerciseName;
     protected EditText mExerciseMuscle;
-
-    //Todo: if implement options menu, uncomment line below
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
-    }
-
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-    */
 
     @Nullable
     @Override
