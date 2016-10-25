@@ -69,9 +69,6 @@ public class ExerciseHistoryFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_listview_with_add_button, container, false);
-        // Todo: check if this is correct when reviewing actionbar
-        // Dunno if do it here or in the activity
-        //getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get exerciseId from bundle
         mExerciseId = getArguments().getLong(getString(R.string.EXTRA_EXERCISE_ID));

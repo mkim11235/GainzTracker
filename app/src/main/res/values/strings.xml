@@ -9,10 +9,9 @@
     <string name="title_add_exercise_activity">Add New Exercise</string>
     <string name="title_main_activity">Exercises</string>
     <string name="weight_unit">lb</string>
-    <string name="reps">Reps</string>
+    <string name="reps">reps</string>
     <string name="on">on</string>
-    <string name="placeholder_number">10</string>
-    <string name="button_edit_exercise">Done</string>
+    <string name="placeholder_number">#</string>
 
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>
     <string name="EXTRA_EXERCISE_NAME">com.example.mkim11235.gainztracker.extra.EXERCISE_NAME</string>

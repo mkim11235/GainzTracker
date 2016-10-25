@@ -23,7 +23,7 @@ public class EntryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry);
+        setContentView(R.layout.activity_empty_container);
 
         // Get fragmentTag from intent
         Bundle extras = getIntent().getExtras();
@@ -34,7 +34,7 @@ public class EntryActivity extends AppCompatActivity {
 
         // Attach the fragment based on the received fragmentTag
         if (savedInstanceState == null) {
-            int containerId = R.id.container_activity_entry;
+            int containerId = R.id.container_empty_activity;
             Fragment fragment;
 
             // Cannot use switch statement because R.string values are not static

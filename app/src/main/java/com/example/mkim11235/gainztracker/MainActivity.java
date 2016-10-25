@@ -8,10 +8,10 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_empty_container);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction().add(R.id.container_activity_main,
+            getFragmentManager().beginTransaction().add(R.id.container_empty_activity,
                     new ExerciseFragment(), getString(R.string.FRAGMENT_TAG_EXERCISE)).commit();
         }
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
                 ExerciseHistoryFragment.newInstance(exerciseId);
 
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.container_activity_main, exerciseHistoryFragment,
+        ft.replace(R.id.container_empty_activity, exerciseHistoryFragment,
                 getString(R.string.FRAGMENT_TAG_EXERCISE_HISTORY));
         ft.addToBackStack(null);
         ft.commit();

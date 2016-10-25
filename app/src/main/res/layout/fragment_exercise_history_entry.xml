@@ -30,6 +30,7 @@
         <TextView
             android:text="@string/weight_unit"
             android:textSize="@dimen/font_size_edittext"
+            android:layout_marginLeft="@dimen/margin_unit_from_entry"
             android:layout_toRightOf="@id/space_center_horizontal_weight"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -66,6 +67,7 @@
             android:text="@string/reps"
             android:textSize="@dimen/font_size_edittext"
             android:layout_toRightOf="@id/space_center_horizontal_reps"
+            android:layout_marginLeft="@dimen/margin_unit_from_entry"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
