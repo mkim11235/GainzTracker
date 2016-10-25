@@ -27,7 +27,8 @@
 
         <provider
             android:authorities="com.example.mkim11235.gainztracker"
-            android:name=".data.ExerciseProvider" />
+            android:name=".data.ExerciseProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

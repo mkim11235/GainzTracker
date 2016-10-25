@@ -17,8 +17,8 @@ public class EditExerciseHistoryTask extends DbTask<Long> {
 
     /**
      * Updates exerciseHistoryEntry with new values
-     * @param longs
-     * @return
+     * @param longs long parameters exercisId, weight, reps, date, exerciseHistoryId
+     * @return null
      */
     @Override
     protected Void doInBackground(Long... longs) {
@@ -37,7 +37,7 @@ public class EditExerciseHistoryTask extends DbTask<Long> {
             newValues.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS, reps);
             newValues.put(DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE, date);
 
-            int rowsUpdated = mContentResolver.update(
+            mContentResolver.update(
                     DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                     newValues,
                     DatabaseContract.ExerciseHistoryEntry._ID + " = ? ",

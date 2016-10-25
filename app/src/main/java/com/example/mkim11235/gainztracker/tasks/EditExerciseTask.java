@@ -26,7 +26,7 @@ public class EditExerciseTask extends DbTask<String> {
         newValues.put(DatabaseContract.ExerciseEntry.COLUMN_NAME, exerciseName);
         newValues.put(DatabaseContract.ExerciseEntry.COLUMN_MUSCLE, exerciseMuscle);
 
-        int rowsUpdated = mContentResolver.update(
+        mContentResolver.update(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 newValues,
                 DatabaseContract.ExerciseEntry._ID + " = ? ",

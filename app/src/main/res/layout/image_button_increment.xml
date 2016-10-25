@@ -3,7 +3,7 @@
     android:src="@mipmap/ic_plus"
     android:layout_alignParentRight="true"
     android:layout_marginRight="@dimen/margin_button_crement"
-    android:background="#00000000"
+    android:background="@color/transparent"
     android:contentDescription="@string/content_description_plus_button"
     android:layout_width="@dimen/icon_size"
     android:layout_height="@dimen/icon_size" />

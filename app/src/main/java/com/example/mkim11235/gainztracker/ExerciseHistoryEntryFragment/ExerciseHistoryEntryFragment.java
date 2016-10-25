@@ -74,7 +74,7 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
         mDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDatePickerDialog(view);
+                showDatePickerDialog();
             }
         });
 
@@ -111,7 +111,7 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
      * Shows the datepickerdialog. Called from layout fragment_exercise_history_entry onClick
      * @param v view from which called
      */
-    public void showDatePickerDialog(View v) {
+    public void showDatePickerDialog() {
         DialogFragment fragment = new DatePickerFragment();
         fragment.setArguments(buildDatePickerArgsBundle());
         fragment.show(getFragmentManager(), getString(R.string.FRAGMENT_TAG_DATE_PICKER));

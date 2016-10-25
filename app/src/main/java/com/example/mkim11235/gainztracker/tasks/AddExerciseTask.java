@@ -29,7 +29,7 @@ public class AddExerciseTask extends DbTask<String> {
         Uri insertedUri = mContentResolver.insert(
                 DatabaseContract.ExerciseEntry.CONTENT_URI, values);
 
-        long exerciseId = ContentUris.parseId(insertedUri);
+        ContentUris.parseId(insertedUri);
 
         return null;
     }

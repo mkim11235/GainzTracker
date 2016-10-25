@@ -18,12 +18,12 @@ public class DeleteExerciseTask extends DbTask<String> {
     protected Void doInBackground(String... strings) {
         String exerciseId = strings[0];
 
-        int rowsDeleted = mContentResolver.delete(
+        mContentResolver.delete(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 DatabaseContract.ExerciseEntry._ID + " = ?",
                 new String[] {exerciseId});
 
-        int exerciseHistoryRowsDeleted = mContentResolver.delete(
+        mContentResolver.delete(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
                 new String[] {exerciseId});

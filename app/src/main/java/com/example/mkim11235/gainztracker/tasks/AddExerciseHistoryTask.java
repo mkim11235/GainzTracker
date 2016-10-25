@@ -27,7 +27,7 @@ public class AddExerciseHistoryTask extends DbTask<Long> {
         long reps = longs[2];
         long date = longs[3];
 
-        long exerciseHistoryId = addExerciseHistoryEntry(id, weight, reps, date);
+        addExerciseHistoryEntry(id, weight, reps, date);
         return null;
     }
 

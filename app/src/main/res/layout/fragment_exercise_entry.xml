@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/button_exercise_entry"
-        android:textSize="30dp"
+        android:textSize="@dimen/font_size_final_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"/>

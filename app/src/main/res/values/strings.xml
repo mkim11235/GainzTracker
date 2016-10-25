@@ -3,11 +3,8 @@
     <string name="exercise_history_x">x</string>
     <string name="button_add_exercise_entry_text">Add Exercise</string>
     <string name="button_edit_exercise_entry_text">Update Exercise Entry</string>
-    <string name="button_add_exercise_history_entry_text">Add Exercise Entry</string>
     <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
     <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
-    <string name="title_add_exercise_activity">Add New Exercise</string>
-    <string name="title_main_activity">Exercises</string>
     <string name="weight_unit">lb</string>
     <string name="reps">reps</string>
     <string name="placeholder_number">#</string>
@@ -15,7 +12,6 @@
     <string name="EXTRA_EXERCISE_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_ID</string>
     <string name="EXTRA_EXERCISE_NAME">com.example.mkim11235.gainztracker.extra.EXERCISE_NAME</string>
     <string name="EXTRA_EXERCISE_MUSCLE">com.example.mkim11235.gainztracker.extra.EXERCISE_MUSCLE</string>
-    <string name="EXTRA_LIST_ITEM_POSITION">com.example.mkim11235.gainztracker.extra.LIST_ITEM_POS</string>
     <string name="EXTRA_EXERCISE_HISTORY_ID">com.example.mkim11235.gainztracker.extra.EXERCISE_HISTORY_ID</string>
     <string name="EXTRA_EXERCISE_WEIGHT">com.example.mkim11235.gainztracker.extra.EXERCISE_WEIGHT</string>
     <string name="EXTRA_EXERCISE_REPS">com.example.mkim11235.gainztracker.extra.EXERCISE_REPS</string>

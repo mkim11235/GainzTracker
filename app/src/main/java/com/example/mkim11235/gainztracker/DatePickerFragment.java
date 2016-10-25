@@ -15,7 +15,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     /**
      * Create new datepicker with date selected from arg bundle
-     * @param savedInstanceState
+     * @param savedInstanceState saved instance state
      * @return new datepickerdialog with date selected from bundle
      */
     @Override
