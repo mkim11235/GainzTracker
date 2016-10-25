@@ -45,8 +45,8 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
         mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightString = mWeightEditText.getText().toString();;
-                String repsString = mRepsEditText.getText().toString();;
+                String weightString = mWeightEditText.getText().toString();
+                String repsString = mRepsEditText.getText().toString();
                 String dateString = mDateEditText.getText().toString();
 
                 // Validation check. all must be entered

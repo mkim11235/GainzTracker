@@ -10,14 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageButton
-        android:id="@+id/image_button_add_exercise_entry"
-        android:src="@mipmap/ic_plus"
-        android:background="@drawable/oval"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
-        android:layout_marginBottom="@dimen/button_plus_margin"
-        android:layout_marginRight="@dimen/button_plus_margin"
-        android:layout_gravity="bottom|right"/>
+    <include android:id="@+id/image_button_add_exercise_entry"
+        layout="@layout/image_button_add" />
 
 </FrameLayout>

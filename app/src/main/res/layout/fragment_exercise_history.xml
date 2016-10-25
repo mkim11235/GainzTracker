@@ -11,15 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- Todo: Somehow refactor imagebuttons in main and exercise activity xml -->
-    <ImageButton
-        android:id="@+id/image_button_add_exercise_history_entry"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
-        android:background="@drawable/oval"
-        android:src="@mipmap/ic_plus"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="bottom|right"/>
+    <include android:id="@+id/image_button_add_exercise_history_entry"
+        layout="@layout/image_button_add" />
 
 </FrameLayout>

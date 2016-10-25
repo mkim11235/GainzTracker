@@ -3,6 +3,7 @@ package com.example.mkim11235.gainztracker;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.example.mkim11235.gainztracker.ExerciseEntryFragment.AddExerciseEntryFragment;
 import com.example.mkim11235.gainztracker.ExerciseEntryFragment.EditExerciseEntryFragment;
@@ -55,5 +56,16 @@ public class EntryActivity extends AppCompatActivity {
             ft.add(containerId, fragment, fragmentTag);
             ft.commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

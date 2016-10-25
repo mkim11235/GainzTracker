@@ -191,6 +191,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public interface OnExerciseSelectedListener {
-        public void onExerciseSelected(long exerciseId);
+        void onExerciseSelected(long exerciseId);
     }
 }

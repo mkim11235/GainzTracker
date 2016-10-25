@@ -9,14 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/image_button_exercise_history_decrement_weight"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="40dp"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:background="#00000000"
-            android:src="@mipmap/ic_minus" />
+        <include android:id="@+id/image_button_exercise_history_decrement_weight"
+            layout="@layout/image_button_decrement" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -27,7 +21,6 @@
 
             <EditText
                 android:id="@+id/edittext_exercise_history_entry_weight"
-                android:layout_centerInParent="true"
                 android:textSize="30sp"
                 android:inputType="number"
                 android:hint="@string/placeholder_number"
@@ -44,14 +37,8 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:layout_alignParentEnd="true"
-            android:id="@+id/image_button_exercise_history_increment_weight"
-            android:layout_marginRight="40dp"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:background="#00000000"
-            android:src="@mipmap/ic_plus" />
+        <include android:id="@+id/image_button_exercise_history_increment_weight"
+            layout="@layout/image_button_increment" />
 
     </RelativeLayout>
 
@@ -59,14 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/image_button_exercise_history_decrement_reps"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="40dp"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:background="#00000000"
-            android:src="@mipmap/ic_minus" />
+        <include android:id="@+id/image_button_exercise_history_decrement_reps"
+            layout="@layout/image_button_decrement" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -93,14 +74,8 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/image_button_exercise_history_increment_reps"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="40dp"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
-            android:background="#00000000"
-            android:src="@mipmap/ic_plus" />
+        <include android:id="@+id/image_button_exercise_history_increment_reps"
+            layout="@layout/image_button_increment" />
 
     </RelativeLayout>
 

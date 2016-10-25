@@ -8,7 +8,7 @@ import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.tasks.AddExerciseTask;
 
 /**
- * Created by Michael on 10/22/2016.
+ * Created by Michael on 10/22/2016!
  */
 
 public class AddExerciseEntryFragment extends ExerciseEntryFragment {

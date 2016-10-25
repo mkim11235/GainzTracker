@@ -23,8 +23,7 @@ public class ExerciseHistoryAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_exercise_history, parent, false);
-        return view;
+        return LayoutInflater.from(context).inflate(R.layout.list_item_exercise_history, parent, false);
     }
 
     @Override

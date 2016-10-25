@@ -19,6 +19,9 @@
         <activity
             android:name=".EntryActivity"
             android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mkim11235.gainztracker.MainActivity" />
 
         </activity>
 

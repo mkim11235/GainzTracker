@@ -13,6 +13,7 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  * Created by Michael on 10/19/2016.
  */
 
+//Todo: Bug here. called from addEHEFragment. EditText is null and try to set text to it
 /**
  * Fetches most recent weight/reps for given exerciseId from db
  * Sets corresponding edittext values from context to those value. "" if none

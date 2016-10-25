@@ -34,4 +34,6 @@
     <string name="FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.EDIT_EXERCISE_HISTORY_ENTRY</string>
     <string name="FRAGMENT_TAG_ADD_EXERCISE_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.ADD_EXERCISE_ENTRY</string>
     <string name="FRAGMENT_TAG_EDIT_EXERCISE_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.EDIT_EXERCISE_ENTRY</string>
+    <string name="content_description_minus_button">Minus button</string>
+    <string name="content_description_plus_button">Plus button</string>
 </resources>

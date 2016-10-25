@@ -59,8 +59,8 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
                 // Validation check
                 if (allValidEntries(exerciseName, exerciseMuscle)) {
                     Activity activity = getActivity();
-                    new EditExerciseTask(activity).execute(
-                            mExerciseId, exerciseName, exerciseMuscle);
+                    new EditExerciseTask(activity).execute(mExerciseId, exerciseName,
+                            exerciseMuscle);
 
                     // Return to main activity
                     activity.finish();
