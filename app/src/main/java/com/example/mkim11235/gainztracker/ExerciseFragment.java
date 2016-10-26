@@ -84,7 +84,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             }
         });
 
-
         return rootView;
     }
 

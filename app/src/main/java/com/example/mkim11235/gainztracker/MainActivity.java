@@ -1,9 +1,12 @@
 package com.example.mkim11235.gainztracker;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements ExerciseFragment.OnExerciseSelectedListener {
+public class MainActivity extends AppCompatActivity implements
+        FragmentManager.OnBackStackChangedListener,
+        ExerciseFragment.OnExerciseSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,8 +18,7 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
                     new ExerciseFragment(), getString(R.string.FRAGMENT_TAG_EXERCISE)).commit();
         }
 
-        // Dunno about setting title here
-        //setTitle(getString(R.string.title_main_activity));
+        getFragmentManager().addOnBackStackChangedListener(this);
     }
 
     @Override
@@ -33,5 +35,17 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
                 getString(R.string.FRAGMENT_TAG_EXERCISE_HISTORY));
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        boolean canBack = getFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canBack);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        getFragmentManager().popBackStack();
+        return super.onSupportNavigateUp();
     }
 }
