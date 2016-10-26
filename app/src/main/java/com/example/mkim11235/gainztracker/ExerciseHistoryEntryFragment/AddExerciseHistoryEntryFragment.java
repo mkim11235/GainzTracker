@@ -7,13 +7,15 @@ import android.view.View;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 import com.example.mkim11235.gainztracker.tasks.AddExerciseHistoryTask;
-import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightRepsGivenExerciseIdTask;
+import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightReps;
 
 /**
  * Created by Michael on 10/23/2016.
  */
 
-public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment {
+public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment
+        implements FetchMostRecentWeightReps.OnFinishFetchWeightRepsDefaultsListener {
+
     /**
      * Initialize extra members from bundle
      * @param bundle bundle to get args from
@@ -22,12 +24,16 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
     protected void setExtraMembersFromBundle(Bundle bundle) {}
 
     /**
-     * Set default values for edittexts weight, reps, date
+     * Set default values for edittexts weight, reps, date if not set already
+     * Set fragment retainInstance true for asynctask result
      */
     @Override
     protected void setEditTextDefaults() {
-        mDateEditText.setText(Utility.getCurrentDate());
-        new FetchMostRecentWeightRepsGivenExerciseIdTask(this).execute(mExerciseId);
+        if (mWeightEditText.getText().length() == 0) {
+            setRetainInstance(true);
+            mDateEditText.setText(Utility.getCurrentDate());
+            new FetchMostRecentWeightReps(this).execute(mExerciseId);
+        }
     }
 
     /**
@@ -67,5 +73,11 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
                 }
             }
         });
+    }
+
+    @Override
+    public void onFinishFetchWeightRepsDefaults(String weight, String reps) {
+        mWeightEditText.setText(weight);
+        mRepsEditText.setText(reps);
     }
 }

@@ -3,34 +3,31 @@ package com.example.mkim11235.gainztracker.tasks;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.widget.EditText;
 
 import com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment.ExerciseHistoryEntryFragment;
-import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
  * Created by Michael on 10/19/2016.
  */
 
-//Todo: Bug here. called from addEHEFragment. EditText is null and try to set text to it
 /**
  * Fetches most recent weight/reps for given exerciseId from db
- * Sets corresponding edittext values from context to those value. "" if none
+ * Notifies UI thread to update edittext defaults
  */
-public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long, Void, Void> {
+public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
     private ExerciseHistoryEntryFragment mFragment;
 
-    public FetchMostRecentWeightRepsGivenExerciseIdTask(Fragment context) {
-        mFragment = (ExerciseHistoryEntryFragment) context;
+    public FetchMostRecentWeightReps(Fragment fragment) {
+        mFragment = (ExerciseHistoryEntryFragment) fragment;
     }
 
     @Override
-    protected Void doInBackground(Long... longs) {
+    protected String[] doInBackground(Long... longs) {
         long exerciseId = longs[0];
 
         // Find row in exerciseHistory where id = id
-        // Sort by most recent date highest weight
+        // Sort by most recent date highest weight highest reps
         String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
         Cursor cursor = mFragment.getActivity().getContentResolver().query(
@@ -41,21 +38,36 @@ public class FetchMostRecentWeightRepsGivenExerciseIdTask extends AsyncTask<Long
                 new String[] {Long.toString(exerciseId)},
                 orderBy);
 
-        // Set the edittext for weight and reps to first entry.
+        // Prepare result for postExecute
+        String[] result = null;
         if (cursor.moveToFirst()) {
-            String exerciseWeight = Integer.toString(cursor.getInt(0));
-            String exerciseReps = Integer.toString(cursor.getInt(1));
+            String weight = Long.toString(cursor.getInt(0));
+            String reps = Long.toString(cursor.getInt(1));
 
-            EditText editTextWeight = (EditText) mFragment.getActivity().findViewById(
-                    R.id.edittext_exercise_history_entry_weight);
-            mFragment.setEditTextText(editTextWeight, exerciseWeight);
-
-            EditText editTextReps = (EditText) mFragment.getActivity().findViewById(
-                    R.id.edittext_exercise_history_entry_reps);
-            mFragment.setEditTextText(editTextReps, exerciseReps);
+            result = new String[] {weight, reps};
         }
 
         cursor.close();
-        return null;
+        return result;
+    }
+
+    /**
+     * Notify UI thread to set default weight and reps edittexts
+     * @param result result from doInBackground
+     */
+    @Override
+    protected void onPostExecute(String[] result) {
+        super.onPostExecute(result);
+        String weight = result[0];
+        String reps = result[1];
+
+        if (mFragment instanceof OnFinishFetchWeightRepsDefaultsListener) {
+            ((OnFinishFetchWeightRepsDefaultsListener) mFragment)
+                    .onFinishFetchWeightRepsDefaults(weight, reps);
+        }
+    }
+
+    public interface OnFinishFetchWeightRepsDefaultsListener {
+        void onFinishFetchWeightRepsDefaults(String weight, String reps);
     }
 }

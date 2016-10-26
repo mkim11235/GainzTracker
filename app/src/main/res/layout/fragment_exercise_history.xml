@@ -8,7 +8,14 @@
         android:textSize="@dimen/font_size_textview"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="?android:listPreferredItemHeight" />
+
+    <View
+        android:id="@+id/title_divider_exercise_history"
+        android:layout_below="@id/textview_title_exercise_history"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@android:color/darker_gray" />
 
     <ListView
         android:id="@+id/listview_exercise_history"

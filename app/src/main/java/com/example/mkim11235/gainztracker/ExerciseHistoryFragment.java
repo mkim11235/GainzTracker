@@ -6,7 +6,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
@@ -60,6 +59,8 @@ public class ExerciseHistoryFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.title_exercise_history_fragment));
+
         View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
 
         // Get exerciseId and exerciseName from bundle
@@ -77,7 +78,6 @@ public class ExerciseHistoryFragment extends Fragment
 
         // Setup title
         mTextViewTitle.setText(mExerciseName);
-        mTextViewTitle.setPaintFlags(mTextViewTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         // Implement listview functionality
         ListView exerciseHistoryListView = (ListView)
@@ -93,6 +93,11 @@ public class ExerciseHistoryFragment extends Fragment
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
                 intent.putExtras(mBaseBundle);
                 startActivity(intent);
+
+                //Todo: optimization. if sorted by date, can pass in default weight, reps intent
+                /*Cursor c = (Cursor) mExerciseHistoryAdapter.getItem(0);
+                String w = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_WEIGHT));
+                String r = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_REPS));*/
             }
         });
 

@@ -50,6 +50,8 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.title_exercise_fragment));
+
         View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         // Initialize member variables
@@ -65,7 +67,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 Cursor cursor = (Cursor) mExerciseAdapter.getItem(position);
                 long exerciseId = cursor.getLong(COL_EXERCISE_ID);
                 String exerciseName = cursor.getString(COL_EXERCISE_NAME);
-                //Todo try closing cursor here see wat hapen
                 mCallBack.onExerciseSelected(exerciseId, exerciseName);
             }
         });
@@ -83,6 +84,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             }
         });
 
+
         return rootView;
     }
 
@@ -94,7 +96,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
     /**
      * Sets up callback to parent activity
-     * Need to override deprecated because supporting older devices
+     * Need to override deprecated method because supporting older devices
      * @param activity activity this fragment is attaching to
      */
     @Override

@@ -28,10 +28,12 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
 
     @Override
     protected void setEditTextDefaults() {
-        mWeightEditText.setText(Long.toString(mOldExerciseWeight));
-        mRepsEditText.setText(Long.toString(mOldExerciseReps));
-        String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
-        mDateEditText.setText(formatDate);
+        if (mWeightEditText.getText().length() == 0) {
+            mWeightEditText.setText(Long.toString(mOldExerciseWeight));
+            mRepsEditText.setText(Long.toString(mOldExerciseReps));
+            String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
+            mDateEditText.setText(formatDate);
+        }
     }
 
     @Override

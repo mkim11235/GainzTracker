@@ -30,4 +30,6 @@
     <string name="FRAGMENT_TAG_EDIT_EXERCISE_ENTRY">com.example.mkim11235.gainztracker.fragment.tag.EDIT_EXERCISE_ENTRY</string>
     <string name="content_description_minus_button">Minus button</string>
     <string name="content_description_plus_button">Plus button</string>
+    <string name="title_exercise_fragment">Exercises</string>
+    <string name="title_exercise_history_fragment">Exercise History</string>
 </resources>
