@@ -50,20 +50,23 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_listview_with_add_button, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         // Initialize member variables
         mExerciseAdapter = new ExerciseAdapter(getActivity(), null, EXERCISE_ADAPTER_FLAGS);
-        mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_listview_with_add_button);
+        mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_exercise_add);
 
         // Implement listview functionality
-        ListView exerciseListView = (ListView) rootView.findViewById(R.id.listview_listview_with_add_button);
+        ListView exerciseListView = (ListView) rootView.findViewById(R.id.listview_exercise);
         exerciseListView.setAdapter(mExerciseAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                long exerciseId = mExerciseAdapter.getItemId(position);
-                mCallBack.onExerciseSelected(exerciseId);
+                Cursor cursor = (Cursor) mExerciseAdapter.getItem(position);
+                long exerciseId = cursor.getLong(COL_EXERCISE_ID);
+                String exerciseName = cursor.getString(COL_EXERCISE_NAME);
+                //Todo try closing cursor here see wat hapen
+                mCallBack.onExerciseSelected(exerciseId, exerciseName);
             }
         });
         registerForContextMenu(exerciseListView);
@@ -89,6 +92,11 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         super.onActivityCreated(savedInstanceState);
     }
 
+    /**
+     * Sets up callback to parent activity
+     * Need to override deprecated because supporting older devices
+     * @param activity activity this fragment is attaching to
+     */
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -104,7 +112,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
-        if (view.getId() == R.id.listview_listview_with_add_button) {
+        if (view.getId() == R.id.listview_exercise) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
@@ -172,6 +180,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public interface OnExerciseSelectedListener {
-        void onExerciseSelected(long exerciseId);
+        void onExerciseSelected(long exerciseId, String exerciseName);
     }
 }

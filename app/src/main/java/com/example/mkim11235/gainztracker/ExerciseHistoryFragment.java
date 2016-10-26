@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
@@ -17,10 +18,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
-import com.example.mkim11235.gainztracker.tasks.FetchExerciseTitleTask;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -31,8 +32,6 @@ public class ExerciseHistoryFragment extends Fragment
 
     private static final int EXERCISE_HISTORY_LOADER = 1;
     private static final int EXERCISE_HISTORY_ADAPTER_FLAGS = 0;
-    private static final String EXTRA_EXERCISE_ID =
-            "com.example.mkim11235.gainztracker.extra.EXERCISE_ID";
 
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
@@ -48,47 +47,43 @@ public class ExerciseHistoryFragment extends Fragment
     static final int COL_EXERCISE_HISTORY_REPS = 3;
     static final int COL_EXERCISE_HISTORY_DATE = 4;
 
-    private ImageButton mAddExerciseHistoryEntryButton;
-    private ExerciseHistoryAdapter mExerciseHistoryAdapter;
     private long mExerciseId;
     private String mExerciseName;
-    private Bundle mExerciseHistoryEntryBundle;
+
+    private Bundle mBaseBundle;
+    private TextView mTextViewTitle;
+    private ImageButton mAddExerciseHistoryEntryButton;
+    private ExerciseHistoryAdapter mExerciseHistoryAdapter;
 
     public ExerciseHistoryFragment() {}
-
-    public static ExerciseHistoryFragment newInstance(long exerciseId) {
-        Bundle args = new Bundle();
-        args.putLong(EXTRA_EXERCISE_ID, exerciseId);
-
-        ExerciseHistoryFragment fragment = new ExerciseHistoryFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_listview_with_add_button, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
 
-        // Get exerciseId from bundle
-        mExerciseId = getArguments().getLong(getString(R.string.EXTRA_EXERCISE_ID));
+        // Get exerciseId and exerciseName from bundle
+        // Set the baseBundle to received bundle
+        mBaseBundle = getArguments();
+        mExerciseId = mBaseBundle.getLong(getString(R.string.EXTRA_EXERCISE_ID));
+        mExerciseName = mBaseBundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
 
         // Initialize member vars
+        mTextViewTitle = (TextView) rootView.findViewById(R.id.textview_title_exercise_history);
+        mAddExerciseHistoryEntryButton = (ImageButton)
+                rootView.findViewById(R.id.image_button_exercise_history_add);
         mExerciseHistoryAdapter = new ExerciseHistoryAdapter(getActivity(), null,
                 EXERCISE_HISTORY_ADAPTER_FLAGS);
-        mAddExerciseHistoryEntryButton = (ImageButton)
-                rootView.findViewById(R.id.image_button_listview_with_add_button);
+
+        // Setup title
+        mTextViewTitle.setText(mExerciseName);
+        mTextViewTitle.setPaintFlags(mTextViewTitle.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         // Implement listview functionality
         ListView exerciseHistoryListView = (ListView)
-                rootView.findViewById(R.id.listview_listview_with_add_button);
+                rootView.findViewById(R.id.listview_exercise_history);
         exerciseHistoryListView.setAdapter(mExerciseHistoryAdapter);
         registerForContextMenu(exerciseHistoryListView);
-
-        //Todo: rethink title scheme. maybe have title below actionbar in xml
-        //Todo: maybe use eventbus here
-        // Gets and sets exercise title
-        new FetchExerciseTitleTask(this).execute(mExerciseId);
 
         // Add ExerciseHistory Button onClick starts EntryActivity w/ ExerciseHistoryEntryFrag
         mAddExerciseHistoryEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +91,7 @@ public class ExerciseHistoryFragment extends Fragment
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
-                intent.putExtras(mExerciseHistoryEntryBundle);
+                intent.putExtras(mBaseBundle);
                 startActivity(intent);
             }
         });
@@ -113,7 +108,7 @@ public class ExerciseHistoryFragment extends Fragment
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
-        if (view.getId() == R.id.listview_listview_with_add_button) {
+        if (view.getId() == R.id.listview_exercise_history) {
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -142,7 +137,7 @@ public class ExerciseHistoryFragment extends Fragment
                 Intent intent = new Intent(getActivity(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG),
                         getString(R.string.FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY));
-                intent.putExtras(mExerciseHistoryEntryBundle);
+                intent.putExtras(mBaseBundle);
                 intent.putExtras(buildEditEntryBundle(exerciseWeight, exerciseReps, exerciseDate,
                         exerciseHistoryId));
                 startActivity(intent);
@@ -152,24 +147,6 @@ public class ExerciseHistoryFragment extends Fragment
                 break;
         }
         return true;
-    }
-
-    /**
-     * Called from FetchExerciseTitleTask to set member exerciseName
-     * @param name name to set exerciseName to
-     */
-    public void setExerciseName(String name) {
-        mExerciseName = name;
-    }
-
-    /**
-     * Called from FetchExerciseTitleTask when name is computed
-     * Puts id and name in bundle
-     */
-    public void setBundle() {
-        mExerciseHistoryEntryBundle = new Bundle();
-        mExerciseHistoryEntryBundle.putLong(getString(R.string.EXTRA_EXERCISE_ID), mExerciseId);
-        mExerciseHistoryEntryBundle.putString(getString(R.string.EXTRA_EXERCISE_NAME), mExerciseName);
     }
 
     @Override

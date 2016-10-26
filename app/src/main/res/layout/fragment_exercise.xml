@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/listview_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include android:id="@+id/image_button_exercise_add"
+        layout="@layout/image_button_add" />
+
+</RelativeLayout>

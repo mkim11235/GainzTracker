@@ -20,9 +20,13 @@ public class MainActivity extends AppCompatActivity implements ExerciseFragment.
     }
 
     @Override
-    public void onExerciseSelected(long exerciseId) {
-        ExerciseHistoryFragment exerciseHistoryFragment =
-                ExerciseHistoryFragment.newInstance(exerciseId);
+    public void onExerciseSelected(long exerciseId, String exerciseName) {
+        Bundle args = new Bundle();
+        args.putLong(getString(R.string.EXTRA_EXERCISE_ID), exerciseId);
+        args.putString(getString(R.string.EXTRA_EXERCISE_NAME), exerciseName);
+
+        ExerciseHistoryFragment exerciseHistoryFragment = new ExerciseHistoryFragment();
+        exerciseHistoryFragment.setArguments(args);
 
         android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.container_empty_activity, exerciseHistoryFragment,

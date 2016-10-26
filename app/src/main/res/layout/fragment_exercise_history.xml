@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textview_title_exercise_history"
+        android:textSize="@dimen/font_size_textview"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/listview_exercise_history"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textview_title_exercise_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include android:id="@+id/image_button_exercise_history_add"
+        layout="@layout/image_button_add" />
+
+</RelativeLayout>
