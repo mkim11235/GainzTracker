@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,10 +48,27 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
     public ExerciseFragment() {}
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_sort_by:
+                //Todo: implement dialog or something. maybe need preferences
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_exercise, menu);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.title_exercise_fragment));
+        setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 

@@ -32,4 +32,5 @@
     <string name="content_description_plus_button">Plus button</string>
     <string name="title_exercise_fragment">Exercises</string>
     <string name="title_exercise_history_fragment">Exercise History</string>
+    <string name="action_sort_by">Sort By</string>
 </resources>
