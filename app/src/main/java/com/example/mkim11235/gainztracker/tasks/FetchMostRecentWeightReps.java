@@ -63,14 +63,13 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
             String weight = result[0];
             String reps = result[1];
 
-            if (mFragment instanceof OnFinishFetchWeightRepsDefaultsListener) {
-                ((OnFinishFetchWeightRepsDefaultsListener) mFragment)
-                        .onFinishFetchWeightRepsDefaults(weight, reps);
+            if (mFragment instanceof Callback) {
+                ((Callback) mFragment).onFinishFetchWeightRepsDefaults(weight, reps);
             }
         }
     }
 
-    public interface OnFinishFetchWeightRepsDefaultsListener {
+    public interface Callback {
         void onFinishFetchWeightRepsDefaults(String weight, String reps);
     }
 }

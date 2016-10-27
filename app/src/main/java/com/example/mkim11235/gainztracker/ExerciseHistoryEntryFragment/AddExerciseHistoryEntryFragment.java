@@ -14,7 +14,7 @@ import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightReps;
  */
 
 public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment
-        implements FetchMostRecentWeightReps.OnFinishFetchWeightRepsDefaultsListener {
+        implements FetchMostRecentWeightReps.Callback {
 
     /**
      * Initialize extra members from bundle

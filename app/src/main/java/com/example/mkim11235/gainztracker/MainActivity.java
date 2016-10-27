@@ -2,16 +2,11 @@ package com.example.mkim11235.gainztracker;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity implements
         FragmentManager.OnBackStackChangedListener,
-        ExerciseFragment.OnExerciseSelectedListener {
+        ExerciseFragment.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,9 +3,11 @@ package com.example.mkim11235.gainztracker;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +24,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
+
+import java.util.Arrays;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -33,8 +36,9 @@ import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
 
 public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXERCISE_LOADER = 0;
+    private static final int EXERCISE_LOADER_DEFAULT = 0;
     private static final int EXERCISE_ADAPTER_FLAGS = 0;
+    private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
 
     private static final String[] EXERCISE_COLUMNS = {
             DatabaseContract.ExerciseEntry._ID,
@@ -46,9 +50,12 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     static final int COL_EXERCISE_NAME = 1;
     static final int COL_EXERCISE_MUSCLE = 2;
 
+    private String[] mSortByArray;
+
     private ImageButton mAddExerciseButton;
     private ExerciseAdapter mExerciseAdapter;
-    private OnExerciseSelectedListener mCallBack;
+    private Callback mCallBack;
+    private SharedPreferences mSharedPref;
 
     public ExerciseFragment() {}
 
@@ -56,23 +63,9 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_activity_main, menu);
-        MenuItem item = menu.findItem(R.id.menu_item_sort_by);
-        item.setActionView(R.layout.spinner_menu);
-        Spinner spinner = (Spinner) item.getActionView();
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise, android.R.layout.simple_list_item_1);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_sort_by:
-                //Todo: implement dialog or something. maybe need preferences
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
+        setupSpinner(spinner);
     }
 
     @Nullable
@@ -84,6 +77,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         // Initialize member variables
+        mSortByArray = getResources().getStringArray(R.array.sort_by_exercise);
         mExerciseAdapter = new ExerciseAdapter(getActivity(), null, EXERCISE_ADAPTER_FLAGS);
         mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_exercise_add);
 
@@ -118,7 +112,17 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(EXERCISE_LOADER, null, this);
+        // Get the sortby from shardPref. set it to default 0 if null
+        mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String sharedPrefSortBy = mSharedPref.getString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), null);
+        if (sharedPrefSortBy == null) {
+            sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
+            mSharedPref.edit().putString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), sharedPrefSortBy).apply();
+        }
+
+        // init loader to sort based on sharedPref sortby
+        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
+        getLoaderManager().initLoader(sharedPrefPosition, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -132,10 +136,10 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         super.onAttach(activity);
 
         try {
-            mCallBack = (OnExerciseSelectedListener) activity;
+            mCallBack = (Callback) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnExerciseSelectedListener");
+                    + " must implement Callback");
         }
     }
 
@@ -189,14 +193,32 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         return true;
     }
 
+    /**
+     * Creates loader for displaying exercises sorted based on spinner selection
+     * @param i index of selected spinner in mSortByArray
+     * @param bundle null
+     * @return CursorLoader
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        String sortBy;
+        switch (i) {
+            case 0:
+                sortBy = DatabaseContract.ExerciseEntry.COLUMN_NAME + " ASC";
+                break;
+            case 1:
+                sortBy = DatabaseContract.ExerciseEntry.COLUMN_MUSCLE + " ASC";
+                break;
+            default:
+                sortBy = null;
+        }
+
         return new CursorLoader(getActivity(),
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 EXERCISE_COLUMNS,
                 null,
                 null,
-                null);
+                sortBy);
     }
 
     @Override
@@ -209,7 +231,29 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         mExerciseAdapter.swapCursor(null);
     }
 
-    public interface OnExerciseSelectedListener {
+    public interface Callback {
         void onExerciseSelected(long exerciseId, String exerciseName);
+    }
+
+    //Todo: improve layout of spinner
+    private void setupSpinner(Spinner spinner) {
+        String sharedPrefSortBy = mSharedPref.getString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
+
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise, android.R.layout.simple_list_item_1);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(sharedPrefPosition);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = (String) adapterView.getItemAtPosition(i);
+                mSharedPref.edit().putString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), selectedItem).apply();
+                getLoaderManager().restartLoader(i, null, ExerciseFragment.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
     }
 }
