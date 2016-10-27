@@ -2,25 +2,32 @@ package com.example.mkim11235.gainztracker;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
+
+import java.util.Arrays;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -29,8 +36,9 @@ import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
 public class ExerciseHistoryFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXERCISE_HISTORY_LOADER = 1;
     private static final int EXERCISE_HISTORY_ADAPTER_FLAGS = 0;
+    private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
+    private static final String PREF_KEY_SORT_BY_EXERCISE_HISTORY = "PREF_SORT_BY_EXERCISE_HISTORY";
 
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
@@ -48,23 +56,23 @@ public class ExerciseHistoryFragment extends Fragment
 
     private long mExerciseId;
     private String mExerciseName;
+    private String[] mSortByArray;
 
     private Bundle mBaseBundle;
     private TextView mTextViewTitle;
     private ImageButton mAddExerciseHistoryEntryButton;
     private ExerciseHistoryAdapter mExerciseHistoryAdapter;
+    private SharedPreferences mSharedPref;
 
     public ExerciseHistoryFragment() {}
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_item_sort_by:
-                //Todo: implement dialog or something. maybe need preferences
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_activity_main, menu);
+
+        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
+        setupSpinner(spinner);
     }
 
     @Nullable
@@ -82,6 +90,7 @@ public class ExerciseHistoryFragment extends Fragment
         mExerciseName = mBaseBundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
 
         // Initialize member vars
+        mSortByArray = getResources().getStringArray(R.array.sort_by_exercise_history);
         mTextViewTitle = (TextView) rootView.findViewById(R.id.textview_title_exercise_history);
         mAddExerciseHistoryEntryButton = (ImageButton)
                 rootView.findViewById(R.id.image_button_exercise_history_add);
@@ -118,7 +127,17 @@ public class ExerciseHistoryFragment extends Fragment
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(EXERCISE_HISTORY_LOADER, null, this);
+        // Get the sortby from shardPref. set it to default 0 if null
+        mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, null);
+        if (sharedPrefSortBy == null) {
+            sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
+            mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, sharedPrefSortBy).apply();
+        }
+
+        // init loader to sort based on sharedPref sortby
+        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
+        getLoaderManager().initLoader(sharedPrefPosition, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -166,19 +185,42 @@ public class ExerciseHistoryFragment extends Fragment
         return true;
     }
 
+    /**
+     * Creates loader for displaying exercise history entries sorted based on spinner selection
+     * @param i index of spinner selection
+     * @param args null
+     * @return CursorLoader
+     */
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public Loader<Cursor> onCreateLoader(int i, Bundle args) {
         String exerciseIdString = Long.toString(mExerciseId);
-        String orderBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
-                DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC";
+        String sortBy;
+        switch (i) {
+            case 0:
+                sortBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC";
+                break;
+            case 1:
+                sortBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC";
+                break;
+            case 2:
+                sortBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC, " +
+                        DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC";
+                break;
+            default:
+                sortBy = null;
+        }
 
         return new CursorLoader(getActivity(),
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
                 new String[] {exerciseIdString},
-                orderBy);
+                sortBy);
     }
 
     @Override
@@ -198,5 +240,26 @@ public class ExerciseHistoryFragment extends Fragment
         bundle.putLong(getString(R.string.EXTRA_EXERCISE_DATE), date);
         bundle.putLong(getString(R.string.EXTRA_EXERCISE_HISTORY_ID), id);
         return bundle;
+    }
+
+    private void setupSpinner(Spinner spinner) {
+        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
+
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise_history, android.R.layout.simple_list_item_1);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(sharedPrefPosition);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem = (String) adapterView.getItemAtPosition(i);
+                mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, selectedItem).apply();
+                getLoaderManager().restartLoader(i, null, ExerciseHistoryFragment.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
     }
 }

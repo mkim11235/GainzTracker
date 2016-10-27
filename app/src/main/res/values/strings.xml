@@ -32,7 +32,4 @@
     <string name="content_description_plus_button">Plus button</string>
     <string name="title_exercise_fragment">Exercises</string>
     <string name="title_exercise_history_fragment">Exercise History</string>
-    <string name="action_sort_by">Sort By</string>
-    <string name="PREFERENCE_SORT_BY_EXERCISE">com.example.mkim11235.gainztracker.preference.SORT_BY_EXERCISE</string>
-    <string name="PREFERENCE_SORT_BY_EXERCISE_HISTORY">com.example.mkim11235.gainztracker.preference.SORT_BY_EXERCISE_HISTORY</string>
 </resources>

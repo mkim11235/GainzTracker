@@ -36,9 +36,9 @@ import java.util.Arrays;
 
 public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int EXERCISE_LOADER_DEFAULT = 0;
     private static final int EXERCISE_ADAPTER_FLAGS = 0;
     private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
+    private static final String PREF_KEY_SORT_BY_EXERCISE = "PREF_SORT_BY_EXERCISE";
 
     private static final String[] EXERCISE_COLUMNS = {
             DatabaseContract.ExerciseEntry._ID,
@@ -114,10 +114,10 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     public void onActivityCreated(Bundle savedInstanceState) {
         // Get the sortby from shardPref. set it to default 0 if null
         mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String sharedPrefSortBy = mSharedPref.getString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), null);
+        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE, null);
         if (sharedPrefSortBy == null) {
             sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
-            mSharedPref.edit().putString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), sharedPrefSortBy).apply();
+            mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE, sharedPrefSortBy).apply();
         }
 
         // init loader to sort based on sharedPref sortby
@@ -237,7 +237,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
     //Todo: improve layout of spinner
     private void setupSpinner(Spinner spinner) {
-        String sharedPrefSortBy = mSharedPref.getString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
         int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
 
         ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise, android.R.layout.simple_list_item_1);
@@ -248,7 +248,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(getString(R.string.PREFERENCE_SORT_BY_EXERCISE), selectedItem).apply();
+                mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE, selectedItem).apply();
                 getLoaderManager().restartLoader(i, null, ExerciseFragment.this);
             }
 
