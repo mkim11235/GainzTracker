@@ -56,10 +56,22 @@ public class ExerciseHistoryFragment extends Fragment
 
     public ExerciseHistoryFragment() {}
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_sort_by:
+                //Todo: implement dialog or something. maybe need preferences
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getActivity().setTitle(getString(R.string.title_exercise_history_fragment));
+        setHasOptionsMenu(true);
 
         View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
 

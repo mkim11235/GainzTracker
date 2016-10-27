@@ -9,6 +9,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,8 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
@@ -49,6 +53,18 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
     public ExerciseFragment() {}
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_activity_main, menu);
+        MenuItem item = menu.findItem(R.id.menu_item_sort_by);
+        item.setActionView(R.layout.spinner_menu);
+        Spinner spinner = (Spinner) item.getActionView();
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise, android.R.layout.simple_list_item_1);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_sort_by:
@@ -57,11 +73,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_exercise, menu);
     }
 
     @Nullable

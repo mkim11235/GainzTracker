@@ -53,17 +53,20 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
 
     /**
      * Notify UI thread to set default weight and reps edittexts
+     * If no previous exercise history entries for default, do nothing
      * @param result result from doInBackground
      */
     @Override
     protected void onPostExecute(String[] result) {
         super.onPostExecute(result);
-        String weight = result[0];
-        String reps = result[1];
+        if (result != null) {
+            String weight = result[0];
+            String reps = result[1];
 
-        if (mFragment instanceof OnFinishFetchWeightRepsDefaultsListener) {
-            ((OnFinishFetchWeightRepsDefaultsListener) mFragment)
-                    .onFinishFetchWeightRepsDefaults(weight, reps);
+            if (mFragment instanceof OnFinishFetchWeightRepsDefaultsListener) {
+                ((OnFinishFetchWeightRepsDefaultsListener) mFragment)
+                        .onFinishFetchWeightRepsDefaults(weight, reps);
+            }
         }
     }
 

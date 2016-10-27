@@ -4,4 +4,15 @@
         <item>Edit</item>
         <item>Delete</item>
     </string-array>
+
+    <string-array name="sort_by_exercise">
+        <item>Name</item>
+        <item>Muscle</item>
+    </string-array>
+
+    <string-array name="sort_by_exercise_history">
+        <item>Date</item>
+        <item>Weight</item>
+        <item>Reps</item>
+    </string-array>
 </resources>
