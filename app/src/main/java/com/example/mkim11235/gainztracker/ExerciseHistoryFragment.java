@@ -1,16 +1,11 @@
 package com.example.mkim11235.gainztracker;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -27,8 +21,6 @@ import android.widget.TextView;
 
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
-
-import java.util.Arrays;
 
 /**
  * Created by Michael on 10/22/2016.
@@ -59,13 +51,13 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
 
     public ExerciseHistoryFragment() {}
 
-    //Todo: spinners need to be separate objects. also in pref, keep track of index of selected spiner item rather than the string.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_exercise_history, menu);
 
-        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by2).getActionView();
-        setupSpinner(spinner, this);
+        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by_exercise_history).getActionView();
+        setupSpinner(spinner, R.array.sort_by_exercise_history, this);
     }
 
     @Nullable
@@ -76,14 +68,12 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
 
         View rootView = inflater.inflate(R.layout.fragment_exercise_history, container, false);
 
-        // Get exerciseId and exerciseName from bundle
-        // Set the baseBundle to received bundle
+        // Get arguments and set members
         mBaseBundle = getArguments();
         mExerciseId = mBaseBundle.getLong(getString(R.string.EXTRA_EXERCISE_ID));
         mExerciseName = mBaseBundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
 
         // Initialize member vars
-        mSortByArray = getResources().getStringArray(R.array.sort_by_exercise_history);
         mTextViewTitle = (TextView) rootView.findViewById(R.id.textview_title_exercise_history);
         mAddExerciseHistoryEntryButton = (ImageButton)
                 rootView.findViewById(R.id.image_button_exercise_history_add);

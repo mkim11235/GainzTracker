@@ -51,6 +51,15 @@ public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
 
     public ExerciseFragment() {}
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_exercise, menu);
+
+        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by_exercise).getActionView();
+        setupSpinner(spinner, R.array.sort_by_exercise, this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +69,6 @@ public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
         View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
 
         // Initialize member variables
-        mSortByArray = getResources().getStringArray(R.array.sort_by_exercise);
         mCursorAdapter = new ExerciseAdapter(getActivity(), null, CURSOR_ADAPTER_FLAGS);
         mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_exercise_add);
         mPrefKeySortBy = PREF_KEY_SORT_BY;

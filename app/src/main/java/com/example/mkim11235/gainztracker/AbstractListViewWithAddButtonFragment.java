@@ -7,14 +7,11 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -28,36 +25,27 @@ import java.util.Arrays;
 public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
+    private static final int UNDEFINED_INDEX = -1;
+    private static final int SHARED_PREF_SORT_BY_DEFAULT_INDEX = 0;
     protected static final int CURSOR_ADAPTER_FLAGS = 0;
 
     private SharedPreferences mSharedPref;
     protected String mPrefKeySortBy;
-    protected String[] mSortByArray;
     protected CursorAdapter mCursorAdapter;
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_activity_main, menu);
-
-        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner, this);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        // Get the sortby from shardPref. set it to default 0 if null
+        // Get the sortby from pref. set it to default 0 if not defined
         mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String sharedPrefSortBy = mSharedPref.getString(mPrefKeySortBy, null);
-        if (sharedPrefSortBy == null) {
-            sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
-            mSharedPref.edit().putString(mPrefKeySortBy, sharedPrefSortBy).apply();
+        int prefSortByIndex = mSharedPref.getInt(mPrefKeySortBy, UNDEFINED_INDEX);
+        if (prefSortByIndex == UNDEFINED_INDEX) {
+            prefSortByIndex = SHARED_PREF_SORT_BY_DEFAULT_INDEX;
+            mSharedPref.edit().putInt(mPrefKeySortBy, prefSortByIndex).apply();
         }
 
         // init loader to sort based on sharedPref sortby
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
-        getLoaderManager().initLoader(sharedPrefPosition, null, this);
+        getLoaderManager().initLoader(prefSortByIndex, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -71,20 +59,17 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         mCursorAdapter.swapCursor(null);
     }
 
-    protected void setupSpinner(Spinner spinner, final LoaderManager.LoaderCallbacks context) {
-        String sharedPrefSortBy = mSharedPref.getString(mPrefKeySortBy, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
+    protected void setupSpinner(Spinner spinner, int arrayResourceId, final LoaderManager.LoaderCallbacks context) {
+        int prefSortByIndex = mSharedPref.getInt(mPrefKeySortBy, SHARED_PREF_SORT_BY_DEFAULT_INDEX);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mSortByArray);
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), arrayResourceId, android.R.layout.simple_list_item_1);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(sharedPrefPosition);
+        spinner.setSelection(prefSortByIndex);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(mPrefKeySortBy, selectedItem).apply();
-                Log.v("GG", "for  " + mPrefKeySortBy + " put " + selectedItem);
+                mSharedPref.edit().putInt(mPrefKeySortBy, i).apply();
                 getLoaderManager().restartLoader(i, null, context);
             }
 
