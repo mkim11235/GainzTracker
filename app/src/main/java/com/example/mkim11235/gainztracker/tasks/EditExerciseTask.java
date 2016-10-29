@@ -11,15 +11,19 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 public class EditExerciseTask extends DbTask<String> {
 
+    private static final int INDEX_EXERCISE_ID = 0;
+    private static final int INDEX_NAME = 1;
+    private static final int INDEX_MUSCLE = 2;
+
     public EditExerciseTask(Context context) {
         super(context);
     }
 
     @Override
     protected Void doInBackground(String... strings) {
-        String exerciseId = strings[0];
-        String exerciseName = strings[1];
-        String exerciseMuscle = strings[2];
+        String exerciseId = strings[INDEX_EXERCISE_ID];
+        String exerciseName = strings[INDEX_NAME];
+        String exerciseMuscle = strings[INDEX_MUSCLE];
 
         // Setup new values
         ContentValues newValues = new ContentValues();

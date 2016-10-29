@@ -16,16 +16,21 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
  */
 public class AddExerciseHistoryTask extends DbTask<Long> {
 
+    private static final int INDEX_EXERCISE_ID = 0;
+    private static final int INDEX_WEIGHT = 1;
+    private static final int INDEX_REPS = 2;
+    private static final int INDEX_DATE = 3;
+
     public AddExerciseHistoryTask(Context context) {
         super(context);
     }
 
     @Override
     protected Void doInBackground(Long... longs) {
-        long id = longs[0];
-        long weight = longs[1];
-        long reps = longs[2];
-        long date = longs[3];
+        long id = longs[INDEX_EXERCISE_ID];
+        long weight = longs[INDEX_WEIGHT];
+        long reps = longs[INDEX_REPS];
+        long date = longs[INDEX_DATE];
 
         addExerciseHistoryEntry(id, weight, reps, date);
         return null;

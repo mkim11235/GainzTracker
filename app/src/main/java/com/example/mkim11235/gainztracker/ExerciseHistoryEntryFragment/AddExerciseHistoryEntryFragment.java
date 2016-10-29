@@ -38,6 +38,8 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
      * Set fragment retainInstance true for asynctask result
      */
     private void setEditTextDefaults(Bundle args) {
+        mDateEditText.setText(Utility.getCurrentDate());
+
         String weightString = args.getString(getString(R.string.EXTRA_EXERCISE_WEIGHT));
         String repsString = args.getString(getString(R.string.EXTRA_EXERCISE_REPS));
 

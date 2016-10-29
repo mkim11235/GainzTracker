@@ -13,6 +13,7 @@ import android.os.AsyncTask;
  * @param <T> parameter type for AsyncTask
  */
 public abstract class DbTask<T> extends AsyncTask<T, Void, Void> {
+
     protected ContentResolver mContentResolver;
 
     public DbTask(Context context) {
