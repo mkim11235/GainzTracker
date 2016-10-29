@@ -33,7 +33,6 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
     protected String mPrefKeySortBy;
     protected CursorAdapter mCursorAdapter;
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         // Get the sortby from pref. set it to default 0 if not defined

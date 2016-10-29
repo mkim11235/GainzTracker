@@ -1,5 +1,6 @@
 package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.example.mkim11235.gainztracker.R;
  * Created by Michael on 10/22/2016.
  */
 
-public abstract class ExerciseEntryFragment extends AbstractExerciseEntryFragment {
+public abstract class ExerciseEntryFragment extends Fragment {
     private static final String EDIT_TEXT_ERROR = "Please enter a valid entry";
 
     protected Button mExerciseEntryButton;
@@ -27,19 +28,10 @@ public abstract class ExerciseEntryFragment extends AbstractExerciseEntryFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_entry, container, false);
 
-        Bundle args = getArguments();
-        if (args != null) {
-            setExtraMembersFromBundle(args);
-        }
-
         // Initialize member variables
         mExerciseName = (EditText) rootView.findViewById(R.id.edittext_exercise_name);
         mExerciseMuscle = (EditText) rootView.findViewById(R.id.edittext_exercise_muscle);
         mExerciseEntryButton = (Button) rootView.findViewById(R.id.button_exercise_entry);
-
-        setEditTextDefaults();
-        setFinalButtonText();
-        setFinalButtonOnClickListener();
 
         return rootView;
     }

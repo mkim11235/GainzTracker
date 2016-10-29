@@ -13,7 +13,7 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
  * Fetches most recent weight/reps for given exerciseId from db
- * Notifies UI thread to update edittext defaults
+ * Callback to UI thread to update edittext defaults
  */
 public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
     private ExerciseHistoryEntryFragment mFragment;

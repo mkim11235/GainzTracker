@@ -2,7 +2,10 @@ package com.example.mkim11235.gainztracker.ExerciseEntryFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.tasks.EditExerciseTask;
@@ -17,39 +20,36 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
     private String mOldExerciseName;
     private String mOldExerciseMuscle;
 
-    /**
-     * Gets and sets old exercise name and weight
-     * @param bundle bundle to get args from
-     */
+    @Nullable
     @Override
-    protected void setExtraMembersFromBundle(Bundle bundle) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+
+        Bundle args = getArguments();
+        setExtraMembersFromBundle(args);
+
+        setEditTextDefaults();
+        mExerciseEntryButton.setText(getString(R.string.button_edit_exercise_entry_text));
+        setFinalButtonOnClickListener();
+
+        return rootView;
+    }
+
+    // Gets and sets old exercise name and weight
+    private void setExtraMembersFromBundle(Bundle bundle) {
         mExerciseId = bundle.getString(getString(R.string.EXTRA_EXERCISE_ID));
         mOldExerciseName = bundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
         mOldExerciseMuscle = bundle.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));
     }
 
-    /**
-     * Sets default values to old values
-     */
-    @Override
-    protected void setEditTextDefaults() {
+     // Sets default values to old values
+    private void setEditTextDefaults() {
         mExerciseName.setText(mOldExerciseName);
         mExerciseMuscle.setText(mOldExerciseMuscle);
     }
 
-    /**
-     * Sets exerciseEntryButtonText
-     */
-    @Override
-    protected void setFinalButtonText() {
-        mExerciseEntryButton.setText(getString(R.string.button_edit_exercise_entry_text));
-    }
-
-    /**
-     * Sets exerciseEntryButton onclick to edit db with new values
-     */
-    @Override
-    protected void setFinalButtonOnClickListener() {
+     // Sets exerciseEntryButton onclick to edit db with new values
+    private void setFinalButtonOnClickListener() {
         mExerciseEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
