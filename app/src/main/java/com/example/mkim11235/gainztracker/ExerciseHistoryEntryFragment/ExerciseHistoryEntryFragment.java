@@ -1,6 +1,7 @@
 package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,7 +14,6 @@ import android.widget.ImageButton;
 
 import com.example.mkim11235.gainztracker.ContinuousLongClickListener;
 import com.example.mkim11235.gainztracker.DatePickerFragment;
-import com.example.mkim11235.gainztracker.AbstractExerciseEntryFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 
@@ -21,7 +21,7 @@ import com.example.mkim11235.gainztracker.Utility;
  * Created by Michael on 10/23/2016.
  */
 
-public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntryFragment {
+public abstract class ExerciseHistoryEntryFragment extends Fragment {
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
 
@@ -54,7 +54,6 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
         if (args != null) {
             mExerciseId = args.getLong(getString(R.string.EXTRA_EXERCISE_ID));
             mExerciseName = args.getString(getString(R.string.EXTRA_EXERCISE_NAME));
-            setExtraMembersFromBundle(args);
         }
 
         mExerciseHistoryFinalButton = (Button)
@@ -82,27 +81,23 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
 
         // Decrement/Increment button setup
         mDecrementWeightButton.setOnClickListener(
-                getChangeButtonOnClickListener(mWeightEditText, DECREMENT_CHANGE));
+                setChangeButtonOnClickListener(mWeightEditText, DECREMENT_CHANGE));
         mDecrementRepsButton.setOnClickListener(
-                getChangeButtonOnClickListener(mRepsEditText, DECREMENT_CHANGE));
+                setChangeButtonOnClickListener(mRepsEditText, DECREMENT_CHANGE));
         mIncrementWeightButton.setOnClickListener(
-                getChangeButtonOnClickListener(mWeightEditText, INCREMENT_CHANGE));
+                setChangeButtonOnClickListener(mWeightEditText, INCREMENT_CHANGE));
         mIncrementRepsButton.setOnClickListener(
-                getChangeButtonOnClickListener(mRepsEditText, INCREMENT_CHANGE));
+                setChangeButtonOnClickListener(mRepsEditText, INCREMENT_CHANGE));
 
         // Setup Dec/Increment button OnLongClick
         new ContinuousLongClickListener(mDecrementWeightButton, mIncrementHandler,
-                getChangeButtonOnLongClickListener(mWeightEditText, DECREMENT_CHANGE_LONG));
+                setChangeButtonOnLongClickListener(mWeightEditText, DECREMENT_CHANGE_LONG));
         new ContinuousLongClickListener(mIncrementWeightButton, mIncrementHandler,
-                getChangeButtonOnLongClickListener(mWeightEditText, INCREMENT_CHANGE_LONG));
+                setChangeButtonOnLongClickListener(mWeightEditText, INCREMENT_CHANGE_LONG));
         new ContinuousLongClickListener(mDecrementRepsButton, mIncrementHandler,
-                getChangeButtonOnLongClickListener(mRepsEditText, DECREMENT_CHANGE));
+                setChangeButtonOnLongClickListener(mRepsEditText, DECREMENT_CHANGE));
         new ContinuousLongClickListener(mIncrementRepsButton, mIncrementHandler,
-                getChangeButtonOnLongClickListener(mRepsEditText, INCREMENT_CHANGE));
-
-        setEditTextDefaults();
-        setFinalButtonText();
-        setFinalButtonOnClickListener();
+                setChangeButtonOnLongClickListener(mRepsEditText, INCREMENT_CHANGE));
 
         return rootView;
     }
@@ -144,9 +139,9 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
     }
 
     /**
-     * gets button onclicklisteners for increment/decrement
+     * sets button onclicklisteners for increment/decrement
      */
-    private View.OnClickListener getChangeButtonOnClickListener(final EditText editText, final int change) {
+    private View.OnClickListener setChangeButtonOnClickListener(final EditText editText, final int change) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,7 +160,7 @@ public abstract class ExerciseHistoryEntryFragment extends AbstractExerciseEntry
      * @param change change amount
      * @return OnClickListenerObject
      */
-    private View.OnLongClickListener getChangeButtonOnLongClickListener(final EditText editText, final int change) {
+    private View.OnLongClickListener setChangeButtonOnLongClickListener(final EditText editText, final int change) {
         return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

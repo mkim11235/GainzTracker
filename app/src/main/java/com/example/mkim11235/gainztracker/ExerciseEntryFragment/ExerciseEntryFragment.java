@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.mkim11235.gainztracker.AbstractExerciseEntryFragment;
 import com.example.mkim11235.gainztracker.R;
 
 /**

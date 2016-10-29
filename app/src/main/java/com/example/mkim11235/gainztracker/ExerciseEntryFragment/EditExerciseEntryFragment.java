@@ -25,8 +25,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        Bundle args = getArguments();
-        setExtraMembersFromBundle(args);
+        setExtraMembersFromArgs(getArguments());
 
         setEditTextDefaults();
         mExerciseEntryButton.setText(getString(R.string.button_edit_exercise_entry_text));
@@ -36,7 +35,7 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
     }
 
     // Gets and sets old exercise name and weight
-    private void setExtraMembersFromBundle(Bundle bundle) {
+    private void setExtraMembersFromArgs(Bundle bundle) {
         mExerciseId = bundle.getString(getString(R.string.EXTRA_EXERCISE_ID));
         mOldExerciseName = bundle.getString(getString(R.string.EXTRA_EXERCISE_NAME));
         mOldExerciseMuscle = bundle.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));

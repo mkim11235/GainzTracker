@@ -2,7 +2,10 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
@@ -16,19 +19,24 @@ import com.example.mkim11235.gainztracker.tasks.FetchMostRecentWeightReps;
 public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragment
         implements FetchMostRecentWeightReps.Callback {
 
-    /**
-     * Initialize extra members from bundle
-     * @param bundle bundle to get args from
-     */
+    @Nullable
     @Override
-    protected void setExtraMembersFromBundle(Bundle bundle) {}
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-    /**
+        setEditTextDefaults();
+
+        mExerciseHistoryFinalButton.setText(getString(R.string.button_add_exercise_history_entry_text_final));
+        setFinalButtonOnClickListener();
+
+        return rootView;
+    }
+
+    /*
      * Set default values for edittexts weight, reps, date if not set already
      * Set fragment retainInstance true for asynctask result
      */
-    @Override
-    protected void setEditTextDefaults() {
+    private void setEditTextDefaults() {
         if (mWeightEditText.getText().length() == 0) {
             setRetainInstance(true);
             mDateEditText.setText(Utility.getCurrentDate());
@@ -36,16 +44,11 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
         }
     }
 
-    /**
-     * Set final button text to "Add Exercise Entry"
+    /*
+     * Sets finalButton onclick to add entry to database if entry is valid
+     * Navigates back
      */
-    @Override
-    protected void setFinalButtonText() {
-        mExerciseHistoryFinalButton.setText(getString(R.string.button_add_exercise_history_entry_text_final));
-    }
-
-    @Override
-    protected void setFinalButtonOnClickListener() {
+    private void setFinalButtonOnClickListener() {
         mExerciseHistoryFinalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +78,12 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
         });
     }
 
+    /**
+     * Sets the edittext texts to passed values.
+     * Called when FetchMostRecentWeightReps finishes
+     * @param weight weight to set edittext to
+     * @param reps reps to set edittext to
+     */
     @Override
     public void onFinishFetchWeightRepsDefaults(String weight, String reps) {
         mWeightEditText.setText(weight);
