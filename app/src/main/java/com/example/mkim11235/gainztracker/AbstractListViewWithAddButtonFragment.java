@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,7 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         inflater.inflate(R.menu.menu_activity_main, menu);
 
         Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner, mPrefKeySortBy, this);
+        setupSpinner(spinner, this);
     }
 
     @Override
@@ -70,8 +71,8 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         mCursorAdapter.swapCursor(null);
     }
 
-    private void setupSpinner(Spinner spinner, final String prefKey, final LoaderManager.LoaderCallbacks context) {
-        String sharedPrefSortBy = mSharedPref.getString(prefKey, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+    protected void setupSpinner(Spinner spinner, final LoaderManager.LoaderCallbacks context) {
+        String sharedPrefSortBy = mSharedPref.getString(mPrefKeySortBy, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
         int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mSortByArray);
@@ -82,7 +83,8 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(prefKey, selectedItem).apply();
+                mSharedPref.edit().putString(mPrefKeySortBy, selectedItem).apply();
+                Log.v("GG", "for  " + mPrefKeySortBy + " put " + selectedItem);
                 getLoaderManager().restartLoader(i, null, context);
             }
 

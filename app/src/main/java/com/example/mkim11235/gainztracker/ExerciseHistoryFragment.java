@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,13 +34,9 @@ import java.util.Arrays;
  * Created by Michael on 10/22/2016.
  */
 
-public class ExerciseHistoryFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragment {
 
-    private static final int EXERCISE_HISTORY_ADAPTER_FLAGS = 0;
-    private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
-    private static final String PREF_KEY_SORT_BY_EXERCISE_HISTORY = "PREF_SORT_BY_EXERCISE_HISTORY";
-
+    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE_HISTORY";
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID,
@@ -47,7 +44,6 @@ public class ExerciseHistoryFragment extends Fragment
             DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE
     };
-
     static final int COL_EXERCISE_HISTORY_ID = 0;
     static final int COL_EXERCISE_HISTORY_EXERCISE_ID = 1;
     static final int COL_EXERCISE_HISTORY_WEIGHT = 2;
@@ -56,23 +52,20 @@ public class ExerciseHistoryFragment extends Fragment
 
     private long mExerciseId;
     private String mExerciseName;
-    private String[] mSortByArray;
 
     private Bundle mBaseBundle;
     private TextView mTextViewTitle;
     private ImageButton mAddExerciseHistoryEntryButton;
-    private ExerciseHistoryAdapter mExerciseHistoryAdapter;
-    private SharedPreferences mSharedPref;
 
     public ExerciseHistoryFragment() {}
 
+    //Todo: spinners need to be separate objects. also in pref, keep track of index of selected spiner item rather than the string.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_activity_main, menu);
+        inflater.inflate(R.menu.menu_exercise_history, menu);
 
-        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner, PREF_KEY_SORT_BY_EXERCISE_HISTORY, this);
+        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by2).getActionView();
+        setupSpinner(spinner, this);
     }
 
     @Nullable
@@ -94,8 +87,9 @@ public class ExerciseHistoryFragment extends Fragment
         mTextViewTitle = (TextView) rootView.findViewById(R.id.textview_title_exercise_history);
         mAddExerciseHistoryEntryButton = (ImageButton)
                 rootView.findViewById(R.id.image_button_exercise_history_add);
-        mExerciseHistoryAdapter = new ExerciseHistoryAdapter(getActivity(), null,
-                EXERCISE_HISTORY_ADAPTER_FLAGS);
+        mCursorAdapter = new ExerciseHistoryAdapter(getActivity(), null,
+                CURSOR_ADAPTER_FLAGS);
+        mPrefKeySortBy = PREF_KEY_SORT_BY;
 
         // Setup title
         mTextViewTitle.setText(mExerciseName);
@@ -103,7 +97,7 @@ public class ExerciseHistoryFragment extends Fragment
         // Implement listview functionality
         ListView exerciseHistoryListView = (ListView)
                 rootView.findViewById(R.id.listview_exercise_history);
-        exerciseHistoryListView.setAdapter(mExerciseHistoryAdapter);
+        exerciseHistoryListView.setAdapter(mCursorAdapter);
         registerForContextMenu(exerciseHistoryListView);
 
         // Add ExerciseHistory Button onClick starts EntryActivity w/ ExerciseHistoryEntryFrag
@@ -116,29 +110,13 @@ public class ExerciseHistoryFragment extends Fragment
                 startActivity(intent);
 
                 //Todo: optimization. if sorted by date, can pass in default weight, reps intent
-                /*Cursor c = (Cursor) mExerciseHistoryAdapter.getItem(0);
+                /*Cursor c = (Cursor) mCursorAdapter.getItem(0);
                 String w = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_WEIGHT));
                 String r = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_REPS));*/
             }
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        // Get the sortby from shardPref. set it to default 0 if null
-        mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, null);
-        if (sharedPrefSortBy == null) {
-            sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
-            mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, sharedPrefSortBy).apply();
-        }
-
-        // init loader to sort based on sharedPref sortby
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
-        getLoaderManager().initLoader(sharedPrefPosition, null, this);
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -157,7 +135,7 @@ public class ExerciseHistoryFragment extends Fragment
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        Cursor selectedItem = (Cursor) mExerciseHistoryAdapter.getItem(info.position);
+        Cursor selectedItem = (Cursor) mCursorAdapter.getItem(info.position);
         Long exerciseHistoryId = selectedItem.getLong(COL_EXERCISE_HISTORY_ID);
 
         String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
@@ -223,16 +201,6 @@ public class ExerciseHistoryFragment extends Fragment
                 sortBy);
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mExerciseHistoryAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mExerciseHistoryAdapter.swapCursor(null);
-    }
-
     private Bundle buildEditEntryBundle(long weight, long reps, long date, long id) {
         Bundle bundle = new Bundle();
         bundle.putLong(getString(R.string.EXTRA_EXERCISE_WEIGHT), weight);
@@ -240,26 +208,5 @@ public class ExerciseHistoryFragment extends Fragment
         bundle.putLong(getString(R.string.EXTRA_EXERCISE_DATE), date);
         bundle.putLong(getString(R.string.EXTRA_EXERCISE_HISTORY_ID), id);
         return bundle;
-    }
-
-    private void setupSpinner(Spinner spinner, final String prefKey, final LoaderManager.LoaderCallbacks context) {
-        String sharedPrefSortBy = mSharedPref.getString(prefKey, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mSortByArray);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(sharedPrefPosition);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(prefKey, selectedItem).apply();
-                getLoaderManager().restartLoader(i, null, context);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
     }
 }

@@ -34,39 +34,22 @@ import java.util.Arrays;
  * Created by Michael on 10/22/2016.
  */
 
-public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
 
-    private static final int EXERCISE_ADAPTER_FLAGS = 0;
-    private static final int SHARED_PREF_SORT_BY_DEFAULT_POS = 0;
-    private static final String PREF_KEY_SORT_BY_EXERCISE = "PREF_SORT_BY_EXERCISE";
-
+    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE";
     private static final String[] EXERCISE_COLUMNS = {
             DatabaseContract.ExerciseEntry._ID,
             DatabaseContract.ExerciseEntry.COLUMN_NAME,
             DatabaseContract.ExerciseEntry.COLUMN_MUSCLE,
     };
-
     static final int COL_EXERCISE_ID = 0;
     static final int COL_EXERCISE_NAME = 1;
     static final int COL_EXERCISE_MUSCLE = 2;
 
-    private String[] mSortByArray;
-
     private ImageButton mAddExerciseButton;
-    private ExerciseAdapter mExerciseAdapter;
     private Callback mCallBack;
-    private SharedPreferences mSharedPref;
 
     public ExerciseFragment() {}
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_activity_main, menu);
-
-        Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner, PREF_KEY_SORT_BY_EXERCISE, R.array.sort_by_exercise, this);
-    }
 
     @Nullable
     @Override
@@ -78,16 +61,17 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
 
         // Initialize member variables
         mSortByArray = getResources().getStringArray(R.array.sort_by_exercise);
-        mExerciseAdapter = new ExerciseAdapter(getActivity(), null, EXERCISE_ADAPTER_FLAGS);
+        mCursorAdapter = new ExerciseAdapter(getActivity(), null, CURSOR_ADAPTER_FLAGS);
         mAddExerciseButton = (ImageButton) rootView.findViewById(R.id.image_button_exercise_add);
+        mPrefKeySortBy = PREF_KEY_SORT_BY;
 
         // Implement listview functionality
         ListView exerciseListView = (ListView) rootView.findViewById(R.id.listview_exercise);
-        exerciseListView.setAdapter(mExerciseAdapter);
+        exerciseListView.setAdapter(mCursorAdapter);
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Cursor cursor = (Cursor) mExerciseAdapter.getItem(position);
+                Cursor cursor = (Cursor) mCursorAdapter.getItem(position);
                 long exerciseId = cursor.getLong(COL_EXERCISE_ID);
                 String exerciseName = cursor.getString(COL_EXERCISE_NAME);
                 mCallBack.onExerciseSelected(exerciseId, exerciseName);
@@ -108,22 +92,6 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        // Get the sortby from shardPref. set it to default 0 if null
-        mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE, null);
-        if (sharedPrefSortBy == null) {
-            sharedPrefSortBy = mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS];
-            mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE, sharedPrefSortBy).apply();
-        }
-
-        // init loader to sort based on sharedPref sortby
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
-        getLoaderManager().initLoader(sharedPrefPosition, null, this);
-        super.onActivityCreated(savedInstanceState);
     }
 
     /**
@@ -154,7 +122,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
 
-            Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
+            Cursor selectedItem = (Cursor) mCursorAdapter.getItem(info.position);
             String exerciseName = selectedItem.getString(COL_EXERCISE_NAME);
             menu.setHeaderTitle(exerciseName);
         }
@@ -165,7 +133,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)
                 item.getMenuInfo();
 
-        Cursor selectedItem = (Cursor) mExerciseAdapter.getItem(info.position);
+        Cursor selectedItem = (Cursor) mCursorAdapter.getItem(info.position);
         String exerciseId = Long.toString(selectedItem.getLong(COL_EXERCISE_ID));
         String exerciseName = selectedItem.getString(COL_EXERCISE_NAME);
         String exerciseMuscle = selectedItem.getString(COL_EXERCISE_MUSCLE);
@@ -221,39 +189,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
                 sortBy);
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mExerciseAdapter.swapCursor(cursor);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mExerciseAdapter.swapCursor(null);
-    }
-
     public interface Callback {
         void onExerciseSelected(long exerciseId, String exerciseName);
-    }
-
-    //Todo: improve layout of spinner. maybe make baseclass for EF and EHF for menubar setup.
-    private void setupSpinner(Spinner spinner, final String prefKey, int spinnerArrayId, final LoaderManager.LoaderCallbacks context) {
-        String sharedPrefSortBy = mSharedPref.getString(prefKey, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
-        int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
-
-        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), spinnerArrayId, android.R.layout.simple_list_item_1);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
-        spinner.setSelection(sharedPrefPosition);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(prefKey, selectedItem).apply();
-                getLoaderManager().restartLoader(i, null, context);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
     }
 }
