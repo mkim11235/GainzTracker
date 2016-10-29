@@ -1,11 +1,13 @@
 package com.example.mkim11235.gainztracker;
 
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +30,7 @@ import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
 
 public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragment {
 
+    private static final int MOST_RECENT_ENTRY_INDEX = 0;
     private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE_HISTORY";
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
@@ -97,12 +100,21 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
                 Intent intent = new Intent(view.getContext(), EntryActivity.class);
                 intent.putExtra(getString(R.string.EXTRA_FRAGMENT_TAG), getString(R.string.FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY));
                 intent.putExtras(mBaseBundle);
-                startActivity(intent);
 
-                //Todo: optimization. if sorted by date, can pass in default weight, reps intent
-                /*Cursor c = (Cursor) mCursorAdapter.getItem(0);
-                String w = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_WEIGHT));
-                String r = String.valueOf(c.getLong(COL_EXERCISE_HISTORY_REPS));*/
+                // If list sorted by Date, pass in most recent entry through intent
+                String[] sortByArray = getResources().getStringArray(R.array.sort_by_exercise_history);
+                int sortByIndex = getActivity().getPreferences(Context.MODE_PRIVATE).getInt(PREF_KEY_SORT_BY, UNDEFINED_INDEX);
+                String selectedItem = sortByArray[sortByIndex];
+                if (selectedItem.equals("Date")) {
+                    Cursor cursor = (Cursor) mCursorAdapter.getItem(MOST_RECENT_ENTRY_INDEX);
+                    String weightString = String.valueOf(cursor.getLong(COL_EXERCISE_HISTORY_WEIGHT));
+                    String repsString = String.valueOf(cursor.getLong(COL_EXERCISE_HISTORY_REPS));
+
+                    intent.putExtra(getString(R.string.EXTRA_EXERCISE_WEIGHT), weightString);
+                    intent.putExtra(getString(R.string.EXTRA_EXERCISE_REPS), repsString);
+                }
+
+                startActivity(intent);
             }
         });
 
@@ -163,6 +175,7 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
     public Loader<Cursor> onCreateLoader(int i, Bundle args) {
         String exerciseIdString = Long.toString(mExerciseId);
         String sortBy;
+
         switch (i) {
             case 0:
                 sortBy = DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE + " DESC, " +

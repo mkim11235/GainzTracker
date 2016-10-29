@@ -25,8 +25,8 @@ import java.util.Arrays;
 public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int UNDEFINED_INDEX = -1;
     private static final int SHARED_PREF_SORT_BY_DEFAULT_INDEX = 0;
+    protected static final int UNDEFINED_INDEX = -1;
     protected static final int CURSOR_ADAPTER_FLAGS = 0;
 
     private SharedPreferences mSharedPref;

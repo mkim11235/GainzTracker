@@ -3,6 +3,7 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        setEditTextDefaults();
+        setEditTextDefaults(getArguments());
 
         mExerciseHistoryFinalButton.setText(getString(R.string.button_add_exercise_history_entry_text_final));
         setFinalButtonOnClickListener();
@@ -36,7 +37,17 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
      * Set default values for edittexts weight, reps, date if not set already
      * Set fragment retainInstance true for asynctask result
      */
-    private void setEditTextDefaults() {
+    private void setEditTextDefaults(Bundle args) {
+        String weightString = args.getString(getString(R.string.EXTRA_EXERCISE_WEIGHT));
+        String repsString = args.getString(getString(R.string.EXTRA_EXERCISE_REPS));
+
+        if (weightString != null) {
+            mWeightEditText.setText(weightString);
+        }
+        if (repsString != null) {
+            mRepsEditText.setText(repsString);
+        }
+
         if (mWeightEditText.getText().length() == 0) {
             setRetainInstance(true);
             mDateEditText.setText(Utility.getCurrentDate());
