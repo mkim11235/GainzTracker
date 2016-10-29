@@ -72,7 +72,7 @@ public class ExerciseHistoryFragment extends Fragment
         inflater.inflate(R.menu.menu_activity_main, menu);
 
         Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner);
+        setupSpinner(spinner, PREF_KEY_SORT_BY_EXERCISE_HISTORY, this);
     }
 
     @Nullable
@@ -242,11 +242,11 @@ public class ExerciseHistoryFragment extends Fragment
         return bundle;
     }
 
-    private void setupSpinner(Spinner spinner) {
-        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+    private void setupSpinner(Spinner spinner, final String prefKey, final LoaderManager.LoaderCallbacks context) {
+        String sharedPrefSortBy = mSharedPref.getString(prefKey, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
         int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
 
-        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise_history, android.R.layout.simple_list_item_1);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mSortByArray);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setSelection(sharedPrefPosition);
@@ -254,8 +254,8 @@ public class ExerciseHistoryFragment extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE_HISTORY, selectedItem).apply();
-                getLoaderManager().restartLoader(i, null, ExerciseHistoryFragment.this);
+                mSharedPref.edit().putString(prefKey, selectedItem).apply();
+                getLoaderManager().restartLoader(i, null, context);
             }
 
             @Override

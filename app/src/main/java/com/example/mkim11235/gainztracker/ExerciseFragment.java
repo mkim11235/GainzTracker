@@ -65,7 +65,7 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         inflater.inflate(R.menu.menu_activity_main, menu);
 
         Spinner spinner = (Spinner) menu.findItem(R.id.menu_item_sort_by).getActionView();
-        setupSpinner(spinner);
+        setupSpinner(spinner, PREF_KEY_SORT_BY_EXERCISE, R.array.sort_by_exercise, this);
     }
 
     @Nullable
@@ -235,12 +235,12 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
         void onExerciseSelected(long exerciseId, String exerciseName);
     }
 
-    //Todo: improve layout of spinner
-    private void setupSpinner(Spinner spinner) {
-        String sharedPrefSortBy = mSharedPref.getString(PREF_KEY_SORT_BY_EXERCISE, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
+    //Todo: improve layout of spinner. maybe make baseclass for EF and EHF for menubar setup.
+    private void setupSpinner(Spinner spinner, final String prefKey, int spinnerArrayId, final LoaderManager.LoaderCallbacks context) {
+        String sharedPrefSortBy = mSharedPref.getString(prefKey, mSortByArray[SHARED_PREF_SORT_BY_DEFAULT_POS]);
         int sharedPrefPosition = Arrays.asList(mSortByArray).indexOf(sharedPrefSortBy);
 
-        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_by_exercise, android.R.layout.simple_list_item_1);
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), spinnerArrayId, android.R.layout.simple_list_item_1);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setSelection(sharedPrefPosition);
@@ -248,8 +248,8 @@ public class ExerciseFragment extends Fragment implements LoaderManager.LoaderCa
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedItem = (String) adapterView.getItemAtPosition(i);
-                mSharedPref.edit().putString(PREF_KEY_SORT_BY_EXERCISE, selectedItem).apply();
-                getLoaderManager().restartLoader(i, null, ExerciseFragment.this);
+                mSharedPref.edit().putString(prefKey, selectedItem).apply();
+                getLoaderManager().restartLoader(i, null, context);
             }
 
             @Override
