@@ -16,7 +16,6 @@ import com.example.mkim11235.gainztracker.R;
  */
 
 public abstract class ExerciseEntryFragment extends Fragment {
-    private static final String EDIT_TEXT_ERROR = "Please enter a valid entry";
 
     protected Button mExerciseEntryButton;
     protected EditText mExerciseName;
@@ -44,12 +43,12 @@ public abstract class ExerciseEntryFragment extends Fragment {
     protected boolean allValidEntries(String name, String muscle) {
         boolean allValid = true;
         if (name.length() == 0) {
-            mExerciseName.setError(EDIT_TEXT_ERROR);
+            mExerciseName.setError(getString(R.string.error_edit_text));
             allValid = false;
         }
 
         if (muscle.length() == 0) {
-            mExerciseMuscle.setError(EDIT_TEXT_ERROR);
+            mExerciseMuscle.setError(getString(R.string.error_edit_text));
             allValid = false;
         }
 

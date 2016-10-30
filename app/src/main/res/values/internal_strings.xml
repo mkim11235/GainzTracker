@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <string name="EXTRA_EXERCISE_ID">gainztracker.EXTRA.EXERCISE_ID</string>
+    <string name="EXTRA_EXERCISE_NAME">gainztracker.EXTRA.EXERCISE_NAME</string>
+    <string name="EXTRA_EXERCISE_MUSCLE">gainztracker.EXTRA.EXERCISE_MUSCLE</string>
+    <string name="EXTRA_EXERCISE_HISTORY_ID">gainztracker.EXTRA.EXERCISE_HISTORY_ID</string>
+    <string name="EXTRA_EXERCISE_WEIGHT">gainztracker.EXTRA.EXERCISE_WEIGHT</string>
+    <string name="EXTRA_EXERCISE_REPS">gainztracker.EXTRA.EXERCISE_REPS</string>
+    <string name="EXTRA_EXERCISE_DATE">gainztracker.EXTRA.EXERCISE_DATE</string>
+    <string name="EXTRA_YEAR">gainztracker.EXTRA.YEAR</string>
+    <string name="EXTRA_MONTH">gainztracker.EXTRA.MONTH</string>
+    <string name="EXTRA_DAY">gainztracker.EXTRA.DAY</string>
+    <string name="EXTRA_FRAGMENT_TAG">gainztracker.EXTRA.FRAGMENT_TAG</string>
+
+    <string name="FRAGMENT_TAG_DATE_PICKER">gainztracker.FRAGTAG.DATE_PICKER</string>
+    <string name="FRAGMENT_TAG_EXERCISE">gainztracker.FRAGTAG.EXERCISE</string>
+    <string name="FRAGMENT_TAG_EXERCISE_HISTORY">gainztracker.FRAGTAG.EXERCISE_HISTORY</string>
+    <string name="FRAGMENT_TAG_ADD_EXERCISE_HISTORY_ENTRY">gainztracker.FRAGTAG.ADD_EXERCISE_HISTORY_ENTRY</string>
+    <string name="FRAGMENT_TAG_EDIT_EXERCISE_HISTORY_ENTRY">gainztracker.FRAGTAG.EDIT_EXERCISE_HISTORY_ENTRY</string>
+    <string name="FRAGMENT_TAG_ADD_EXERCISE_ENTRY">gainztracker.FRAGTAG.ADD_EXERCISE_ENTRY</string>
+    <string name="FRAGMENT_TAG_EDIT_EXERCISE_ENTRY">gainztracker.FRAGTAG.EDIT_EXERCISE_ENTRY</string>
+
+</resources>

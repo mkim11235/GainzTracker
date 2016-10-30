@@ -1,19 +1,21 @@
 package com.example.mkim11235.gainztracker;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 
 /**
  * Created by Michael on 10/21/2016.
- * Borrows heavily from https://github.com/anagri/AndroidLearnings/blob/master/app/src/main/java/me/creativei/ContinuousLongClickListenerActivity.java
+ * Borrows from https://github.com/anagri/AndroidLearnings/blob/master/app/src/main/java/me/creativei/ContinuousLongClickListenerActivity.java
  */
 
 /**
  * Continuous onclicklistener for increment/decrement buttons
  */
 public class ContinuousLongClickListener implements View.OnTouchListener, View.OnLongClickListener {
+
     private static final int DELAY = 333;
 
     private View.OnLongClickListener mOnLongClickListener;
@@ -28,7 +30,6 @@ public class ContinuousLongClickListener implements View.OnTouchListener, View.O
             @Override
             public void run() {
                 mOnLongClickListener.onLongClick(view);
-                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 mHandler.postDelayed(this, DELAY);
             }
         };

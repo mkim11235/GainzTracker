@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.example.mkim11235.gainztracker.Utility;
  */
 
 public abstract class ExerciseHistoryEntryFragment extends Fragment {
+
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
 
@@ -35,7 +38,6 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
     private ImageButton mDecrementRepsButton;
     private ImageButton mIncrementRepsButton;
 
-    // Decided make these protected cuz subclasses often need this
     protected long mExerciseId;
     protected String mExerciseName;
 
@@ -95,9 +97,9 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
         new ContinuousLongClickListener(mIncrementWeightButton, mIncrementHandler,
                 setChangeButtonOnLongClickListener(mWeightEditText, INCREMENT_CHANGE_LONG));
         new ContinuousLongClickListener(mDecrementRepsButton, mIncrementHandler,
-                setChangeButtonOnLongClickListener(mRepsEditText, DECREMENT_CHANGE));
+                setChangeButtonOnLongClickListener(mRepsEditText, DECREMENT_CHANGE_LONG));
         new ContinuousLongClickListener(mIncrementRepsButton, mIncrementHandler,
-                setChangeButtonOnLongClickListener(mRepsEditText, INCREMENT_CHANGE));
+                setChangeButtonOnLongClickListener(mRepsEditText, INCREMENT_CHANGE_LONG));
 
         return rootView;
     }
@@ -121,20 +123,21 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
      * @return true if all length > 0, false otherwise
      */
     protected boolean allValidEntries(String weightString, String repsString, String dateString) {
-        // Validation check. all must be entered
         boolean allValid = true;
+
         if (weightString.length() == 0) {
-            mWeightEditText.setError("Please enter valid weight.");
+            mWeightEditText.setError(getString(R.string.error_edit_text));
             allValid = false;
         }
         if (repsString.length() == 0) {
-            mRepsEditText.setError("Please enter valid reps.");
+            mRepsEditText.setError(getString(R.string.error_edit_text));
             allValid = false;
         }
         if (dateString.length() == 0) {
-            mDateEditText.setError("Please enter valid date");
+            mDateEditText.setError(getString(R.string.error_edit_text));
             allValid = false;
         }
+
         return allValid;
     }
 
@@ -165,13 +168,14 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
             @Override
             public boolean onLongClick(View view) {
                 int curValue = Integer.parseInt(editText.getText().toString());
+                view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 editText.setText(Integer.toString(curValue + change));
                 return false;
             }
         };
     }
 
-    /**
+    /*
      * Builds bundle with year, month, day arguments
      * @return bundle containing args year, month, day
      */

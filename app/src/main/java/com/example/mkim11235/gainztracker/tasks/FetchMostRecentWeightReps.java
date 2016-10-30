@@ -13,9 +13,14 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract;
 
 /**
  * Fetches most recent weight/reps for given exerciseId from db
- * Callback to UI thread to update edittext defaults
+ * Callback to UI thread to update EditText defaults
  */
 public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
+
+    private static final int INDEX_EXERCISE_ID = 0;
+    private static final int INDEX_WEIGHT = 0;
+    private static final int INDEX_REPS = 1;
+
     private ExerciseHistoryEntryFragment mFragment;
 
     public FetchMostRecentWeightReps(Fragment fragment) {
@@ -24,7 +29,7 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
 
     @Override
     protected String[] doInBackground(Long... longs) {
-        long exerciseId = longs[0];
+        long exerciseId = longs[INDEX_EXERCISE_ID];
 
         // Find row in exerciseHistory where id = id
         // Sort by most recent date highest weight highest reps
@@ -41,8 +46,8 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
         // Prepare result for postExecute
         String[] result = null;
         if (cursor.moveToFirst()) {
-            String weight = Long.toString(cursor.getInt(0));
-            String reps = Long.toString(cursor.getInt(1));
+            String weight = Long.toString(cursor.getInt(INDEX_WEIGHT));
+            String reps = Long.toString(cursor.getInt(INDEX_REPS));
 
             result = new String[] {weight, reps};
         }
@@ -60,8 +65,8 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
     protected void onPostExecute(String[] result) {
         super.onPostExecute(result);
         if (result != null) {
-            String weight = result[0];
-            String reps = result[1];
+            String weight = result[INDEX_WEIGHT];
+            String reps = result[INDEX_REPS];
 
             if (mFragment instanceof Callback) {
                 ((Callback) mFragment).onFinishFetchWeightRepsDefaults(weight, reps);
