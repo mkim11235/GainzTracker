@@ -24,6 +24,7 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.title_edit_exercise_history_entry_fragment));
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
         setExtraMembersFromArgs(getArguments());

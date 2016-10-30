@@ -15,62 +15,17 @@ import android.support.annotation.Nullable;
  */
 
 public class ExerciseProvider extends ContentProvider {
-    private ExerciseDBHelper mDBHelper;
 
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     static final int EXERCISE = 100;
     static final int EXERCISE_HISTORY = 200;
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private ExerciseDBHelper mDBHelper;
 
-    // May not need this
-    private static final SQLiteQueryBuilder sExerciseHistoryByExerciseQueryBuilder;
-    static {
-        sExerciseHistoryByExerciseQueryBuilder = new SQLiteQueryBuilder();
-        // Inner join Exercise and ExerciseHistory Tables on Exercise_ID
-        sExerciseHistoryByExerciseQueryBuilder.setTables(
-                DatabaseContract.ExerciseHistoryEntry.TABLE_NAME + " INNER JOIN " +
-                        DatabaseContract.ExerciseEntry.TABLE_NAME +
-                        " ON " + DatabaseContract.ExerciseHistoryEntry.TABLE_NAME +
-                        "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID +
-                        " = " + DatabaseContract.ExerciseEntry.TABLE_NAME +
-                        "." + DatabaseContract.ExerciseEntry._ID);
-    }
-
-    // May not need this
-    private static final String sExerciseHistoryByExerciseId =
-            DatabaseContract.ExerciseHistoryEntry.TABLE_NAME +
-                    "." + DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ";
-
-    // Optimization mb later: use sExercisehistoryId instead of passing in through query cuz
-    // always just want weight, reps, date
-    /*
-    private Cursor getExerciseHistoryByExerciseId(Uri uri, String[] projection, String sortOrder) {
-        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-        builder.setTables(DatabaseContract.ExerciseHistoryEntry.TABLE_NAME);
-
-        return builder.query(mDBHelper.getReadableDatabase(),
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder);
-    }
-    */
-
-    static UriMatcher buildUriMatcher() {
-        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = DatabaseContract.CONTENT_AUTHORITY;
-
-        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE, EXERCISE);
-        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE_HISTORY, EXERCISE_HISTORY);
-
-        return matcher;
-    }
 
     @Override
     public boolean onCreate() {
-       mDBHelper = new ExerciseDBHelper(getContext());
+        mDBHelper = new ExerciseDBHelper(getContext());
         return true;
     }
 
@@ -111,8 +66,6 @@ public class ExerciseProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        // Makes observer watches URI for any changes
-        // Lets CP tell UI when changes made and update
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
     }
@@ -123,7 +76,6 @@ public class ExerciseProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
 
         switch(match) {
-            // Only returns single row bcuz exercises are unique. so Item_TYpe
             case EXERCISE:
                 return DatabaseContract.ExerciseEntry.CONTENT_ITEM_TYPE;
             case EXERCISE_HISTORY:
@@ -197,7 +149,6 @@ public class ExerciseProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsUpdated;
 
-        if (selection == null) selection = "1";
         switch(match) {
             case EXERCISE:
                 rowsUpdated = db.update(DatabaseContract.ExerciseEntry.TABLE_NAME, values,
@@ -245,5 +196,15 @@ public class ExerciseProvider extends ContentProvider {
             default:
                 return super.bulkInsert(uri, values);
         }
+    }
+
+    private static UriMatcher buildUriMatcher() {
+        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = DatabaseContract.CONTENT_AUTHORITY;
+
+        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE, EXERCISE);
+        matcher.addURI(authority, DatabaseContract.PATH_EXERCISE_HISTORY, EXERCISE_HISTORY);
+
+        return matcher;
     }
 }

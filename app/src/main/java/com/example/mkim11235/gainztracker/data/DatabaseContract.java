@@ -13,11 +13,10 @@ import android.provider.BaseColumns;
 public class DatabaseContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.mkim11235.gainztracker";
-
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
     public static final String PATH_EXERCISE = "exercise";
     public static final String PATH_EXERCISE_HISTORY = "exercise_history";
+
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // Exercise Table on Main.
     public static final class ExerciseEntry implements BaseColumns {

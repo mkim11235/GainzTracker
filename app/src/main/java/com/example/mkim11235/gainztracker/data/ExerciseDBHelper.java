@@ -12,9 +12,10 @@ import com.example.mkim11235.gainztracker.data.DatabaseContract.ExerciseHistoryE
  */
 
 public class ExerciseDBHelper extends SQLiteOpenHelper {
+
     private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "exercise.db";
+    private static final String DATABASE_NAME = "exercise.db";
 
     public ExerciseDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

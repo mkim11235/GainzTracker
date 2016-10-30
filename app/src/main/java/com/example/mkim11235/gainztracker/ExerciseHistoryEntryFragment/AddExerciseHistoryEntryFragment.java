@@ -3,7 +3,6 @@ package com.example.mkim11235.gainztracker.ExerciseHistoryEntryFragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.title_add_exercise_history_entry_fragment));
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
         setEditTextDefaults(getArguments());

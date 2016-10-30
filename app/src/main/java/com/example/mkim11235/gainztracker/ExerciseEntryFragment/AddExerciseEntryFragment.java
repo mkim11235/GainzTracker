@@ -19,6 +19,7 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(getString(R.string.title_add_exercise_entry_fragment));
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
         mExerciseEntryButton.setText(getString(R.string.button_add_exercise_entry_text));
