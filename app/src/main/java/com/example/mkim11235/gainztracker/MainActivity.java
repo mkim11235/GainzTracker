@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_container);
+        setUpNavigation();
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.container_empty_activity,
@@ -40,13 +41,18 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onBackStackChanged() {
-        boolean canBack = getFragmentManager().getBackStackEntryCount() > 0;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(canBack);
+        setUpNavigation();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         getFragmentManager().popBackStack();
         return super.onSupportNavigateUp();
+    }
+
+    // Sets up navigation if backstack count > 0
+    private void setUpNavigation() {
+        boolean canBack = getFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canBack);
     }
 }

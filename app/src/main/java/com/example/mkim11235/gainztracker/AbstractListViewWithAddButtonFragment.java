@@ -8,15 +8,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
-import java.util.Arrays;
 
 /**
  * Created by Michael on 10/28/2016!
@@ -61,8 +56,8 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
     protected void setupSpinner(Spinner spinner, int arrayResourceId, final LoaderManager.LoaderCallbacks context) {
         int prefSortByIndex = mSharedPref.getInt(mPrefKeySortBy, SHARED_PREF_SORT_BY_DEFAULT_INDEX);
 
-        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), arrayResourceId, android.R.layout.simple_list_item_1);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> spinnerArrayAdapter = ArrayAdapter.createFromResource(getActivity(), arrayResourceId, R.layout.menu_spinner);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.menu_spinner_item);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setSelection(prefSortByIndex);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
