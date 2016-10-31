@@ -82,7 +82,7 @@
         android:textAlignment="center"
         android:textSize="@dimen/font_size_edittext"
         android:focusableInTouchMode="false"
-        android:hint="Date"/>
+        android:hint="@string/edit_text_exercise_history_entry_date"/>
 
     <Button
         android:id="@+id/button_exercise_history_entry_final"

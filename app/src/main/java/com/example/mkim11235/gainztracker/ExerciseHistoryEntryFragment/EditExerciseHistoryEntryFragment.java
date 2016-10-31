@@ -11,6 +11,8 @@ import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
 import com.example.mkim11235.gainztracker.tasks.EditExerciseHistoryTask;
 
+import java.util.Locale;
+
 /**
  * Created by Michael on 10/23/2016.
  */
@@ -47,8 +49,8 @@ public class EditExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragme
     // Set edittext texts to old values
     private void setEditTextDefaults() {
         if (mWeightEditText.getText().length() == 0) {
-            mWeightEditText.setText(Long.toString(mOldExerciseWeight));
-            mRepsEditText.setText(Long.toString(mOldExerciseReps));
+            mWeightEditText.setText(String.format(Locale.US, "%d", mOldExerciseWeight));
+            mRepsEditText.setText(String.format(Locale.US, "%d", mOldExerciseReps));
             String formatDate = Utility.formatDateDBToReadable(Long.toString(mOldExerciseDate));
             mDateEditText.setText(formatDate);
         }

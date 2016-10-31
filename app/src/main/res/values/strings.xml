@@ -1,22 +1,27 @@
 <resources>
     <string name="app_name">GainzTracker</string>
     <string name="exercise_history_x">x</string>
-    <string name="button_add_exercise_entry_text">Add Exercise</string>
-    <string name="button_edit_exercise_entry_text">Update Exercise Entry</string>
-    <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
-    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
     <string name="weight_unit">lb</string>
     <string name="reps">reps</string>
     <string name="placeholder_number">#</string>
 
+    <string name="button_add_exercise_entry_text">Add Exercise</string>
+    <string name="button_edit_exercise_entry_text">Update Exercise Entry</string>
+    <string name="button_add_exercise_history_entry_text_final">Add Exercise Entry</string>
+    <string name="button_edit_exercise_history_entry_text_final">Update Exercise Entry</string>
+
     <string name="content_description_minus_button">Minus button</string>
     <string name="content_description_plus_button">Plus button</string>
+    <string name="error_edit_text">Invalid entry</string>
+
     <string name="title_exercise_fragment">Exercises</string>
     <string name="title_exercise_history_fragment">Exercise History</string>
-
     <string name="title_add_exercise_history_entry_fragment">Add Exercise History</string>
     <string name="title_edit_exercise_history_entry_fragment">Edit Exercise History</string>
     <string name="title_add_exercise_entry_fragment">Add Exercise</string>
     <string name="title_edit_exercise_entry_fragment">Edit Exercise</string>
-    <string name="error_edit_text">Invalid entry</string>
+
+    <string name="edit_text_exercise_entry_name">Exercise Name</string>
+    <string name="edit_text_exercise_entry_muscle">Target Muscle</string>
+    <string name="edit_text_exercise_history_entry_date">Date</string>
 </resources>

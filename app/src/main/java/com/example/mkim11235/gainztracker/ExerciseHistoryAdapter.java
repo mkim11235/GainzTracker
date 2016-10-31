@@ -17,6 +17,7 @@ import static com.example.mkim11235.gainztracker.ExerciseHistoryFragment.COL_EXE
  */
 
 public class ExerciseHistoryAdapter extends CursorAdapter {
+
     public ExerciseHistoryAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
     }

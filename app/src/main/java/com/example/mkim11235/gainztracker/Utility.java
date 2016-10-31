@@ -3,10 +3,11 @@ package com.example.mkim11235.gainztracker;
 import java.util.Calendar;
 
 /**
- * Created by Michael on 10/18/2016.
+ * Created by Michael on 10/18/2016!
  */
 
 public class Utility {
+
     // Returns date in db format MM/DD/YYYY to YYYYMMDD
     public static String formatDateReadableToDB(String date) {
         String year =  date.substring(6);
@@ -49,20 +50,6 @@ public class Utility {
         builder.append("/");
         builder.append(year);
 
-        return builder.toString();
-    }
-
-    // Returns date in sortable format YYYYMMDD
-    // May not need this. may have to store date in DB like this
-    public static String formatDateSortable(String date) {
-        int month = Integer.parseInt(date.substring(0, 2));
-        int day = Integer.parseInt(date.substring(2, 4));
-        int year = Integer.parseInt(date.substring(4, date.length()));
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(year);
-        builder.append(month);
-        builder.append(day);
         return builder.toString();
     }
 

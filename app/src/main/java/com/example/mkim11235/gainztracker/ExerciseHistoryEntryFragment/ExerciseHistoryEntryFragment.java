@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,8 @@ import com.example.mkim11235.gainztracker.ContinuousLongClickListener;
 import com.example.mkim11235.gainztracker.DatePickerFragment;
 import com.example.mkim11235.gainztracker.R;
 import com.example.mkim11235.gainztracker.Utility;
+
+import java.util.Locale;
 
 /**
  * Created by Michael on 10/23/2016.
@@ -150,8 +151,8 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
             public void onClick(View view) {
                 String editTextString = editText.getText().toString();
                 if (editTextString.length() > 0) {
-                    int curWeight = Integer.parseInt(editTextString);
-                    editText.setText(Integer.toString(curWeight + change));
+                    int curValue = Integer.parseInt(editTextString);
+                    editText.setText(String.format(Locale.US, "%d", curValue + change));
                 }
             }
         };
@@ -169,7 +170,7 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
             public boolean onLongClick(View view) {
                 int curValue = Integer.parseInt(editText.getText().toString());
                 view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                editText.setText(Integer.toString(curValue + change));
+                editText.setText(String.format(Locale.US, "%d", curValue + change));
                 return false;
             }
         };

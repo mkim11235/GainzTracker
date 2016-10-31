@@ -12,10 +12,11 @@ import static com.example.mkim11235.gainztracker.ExerciseFragment.COL_EXERCISE_M
 import static com.example.mkim11235.gainztracker.ExerciseFragment.COL_EXERCISE_NAME;
 
 /**
- * Created by Michael on 10/17/2016.
+ * Created by Michael on 10/17/2016!
  */
 
 public class ExerciseAdapter extends CursorAdapter {
+
     public ExerciseAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }

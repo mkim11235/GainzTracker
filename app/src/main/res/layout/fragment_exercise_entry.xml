@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:inputType="text"
-        android:hint="Exercise Name"/>
+        android:hint="@string/edit_text_exercise_entry_name"/>
 
     <EditText
         android:id="@+id/edittext_exercise_muscle"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:inputType="text"
-        android:hint="Target Muscle"/>
+        android:hint="@string/edit_text_exercise_entry_muscle"/>
 
     <Button
         android:id="@+id/button_exercise_entry"
