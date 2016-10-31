@@ -20,13 +20,13 @@ import android.widget.Spinner;
 public abstract class AbstractListViewWithAddButtonFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int SHARED_PREF_SORT_BY_DEFAULT_INDEX = 0;
     protected static final int UNDEFINED_INDEX = -1;
     protected static final int CURSOR_ADAPTER_FLAGS = 0;
+    private static final int SHARED_PREF_SORT_BY_DEFAULT_INDEX = 0;
 
-    private SharedPreferences mSharedPref;
     protected String mPrefKeySortBy;
     protected CursorAdapter mCursorAdapter;
+    private SharedPreferences mSharedPref;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -68,7 +68,8 @@ public abstract class AbstractListViewWithAddButtonFragment extends Fragment
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
 }

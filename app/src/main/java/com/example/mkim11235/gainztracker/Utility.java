@@ -10,9 +10,9 @@ public class Utility {
 
     // Returns date in db format MM/DD/YYYY to YYYYMMDD
     public static String formatDateReadableToDB(String date) {
-        String year =  date.substring(6);
+        String year = date.substring(6);
         String month = date.substring(0, 2);
-        String newDate = date.substring(3,5);
+        String newDate = date.substring(3, 5);
 
         return year + month + newDate;
     }
@@ -55,6 +55,7 @@ public class Utility {
 
     /**
      * gets the year from readable date
+     *
      * @param date date to get year from
      * @return int value of year
      */
@@ -64,6 +65,7 @@ public class Utility {
 
     /**
      * Gets the month from readable date
+     *
      * @param date date to get month from
      * @return int value of month
      */
@@ -73,6 +75,7 @@ public class Utility {
 
     /**
      * Gets the day from readable date
+     *
      * @param date date to get day from
      * @return int value of day
      */

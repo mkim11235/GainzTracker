@@ -34,7 +34,7 @@ public class EditExerciseTask extends DbTask<String> {
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 newValues,
                 DatabaseContract.ExerciseEntry._ID + " = ? ",
-                new String[] {exerciseId});
+                new String[]{exerciseId});
 
         return null;
     }

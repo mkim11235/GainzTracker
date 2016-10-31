@@ -37,10 +37,10 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT + " DESC";
         Cursor cursor = mFragment.getActivity().getContentResolver().query(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
-                new String[] {DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT
+                new String[]{DatabaseContract.ExerciseHistoryEntry.COLUMN_WEIGHT
                         , DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS},
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ?",
-                new String[] {Long.toString(exerciseId)},
+                new String[]{Long.toString(exerciseId)},
                 orderBy);
 
         // Prepare result for postExecute
@@ -49,7 +49,7 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
             String weight = Long.toString(cursor.getInt(INDEX_WEIGHT));
             String reps = Long.toString(cursor.getInt(INDEX_REPS));
 
-            result = new String[] {weight, reps};
+            result = new String[]{weight, reps};
         }
 
         cursor.close();
@@ -59,6 +59,7 @@ public class FetchMostRecentWeightReps extends AsyncTask<Long, Void, String[]> {
     /**
      * Notify UI thread to set default weight and reps edittexts
      * If no previous exercise history entries for default, do nothing
+     *
      * @param result result from doInBackground
      */
     @Override

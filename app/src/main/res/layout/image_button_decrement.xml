@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@mipmap/ic_minus"
-    android:contentDescription="@string/content_description_minus_button"
-    android:layout_alignParentLeft="true"
-    android:layout_marginLeft="@dimen/margin_button_crement"
     android:layout_width="@dimen/icon_size"
     android:layout_height="@dimen/icon_size"
-    android:background="@color/transparent" />
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="@dimen/margin_button_crement"
+    android:background="@color/transparent"
+    android:contentDescription="@string/content_description_minus_button"
+    android:src="@mipmap/ic_minus" />

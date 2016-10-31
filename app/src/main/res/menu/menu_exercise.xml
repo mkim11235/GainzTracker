@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/menu_item_sort_by_exercise"
+        android:title=""
         app:actionViewClass="android.widget.Spinner"
-        app:showAsAction="ifRoom"
-        android:title="" />
+        app:showAsAction="ifRoom" />
 
 </menu>

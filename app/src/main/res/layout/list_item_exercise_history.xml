@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight">
 
     <TextView
         android:id="@+id/list_item_exercise_history_weight"
-        android:textSize="@dimen/font_size_textview"
-        android:layout_marginLeft="@dimen/activity_default_margin"
-        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/activity_default_margin"
+        android:textSize="@dimen/font_size_textview" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_weight_unit"
-        android:text="@string/weight_unit"
-        android:textSize="@dimen/font_size_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_weight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/weight_unit"
+        android:textSize="@dimen/font_size_textview2" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_x"
-        android:text="@string/exercise_history_x"
-        android:textSize="@dimen/font_size_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_marginLeft="@dimen/margin_unit_from_entry"
         android:layout_marginRight="@dimen/margin_unit_from_entry"
-        android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_weight_unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/exercise_history_x"
+        android:textSize="@dimen/font_size_textview2" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_reps"
-        android:textSize="@dimen/font_size_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_x"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/font_size_textview" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_word_reps"
-        android:text="@string/reps"
-        android:textSize="@dimen/font_size_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_toRightOf="@+id/list_item_exercise_history_reps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="@string/reps"
+        android:textSize="@dimen/font_size_textview2" />
 
     <TextView
         android:id="@+id/list_item_exercise_history_date"
-        android:textSize="@dimen/font_size_textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/list_item_exercise_history_weight"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/activity_default_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/font_size_textview2" />
 
 </RelativeLayout>

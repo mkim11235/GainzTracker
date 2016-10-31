@@ -28,7 +28,7 @@ public class AddExerciseEntryFragment extends ExerciseEntryFragment {
         return rootView;
     }
 
-     // Sets up ExerciseEntryButton onClick to add exerciseEntry to DB
+    // Sets up ExerciseEntryButton onClick to add exerciseEntry to DB
     private void setFinalButtonOnClickListener() {
         mExerciseEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override

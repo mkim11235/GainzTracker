@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minHeight="?android:listPreferredItemHeight"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="?android:listPreferredItemHeight">
 
     <TextView
         android:id="@+id/textview_exercise_name"
-        android:textSize="@dimen/font_size_textview"
-        android:layout_margin="@dimen/activity_default_margin"
-        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/activity_default_margin"
+        android:textSize="@dimen/font_size_textview" />
 
     <TextView
         android:id="@+id/textview_exercise_muscle"
-        android:textSize="@dimen/font_size_textview2"
-        android:layout_margin="@dimen/activity_default_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_margin="@dimen/activity_default_margin"
+        android:textSize="@dimen/font_size_textview2" />
 
 </RelativeLayout>

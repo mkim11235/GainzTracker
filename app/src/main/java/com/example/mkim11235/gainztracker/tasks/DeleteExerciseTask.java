@@ -23,12 +23,12 @@ public class DeleteExerciseTask extends DbTask<String> {
         mContentResolver.delete(
                 DatabaseContract.ExerciseEntry.CONTENT_URI,
                 DatabaseContract.ExerciseEntry._ID + " = ?",
-                new String[] {exerciseId});
+                new String[]{exerciseId});
 
         mContentResolver.delete(
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
-                new String[] {exerciseId});
+                new String[]{exerciseId});
 
         return null;
     }

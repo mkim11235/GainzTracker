@@ -15,6 +15,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     /**
      * Create new datepicker with date selected from arg bundle
+     *
      * @param savedInstanceState saved instance state
      * @return new datepickerdialog with date selected from bundle
      */
@@ -31,10 +32,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     /**
      * Updated the date on the ExerciseHistoryEntryFrag edittext to selected date
+     *
      * @param datePicker datepicker object
-     * @param year year to set edittext to
-     * @param month month to set edittext to
-     * @param day day to set edittext to
+     * @param year       year to set edittext to
+     * @param month      month to set edittext to
+     * @param day        day to set edittext to
      */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {

@@ -23,6 +23,7 @@ public class EditExerciseHistoryTask extends DbTask<Long> {
 
     /**
      * Updates exerciseHistoryEntry with new values
+     *
      * @param longs long parameters exercisId, weight, reps, date, exerciseHistoryId
      * @return null
      */
@@ -47,7 +48,7 @@ public class EditExerciseHistoryTask extends DbTask<Long> {
                     DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                     newValues,
                     DatabaseContract.ExerciseHistoryEntry._ID + " = ? ",
-                    new String[] {Long.toString(exerciseHistoryId)});
+                    new String[]{Long.toString(exerciseHistoryId)});
         }
 
         return null;

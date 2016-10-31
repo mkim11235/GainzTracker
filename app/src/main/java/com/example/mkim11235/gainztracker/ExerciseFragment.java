@@ -1,17 +1,12 @@
 package com.example.mkim11235.gainztracker;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -28,28 +22,27 @@ import android.widget.Spinner;
 import com.example.mkim11235.gainztracker.data.DatabaseContract;
 import com.example.mkim11235.gainztracker.tasks.DeleteExerciseTask;
 
-import java.util.Arrays;
-
 /**
  * Created by Michael on 10/22/2016.
  */
 
 public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
 
-    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE";
+    static final int COL_EXERCISE_ID = 0;
+    static final int COL_EXERCISE_NAME = 1;
+    static final int COL_EXERCISE_MUSCLE = 2;
     private static final String[] EXERCISE_COLUMNS = {
             DatabaseContract.ExerciseEntry._ID,
             DatabaseContract.ExerciseEntry.COLUMN_NAME,
             DatabaseContract.ExerciseEntry.COLUMN_MUSCLE,
     };
-    static final int COL_EXERCISE_ID = 0;
-    static final int COL_EXERCISE_NAME = 1;
-    static final int COL_EXERCISE_MUSCLE = 2;
+    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE";
 
     private ImageButton mAddExerciseButton;
     private Callback mCallBack;
 
-    public ExerciseFragment() {}
+    public ExerciseFragment() {
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -105,6 +98,7 @@ public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
     /**
      * Sets up callback to parent activity
      * Need to override deprecated method because supporting older devices
+     *
      * @param activity activity this fragment is attaching to
      */
     @Override
@@ -123,7 +117,7 @@ public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
     public void onCreateContextMenu(ContextMenu menu, View view
             , ContextMenu.ContextMenuInfo menuInfo) {
         if (view.getId() == R.id.listview_exercise) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 
             String[] menuItems = getResources().getStringArray(R.array.exercise_menu);
             for (int i = 0; i < menuItems.length; i++) {
@@ -171,7 +165,8 @@ public class ExerciseFragment extends AbstractListViewWithAddButtonFragment {
 
     /**
      * Creates loader for displaying exercises sorted based on spinner selection
-     * @param i index of selected spinner in mSortByArray
+     *
+     * @param i      index of selected spinner in mSortByArray
      * @param bundle null
      * @return CursorLoader
      */

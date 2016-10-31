@@ -28,16 +28,8 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
 
     private static final int DECREMENT_CHANGE = -1;
     private static final int INCREMENT_CHANGE = 1;
-
     private static final int DECREMENT_CHANGE_LONG = -5;
     private static final int INCREMENT_CHANGE_LONG = 5;
-
-    private Handler mIncrementHandler;
-
-    private ImageButton mDecrementWeightButton;
-    private ImageButton mIncrementWeightButton;
-    private ImageButton mDecrementRepsButton;
-    private ImageButton mIncrementRepsButton;
 
     protected long mExerciseId;
     protected String mExerciseName;
@@ -46,6 +38,11 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
     protected EditText mWeightEditText;
     protected EditText mRepsEditText;
     protected EditText mDateEditText;
+    private Handler mIncrementHandler;
+    private ImageButton mDecrementWeightButton;
+    private ImageButton mIncrementWeightButton;
+    private ImageButton mDecrementRepsButton;
+    private ImageButton mIncrementRepsButton;
 
     @Nullable
     @Override
@@ -119,8 +116,8 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
      * Sets edittext error if not valid
      *
      * @param weightString weight from edittext
-     * @param repsString reps from edittext
-     * @param dateString date from edittext
+     * @param repsString   reps from edittext
+     * @param dateString   date from edittext
      * @return true if all length > 0, false otherwise
      */
     protected boolean allValidEntries(String weightString, String repsString, String dateString) {
@@ -160,8 +157,9 @@ public abstract class ExerciseHistoryEntryFragment extends Fragment {
 
     /**
      * Gets up button onlongclick listener for inc/dec
+     *
      * @param editText edittext to modify
-     * @param change change amount
+     * @param change   change amount
      * @return OnClickListenerObject
      */
     private View.OnLongClickListener setChangeButtonOnLongClickListener(final EditText editText, final int change) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="EXTRA_EXERCISE_ID">gainztracker.EXTRA.EXERCISE_ID</string>
     <string name="EXTRA_EXERCISE_NAME">gainztracker.EXTRA.EXERCISE_NAME</string>

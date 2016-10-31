@@ -25,7 +25,7 @@ public class DeleteExerciseHistoryTask extends DbTask<Long> {
 
         mContentResolver.delete(DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 DatabaseContract.ExerciseHistoryEntry._ID + " = ?",
-                new String[] {Long.toString(exerciseId)});
+                new String[]{Long.toString(exerciseId)});
 
         return null;
     }

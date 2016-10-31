@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 
 /**
  * Abstract base class for DB access (read/write)
+ *
  * @param <T> parameter type for AsyncTask
  */
 public abstract class DbTask<T> extends AsyncTask<T, Void, Void> {

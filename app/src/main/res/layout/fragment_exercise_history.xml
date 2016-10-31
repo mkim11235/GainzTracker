@@ -5,26 +5,27 @@
 
     <TextView
         android:id="@+id/textview_title_exercise_history"
-        android:textSize="@dimen/font_size_textview"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="?android:listPreferredItemHeight" />
+        android:layout_height="?android:listPreferredItemHeight"
+        android:gravity="center"
+        android:textSize="@dimen/font_size_textview" />
 
     <View
         android:id="@+id/title_divider_exercise_history"
-        android:layout_below="@id/textview_title_exercise_history"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
+        android:layout_below="@id/textview_title_exercise_history"
         android:background="@android:color/darker_gray" />
 
     <ListView
         android:id="@+id/listview_exercise_history"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/textview_title_exercise_history"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textview_title_exercise_history" />
 
-    <include android:id="@+id/image_button_exercise_history_add"
+    <include
+        android:id="@+id/image_button_exercise_history_add"
         layout="@layout/image_button_add" />
 
 </RelativeLayout>

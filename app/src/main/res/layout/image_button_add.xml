@@ -2,10 +2,10 @@
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/icon_size"
     android:layout_height="@dimen/icon_size"
-    android:background="@drawable/oval"
-    android:src="@mipmap/ic_plus"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
     android:layout_marginBottom="@dimen/margin_button_add"
     android:layout_marginRight="@dimen/margin_button_add"
+    android:background="@drawable/oval"
     android:contentDescription="@string/content_description_plus_button"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentRight="true"/>
+    android:src="@mipmap/ic_plus" />

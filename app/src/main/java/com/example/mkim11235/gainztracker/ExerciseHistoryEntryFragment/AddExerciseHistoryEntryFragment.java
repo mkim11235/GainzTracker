@@ -94,8 +94,9 @@ public class AddExerciseHistoryEntryFragment extends ExerciseHistoryEntryFragmen
     /**
      * Sets the edittext texts to passed values.
      * Called when FetchMostRecentWeightReps finishes
+     *
      * @param weight weight to set edittext to
-     * @param reps reps to set edittext to
+     * @param reps   reps to set edittext to
      */
     @Override
     public void onFinishFetchWeightRepsDefaults(String weight, String reps) {

@@ -42,13 +42,13 @@ public class EditExerciseEntryFragment extends ExerciseEntryFragment {
         mOldExerciseMuscle = bundle.getString(getString(R.string.EXTRA_EXERCISE_MUSCLE));
     }
 
-     // Sets default values to old values
+    // Sets default values to old values
     private void setEditTextDefaults() {
         mExerciseName.setText(mOldExerciseName);
         mExerciseMuscle.setText(mOldExerciseMuscle);
     }
 
-     // Sets exerciseEntryButton onclick to edit db with new values
+    // Sets exerciseEntryButton onclick to edit db with new values
     private void setFinalButtonOnClickListener() {
         mExerciseEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override

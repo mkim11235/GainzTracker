@@ -36,7 +36,7 @@ public class ExerciseAdapter extends CursorAdapter {
     }
 
     private String getNameFromCursor(Cursor cursor) {
-       return cursor.getString(COL_EXERCISE_NAME);
+        return cursor.getString(COL_EXERCISE_NAME);
     }
 
     private String getMuscleFromCursor(Cursor cursor) {

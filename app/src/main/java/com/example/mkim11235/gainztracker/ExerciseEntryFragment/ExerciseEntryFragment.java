@@ -36,7 +36,8 @@ public abstract class ExerciseEntryFragment extends Fragment {
 
     /**
      * Checks if name and muscle have length > 0
-     * @param name exercise name to check
+     *
+     * @param name   exercise name to check
      * @param muscle exercise muscle to check
      * @return true if both name and muscle length > 0, otherwise false and sets errors on edittext
      */

@@ -7,7 +7,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,8 +29,11 @@ import com.example.mkim11235.gainztracker.tasks.DeleteExerciseHistoryTask;
 
 public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragment {
 
-    private static final int MOST_RECENT_ENTRY_INDEX = 0;
-    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE_HISTORY";
+    static final int COL_EXERCISE_HISTORY_ID = 0;
+    static final int COL_EXERCISE_HISTORY_EXERCISE_ID = 1;
+    static final int COL_EXERCISE_HISTORY_WEIGHT = 2;
+    static final int COL_EXERCISE_HISTORY_REPS = 3;
+    static final int COL_EXERCISE_HISTORY_DATE = 4;
     private static final String[] EXERCISE_HISTORY_COLUMNS = {
             DatabaseContract.ExerciseHistoryEntry._ID,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID,
@@ -39,11 +41,8 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
             DatabaseContract.ExerciseHistoryEntry.COLUMN_REPS,
             DatabaseContract.ExerciseHistoryEntry.COLUMN_DATE
     };
-    static final int COL_EXERCISE_HISTORY_ID = 0;
-    static final int COL_EXERCISE_HISTORY_EXERCISE_ID = 1;
-    static final int COL_EXERCISE_HISTORY_WEIGHT = 2;
-    static final int COL_EXERCISE_HISTORY_REPS = 3;
-    static final int COL_EXERCISE_HISTORY_DATE = 4;
+    private static final int MOST_RECENT_ENTRY_INDEX = 0;
+    private static final String PREF_KEY_SORT_BY = "PREF_SORT_BY_EXERCISE_HISTORY";
 
     private long mExerciseId;
     private String mExerciseName;
@@ -52,7 +51,8 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
     private TextView mTextViewTitle;
     private ImageButton mAddExerciseHistoryEntryButton;
 
-    public ExerciseHistoryFragment() {}
+    public ExerciseHistoryFragment() {
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -167,7 +167,8 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
 
     /**
      * Creates loader for displaying exercise history entries sorted based on spinner selection
-     * @param i index of spinner selection
+     *
+     * @param i    index of spinner selection
      * @param args null
      * @return CursorLoader
      */
@@ -200,7 +201,7 @@ public class ExerciseHistoryFragment extends AbstractListViewWithAddButtonFragme
                 DatabaseContract.ExerciseHistoryEntry.CONTENT_URI,
                 EXERCISE_HISTORY_COLUMNS,
                 DatabaseContract.ExerciseHistoryEntry.COLUMN_EXERCISE_ID + " = ? ",
-                new String[] {exerciseIdString},
+                new String[]{exerciseIdString},
                 sortBy);
     }
 
